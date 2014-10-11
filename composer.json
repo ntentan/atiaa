@@ -1,0 +1,19 @@
+{
+    "name": "ntentan/atiaa",
+    "description": "A slim wrapper around PDO to provide some extra utilities",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "James Ekow Abaka Ainooson",
+            "email": "jainooson@gmail.com"
+        }
+    ],
+    "require": {
+        "php" : ">=5.4.0"
+    },
+    "autoload" : {
+        "psr-4" : { 
+            "ntentan\\atiaa\\" : "src/"
+        }
+    }
+}
