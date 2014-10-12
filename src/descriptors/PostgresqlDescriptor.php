@@ -93,4 +93,3 @@ class PostgresqlDescriptor extends InformationSchemaDescriptor
         return $auto;
     }
 }
-

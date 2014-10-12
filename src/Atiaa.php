@@ -38,4 +38,3 @@ class Atiaa
         return new $class($config); 
     }
 }
-
