@@ -29,7 +29,7 @@ abstract class Driver
      * Creates a new instance of the Atiaa driver. To create a new instance of
      * this class you are advised to use the Atiaa class.
      * 
-     * @param array $config The configuration with which to connect to the database.
+     * @param array<string> $config The configuration with which to connect to the database.
      */
     public function __construct($config) 
     {
@@ -66,7 +66,7 @@ abstract class Driver
     /**
      * Use the PDO driver to quote a string.
      * @param type $string
-     * @return type
+     * @return string
      */
     protected function quote($string)
     {
@@ -100,8 +100,8 @@ abstract class Driver
      * @todo Add a parameter to cache prepared statements so they can be reused easily.
      * 
      * @param string $query The query to be executed quoted in PDO style
-     * @param array $bindData The data to be bound to the query object.
-     * @return array
+     * @param false|array<mixed> $bindData The data to be bound to the query object.
+     * @return array<mixed>
      */
     public function query($query, $bindData = false)
     {
@@ -127,8 +127,8 @@ abstract class Driver
      * the Driver::quoteQueryIdentifiers method on the query before executing it.
      * 
      * @param string $query
-     * @param type $bindData
-     * @return type
+     * @param false|array<mixed> $bindData
+     * @return array<mixed>
      */
     public function quotedQuery($query, $bindData = false)
     {
@@ -179,7 +179,7 @@ abstract class Driver
      * The description returns contains information about tables, columns, keys,
      * constraints, views and indices.
      * 
-     * @return array
+     * @return array<mixed>
      */
     public function describe()
     {
