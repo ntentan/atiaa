@@ -25,7 +25,6 @@ abstract class Driver
             $username,
             $password
         );
-        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
     
     public function disconnect()
@@ -43,6 +42,20 @@ abstract class Driver
         return $this->pdo->quote($string);
     }
     
+    private function fetchRows($status, $result)
+    {
+        if($status !== false)
+        {
+            $rows = $result->fetchAll(\PDO::FETCH_ASSOC);
+        }
+        else
+        {
+            $errorInfo = $this->pdo->errorInfo();
+            throw new DatabaseDriverException("{$errorInfo[2]}. Query [$query]");
+        }
+        return $rows;
+    }
+    
     public function query($query, $bindData = false)
     {
         $return = array();
@@ -50,13 +63,13 @@ abstract class Driver
         if(is_array($bindData))
         {
             $statement = $this->pdo->prepare($query);
-            $statement->execute($bindData);
-            $return = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            $status = $statement->execute($bindData);
+            $return = $this->fetchRows($status, $statement);
         }
         else
         {
-            $result = $this->pdo->query($query, \PDO::FETCH_ASSOC);
-            $return = $result->fetchAll();
+            $result = $this->pdo->query($query);
+            $return = $this->fetchRows($result, $result);
         }
         
         return $return;
