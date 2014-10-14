@@ -67,6 +67,9 @@ abstract class InformationSchemaDescriptor extends \ntentan\atiaa\Descriptor
         return $this->getConstraint($table, 'UNIQUE');
     }
 
+    /**
+     * @param string $type
+     */
     private function getConstraint($table, $type)
     {
         return $this->driver->quotedQuery(
