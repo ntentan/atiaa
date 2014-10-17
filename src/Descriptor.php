@@ -59,9 +59,16 @@ abstract class Descriptor
         {
             $tables = $this->getTables($schema);
         }
-        
+                
         foreach($tables as $table)
         {
+            if(is_string($table))
+            {
+                $table = array(
+                    'name' => $table,
+                    'schema' => $schema
+                );
+            }
             $table['columns'] = $this->describeColumns($table);
             $table['primary_key'] = $this->describePrimaryKey($table);
             $table['unique_keys'] = $this->describeUniqueKeys($table);
@@ -71,7 +78,7 @@ abstract class Descriptor
             $table['schema'] = $this->fixSchema($table['schema']);
             
             $description[$table['name']] = $table;
-        }      
+        }
         return $description;        
     }
     

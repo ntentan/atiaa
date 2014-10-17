@@ -190,8 +190,8 @@ abstract class Driver
     
     public function describeTable($table)
     {
-        $table = explode($table);
-        if(count($table) > 0)
+        $table = explode('.', $table);
+        if(count($table) > 1)
         {
             $schema = $table[0];
             $table = $table[1];
