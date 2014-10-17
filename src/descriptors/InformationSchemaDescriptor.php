@@ -59,18 +59,18 @@ abstract class InformationSchemaDescriptor extends \ntentan\atiaa\Descriptor
     
     protected function getPrimaryKey(&$table)
     {
-        return $this->getConstraint($table, 'PRIMARY KEY');
+        return $this->getConstraints($table, 'PRIMARY KEY');
     }
     
     protected function getUniqueKeys(&$table)
     {
-        return $this->getConstraint($table, 'UNIQUE');
+        return $this->getConstraints($table, 'UNIQUE');
     }
 
     /**
      * @param string $type
      */
-    private function getConstraint($table, $type)
+    private function getConstraints($table, $type)
     {
         return $this->driver->quotedQuery(
             'select "column_name" as "column", "pk"."constraint_name" as "name" 

@@ -25,6 +25,8 @@ abstract class Driver
      */
     private $config;
     
+    private $descriptor;
+    
     /**
      * Creates a new instance of the Atiaa driver. To create a new instance of
      * this class you are advised to use the Atiaa class.
@@ -183,9 +185,23 @@ abstract class Driver
      */
     public function describe()
     {
-        $descriptorClass = "\\ntentan\\atiaa\\descriptors\\" . ucfirst($this->config['driver']) . "Descriptor";
-        $descriptor = new $descriptorClass($this);
-        return $descriptor->describe();
+        return $this->getDescriptor()->describe();
+    }
+    
+    public function describeTable($table)
+    {
+        $table = explode($table);
+        if(count($table) > 0)
+        {
+            $schema = $table[0];
+            $table = $table[1];
+        }
+        else
+        {
+            $schema = $this->getDefaultSchema();
+            $table = $table[0];
+        }
+        return $this->getDescriptor()->describeTables($schema, array($table));
     }
     
     /**
@@ -195,6 +211,16 @@ abstract class Driver
     public function getPDO()
     {
         return $this->pdo;
+    }
+    
+    private function getDescriptor()
+    {
+        if(!is_object($this->descriptor))
+        {
+            $descriptorClass = "\\ntentan\\atiaa\\descriptors\\" . ucfirst($this->config['driver']) . "Descriptor";
+            $this->descriptor = new $descriptorClass($this);            
+        }
+        return $this->descriptor;
     }
     
     abstract protected function getDriverName();

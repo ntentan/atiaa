@@ -51,16 +51,20 @@ abstract class Descriptor
         return $description;       
     }
     
-    private function describeTables($schema)
+    public function describeTables($schema, $tables = array())
     {
         $description = array();
-        $tables = $this->getTables($schema);
+        
+        if(count($tables) == 0)
+        {
+            $tables = $this->getTables($schema);
+        }
         
         foreach($tables as $table)
         {
             $table['columns'] = $this->describeColumns($table);
-            $table['primary_key'] = $this->describePrimaryKey($table); //Constraint($table, 'PRIMARY KEY');
-            $table['unique_keys'] = $this->describeUniqueKeys($table); //Constraint($table, 'UNIQUE');
+            $table['primary_key'] = $this->describePrimaryKey($table);
+            $table['unique_keys'] = $this->describeUniqueKeys($table);
             $table['foreign_keys'] = $this->describeForeignKeys($table);
             $table['indices'] = $this->describeIndices($table);
             $table['auto_increment'] = $this->hasAutoIncrementingKey($table);
