@@ -42,7 +42,7 @@ class MysqlDriver extends \ntentan\atiaa\Driver
         return 'mysql';
     }
 
-    protected function quoteIdentifier($identifier)
+    public function quoteIdentifier($identifier)
     {
         return "`$identifier`";
     }

@@ -90,7 +90,7 @@ class PostgresqlDescriptor extends InformationSchemaDescriptor
         $primaryKey = reset($table['primary_key']);
         if(count($primaryKey) == 1 && substr_count($table['columns'][$primaryKey['columns'][0]]['default'], 'nextval'))
         {
-            unset($table['columns'][$primaryKey['columns'][0]]['default']);
+            $table['columns'][$primaryKey['columns'][0]]['default'] = null;
             $auto = true;
         }
         return $auto;

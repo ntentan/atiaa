@@ -86,7 +86,13 @@ abstract class Descriptor
     {
         $columns = array();
         $columnDetails = $this->getColumns($table);
-        foreach($columnDetails as $i => $column)
+        if(count($columnDetails) === 0)
+        {
+            throw new \ntentan\models\exceptions\DescriptionException(
+                "Table {$table['schema']}.{$table['name']} may not exist as there are no columns assigned to it"
+            );
+        }
+        foreach($columnDetails as $column)
         {
             $columns[$column['name']] = $column;
             $columns[$column['name']]['nulls'] = $columns[$column['name']]['nulls'] == 'YES' ? true : false;

@@ -10,7 +10,7 @@ class PostgresqlDriver extends \ntentan\atiaa\Driver
         return 'pgsql';
     }
     
-    protected function quoteIdentifier($identifier)
+    public function quoteIdentifier($identifier)
     {
         return "\"$identifier\"";
     }    

@@ -25,11 +25,35 @@ abstract class Driver
      */
     private $config;
     
+    /**
+     * An instance of the descriptor used internally.
+     * @var \ntentan\atiaa\Descriptor
+     */
     private $descriptor;
     
+    private static $transactions;
+
+
     /**
-     * Creates a new instance of the Atiaa driver. To create a new instance of
-     * this class you are advised to use the Atiaa class.
+     * Creates a new instance of the Atiaa driver. This class is usually initiated
+     * through the \ntentan\atiaa\Atiaa::getConnection() method. For example
+     * to create a new instance of a connection to a mysql database.
+     * 
+     * <code>
+     * use ntentan\atiaa\Atiaa;
+     * 
+     * \\ This automatically insitatiates the driver class
+     * $driver = Atiaa::getConnection(
+     *     'driver' => 'mysql',
+     *     'user' => 'root',
+     *     'password' => 'rootpassy',
+     *     'host' => 'localhost',
+     *     'dbname' => 'somedb'
+     * );
+     * 
+     * var_dump($driver->query("SELECT * FROM some_table");
+     * var_dump($driver->describe());
+     * </code>
      * 
      * @param array<string> $config The configuration with which to connect to the database.
      */
@@ -46,6 +70,7 @@ abstract class Driver
             $username,
             $password
         );
+        $this->pdo->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, false);
     }
     
     /**
@@ -70,14 +95,15 @@ abstract class Driver
      * @param type $string
      * @return string
      */
-    protected function quote($string)
+    public function quote($string)
     {
         return $this->pdo->quote($string);
     }
     
     /**
-     * @param \PDOStatement $result
-     * @param boolean $status 
+     * 
+     * @param boolean $status
+     * @param \PDOStatement  $result 
      */
     private function fetchRows($status, $result)
     {
@@ -204,6 +230,24 @@ abstract class Driver
         return $this->getDescriptor()->describeTables($schema, array($table));
     }
     
+    public function beginTransaction()
+    {
+        if(self::$transactions == 0)
+        {
+            $this->pdo->beginTransaction();
+        }
+        self::$transactions++;
+    }
+    
+    public function commit()
+    {
+        self::$transactions--;
+        if(self::$transactions == 0)
+        {
+            $this->pdo->commit();
+        }
+    }    
+    
     /**
      * Return the underlying PDO object.
      * @return \PDO
@@ -223,6 +267,11 @@ abstract class Driver
         return $this->descriptor;
     }
     
+    public function getLastInsertId()
+    {
+        return $this->pdo->lastInsertId();
+    }
+    
     abstract protected function getDriverName();
-    abstract protected function quoteIdentifier($identifier);
+    abstract public function quoteIdentifier($identifier);
 }
