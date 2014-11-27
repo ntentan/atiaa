@@ -105,7 +105,7 @@ abstract class Driver
      * @param boolean $status
      * @param \PDOStatement  $result 
      */
-    private function fetchRows($status, $result)
+    private function fetchRows($status, $result, $query)
     {
         if($status !== false)
         {
@@ -139,12 +139,12 @@ abstract class Driver
         {
             $statement = $this->pdo->prepare($query);
             $status = $statement->execute($bindData);
-            $return = $this->fetchRows($status, $statement);
+            $return = $this->fetchRows($status, $statement, $query);
         }
         else
         {
             $result = $this->pdo->query($query);
-            $return = $this->fetchRows($result, $result);
+            $return = $this->fetchRows($result, $result, $query);
         }
         
         return $return;

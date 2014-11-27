@@ -88,7 +88,7 @@ abstract class Descriptor
         $columnDetails = $this->getColumns($table);
         if(count($columnDetails) === 0)
         {
-            throw new \ntentan\models\exceptions\DescriptionException(
+            throw new \ntentan\atiaa\DescriptionException(
                 "Table {$table['schema']}.{$table['name']} may not exist as there are no columns assigned to it"
             );
         }
