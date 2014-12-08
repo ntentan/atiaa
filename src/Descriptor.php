@@ -86,12 +86,12 @@ abstract class Descriptor
     {
         $columns = array();
         $columnDetails = $this->getColumns($table);
-        if(count($columnDetails) === 0)
+        /*if(count($columnDetails) === 0)
         {
             throw new \ntentan\atiaa\DescriptionException(
                 "Table {$table['schema']}.{$table['name']} may not exist as there are no columns assigned to it"
             );
-        }
+        }*/
         foreach($columnDetails as $column)
         {
             $columns[$column['name']] = $column;
