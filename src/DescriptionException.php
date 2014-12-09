@@ -28,6 +28,6 @@ namespace ntentan\atiaa;
 
 class DescriptionException extends \Exception
 {
-    //const 
+    const NO_COLUMNS = 1;
 }
 
