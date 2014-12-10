@@ -272,6 +272,11 @@ abstract class Driver
         return $this->pdo->lastInsertId();
     }
     
+    public function setDefaultSchema($defaultSchema)
+    {
+        $this->defaultSchema = $defaultSchema;
+    }
+    
     abstract protected function getDriverName();
     abstract public function quoteIdentifier($identifier);
 }
