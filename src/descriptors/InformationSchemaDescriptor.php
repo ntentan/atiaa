@@ -47,14 +47,28 @@ abstract class InformationSchemaDescriptor extends \ntentan\atiaa\Descriptor
         );
     }
     
-    protected function getTables($schema)
+    protected function getTables($schema, $tables = array())
     {
-        return $this->driver->quotedQuery(
-            'select "table_schema" as "schema", "table_name" as "name"
-            from "information_schema"."tables"
-            where table_schema = ? and table_type = ? order by "table_name"',
-            array($schema, 'BASE TABLE')
-        );
+        if(count($tables) > 0)
+        {
+            return $this->driver->quotedQuery(
+                'select "table_schema" as "schema", "table_name" as "name"
+                from "information_schema"."tables"
+                where table_schema = ? and table_type = ? 
+                    and table_name in (?' . str_repeat(', ?', count($tables) - 1) . ')
+                order by "table_name"',
+                array_merge(array($schema, 'BASE TABLE'), $tables)
+            );
+        }
+        else
+        {
+            return $this->driver->quotedQuery(
+                'select "table_schema" as "schema", "table_name" as "name"
+                from "information_schema"."tables"
+                where table_schema = ? and table_type = ? order by "table_name"',
+                array($schema, 'BASE TABLE')
+            );
+        }
     }  
     
     protected function getPrimaryKey(&$table)

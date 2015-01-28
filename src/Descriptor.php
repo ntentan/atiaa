@@ -1,6 +1,8 @@
 <?php
 namespace ntentan\atiaa;
 
+use ntentan\atiaa\DescriptionException;
+
 abstract class Descriptor
 {   
     /**
@@ -15,7 +17,7 @@ abstract class Descriptor
     }
     
     abstract protected function getSchemata();
-    abstract protected function getTables($schema);
+    abstract protected function getTables($schema, $requestedTables = array());
     abstract protected function getColumns(&$table);
     abstract protected function getViews(&$schema);
     abstract protected function getPrimaryKey(&$table);
@@ -51,15 +53,27 @@ abstract class Descriptor
         return $description;       
     }
     
-    public function describeTables($schema, $tables = array())
+    private function throwTableExceptions($tables, $requestedTables)
+    {
+        foreach($requestedTables as $requestedTable)
+        {
+            if(array_search($requestedTable, $tables) === false)
+            {
+                throw new DescriptionException("`$requestedTable` not found on target database.");
+            }
+        }
+    }
+    
+    public function describeTables($schema, $requestedTables = array())
     {
         $description = array();
+        $tables = $this->getTables($schema, $requestedTables);
         
-        if(count($tables) == 0)
+        if(count($requestedTables) > 0 && count($tables) < count($requestedTables))
         {
-            $tables = $this->getTables($schema);
+            $this->throwTableExceptions($tables, $requestedTables);
         }
-                
+        
         foreach($tables as $table)
         {
             if(is_string($table))
