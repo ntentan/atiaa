@@ -17,7 +17,7 @@ abstract class Descriptor
     }
     
     abstract protected function getSchemata();
-    abstract protected function getTables($schema, $requestedTables = array());
+    abstract protected function getTables($schema, $requestedTables, $includeViews);
     abstract protected function getColumns(&$table);
     abstract protected function getViews(&$schema);
     abstract protected function getPrimaryKey(&$table);
@@ -64,10 +64,10 @@ abstract class Descriptor
         }
     }
     
-    public function describeTables($schema, $requestedTables = array())
+    public function describeTables($schema, $requestedTables = array(), $includeViews = false)
     {
         $description = array();
-        $tables = $this->getTables($schema, $requestedTables);
+        $tables = $this->getTables($schema, $requestedTables, $includeViews);
         
         if(count($requestedTables) > 0 && count($tables) < count($requestedTables))
         {

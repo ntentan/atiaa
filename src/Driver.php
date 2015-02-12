@@ -40,15 +40,17 @@ abstract class Driver
      * to create a new instance of a connection to a mysql database.
      * 
      * <code>
-     * use ntentan\atiaa\Atiaa;
+     * use ntentan\atiaa\Driver;
      * 
      * \\ This automatically insitatiates the driver class
-     * $driver = Atiaa::getConnection(
-     *     'driver' => 'mysql',
-     *     'user' => 'root',
-     *     'password' => 'rootpassy',
-     *     'host' => 'localhost',
-     *     'dbname' => 'somedb'
+     * $driver = Driver::getConnection(
+     *     array(
+     *         'driver' => 'mysql',
+     *         'user' => 'root',
+     *         'password' => 'rootpassy',
+     *         'host' => 'localhost',
+     *         'dbname' => 'somedb'
+     *     )
      * );
      * 
      * var_dump($driver->query("SELECT * FROM some_table");
@@ -214,6 +216,12 @@ abstract class Driver
         return $this->getDescriptor()->describe();
     }
     
+    /**
+     * Returns the description of a database table as an associative array.
+     * 
+     * @param type $table
+     * @return array<mixed>
+     */
     public function describeTable($table)
     {
         $table = explode('.', $table);
@@ -227,9 +235,13 @@ abstract class Driver
             $schema = $this->getDefaultSchema();
             $table = $table[0];
         }
-        return $this->getDescriptor()->describeTables($schema, array($table));
+        return $this->getDescriptor()->describeTables($schema, array($table), true);
     }
     
+    /**
+     * A wrapper arround PDO's beginTransaction method which uses a static reference
+     * counter to implement nested transactions.
+     */
     public function beginTransaction()
     {
         if(self::$transactions == 0)
@@ -239,6 +251,10 @@ abstract class Driver
         self::$transactions++;
     }
     
+    /**
+     * A wrapper around PDO's commit transaction method which uses a static reference
+     * counter to implement nested transactions.
+     */
     public function commit()
     {
         self::$transactions--;
@@ -257,6 +273,10 @@ abstract class Driver
         return $this->pdo;
     }
     
+    /**
+     * Returns an instance of a descriptor for a given driver.
+     * @return \atiaa\Descriptor
+     */
     private function getDescriptor()
     {
         if(!is_object($this->descriptor))
@@ -267,11 +287,20 @@ abstract class Driver
         return $this->descriptor;
     }
     
+    /**
+     * A wrapper around PDO's lastInsertId() method.
+     * @return mixed
+     */
     public function getLastInsertId()
     {
         return $this->pdo->lastInsertId();
     }
     
+    /**
+     * Specify the default schema to use in cases where a schema is not provided
+     * as part of the table reference.
+     * @param string $defaultSchema
+     */
     public function setDefaultSchema($defaultSchema)
     {
         $this->defaultSchema = $defaultSchema;
@@ -279,4 +308,14 @@ abstract class Driver
     
     abstract protected function getDriverName();
     abstract public function quoteIdentifier($identifier);
+    
+    public static function getConnection($config)
+    {
+        if(is_string($config) && file_exists($config))
+        {
+            require $config;
+        }
+        $class = "\\ntentan\\atiaa\\drivers\\" . ucfirst($config['driver']). "Driver";
+        return new $class($config); 
+    }    
 }
