@@ -52,12 +52,12 @@ abstract class InformationSchemaDescriptor extends \ntentan\atiaa\Descriptor
         if($includeViews)
         {
             $condition = "(table_type = ? or table_type = ?)";
-            $bind = array('BASE TABLE');
+            $bind = array('BASE TABLE', 'VIEW');
         }
         else
         {
             $condition = "table_type = ?";
-            $bind = array('BASE TABLE', 'VIEW');
+            $bind = array('BASE TABLE');
         }
         
         if(count($tables) > 0)
@@ -65,7 +65,7 @@ abstract class InformationSchemaDescriptor extends \ntentan\atiaa\Descriptor
             return $this->driver->quotedQuery(
                 'select "table_schema" as "schema", "table_name" as "name"
                 from "information_schema"."tables"
-                where ' . $condition . 'table_schema = ? 
+                where ' . $condition . ' and table_schema = ? 
                     and table_name in (?' . str_repeat(', ?', count($tables) - 1) . ')
                 order by "table_name"',
                 array_merge($bind, array($schema), $tables)
@@ -76,7 +76,7 @@ abstract class InformationSchemaDescriptor extends \ntentan\atiaa\Descriptor
             return $this->driver->quotedQuery(
                 'select "table_schema" as "schema", "table_name" as "name"
                 from "information_schema"."tables"
-                where ' . $condition . ' table_schema = ? order by "table_name"',
+                where ' . $condition . ' and table_schema = ? order by "table_name"',
                 array_merge($bind, array($schema))
             );
         }
