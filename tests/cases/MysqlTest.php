@@ -4,15 +4,9 @@ namespace ntentan\atiaa\tests\cases;
 
 class MysqlTest extends \ntentan\atiaa\tests\lib\DriverTest
 {
-    protected function getDriverConfig() 
+    protected function getDriverName() 
     {
-        return array(
-           'driver' => 'mysql',
-            'user' => 'root',
-            'password' => 'root',
-            'host' => 'localhost',
-            'dbname' => 'test'
-        );
+        return "mysql";
     }
 
     protected function getQuotedString() 
@@ -29,6 +23,5 @@ class MysqlTest extends \ntentan\atiaa\tests\lib\DriverTest
     {
         return "SELECT `some`, `identifiers` FROM `some`.`table`";
     }
-
 }
 
