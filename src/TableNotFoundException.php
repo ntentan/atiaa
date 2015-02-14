@@ -26,7 +26,7 @@
 
 namespace ntentan\atiaa;
 
-class DescriptionException extends \Exception
+class TableNotFoundException extends \Exception
 {
     const NO_COLUMNS = 1;
 }

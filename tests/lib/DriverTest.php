@@ -3,7 +3,10 @@ namespace ntentan\atiaa\tests\lib;
 
 abstract class DriverTest extends \PHPUnit_Framework_TestCase
 {
-    
+    /**
+     * 
+     * @return \ntentan\atiaa\Driver;
+     */
     protected function getConnection()
     {
         $driverName = $this->getDriverName();
@@ -18,6 +21,14 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
         );
         return $driver;
     }
+    
+    private function getDescriptor($driver)
+    {
+        $descriptorClass = "\\ntentan\\atiaa\\descriptors\\" . ucfirst($this->getDriverName()) . "Descriptor";
+        $descriptor = new $descriptorClass($driver);            
+        return $descriptor;
+    }
+    
     
     abstract protected function getQuotedString();
     abstract protected function getQuotedIdentifier();
@@ -38,9 +49,35 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase
     public function testDescription()
     {
         $driver = $this->getConnection();
-        $testDescription = $driver->describe();
-        require "tests/outputs/description.php";
-        $this->assertEquals($description, $testDescription);
+        
+        $testDbDescription = $driver->describe();
+        require "tests/outputs/database_description.php";
+        $this->assertEquals($databaseDescription, $testDbDescription);
+        
+        $viewDbDescription = $driver->describeTable('users_view');
+        require "tests/outputs/view_description.php";
+        $this->assertEquals($viewDescription, $viewDbDescription);
+        
+        $driver->disconnect();
+    }
+    
+    /**
+     * @expectedException \ntentan\atiaa\TableNotFoundException
+     */
+    public function testTableNotFoundException()
+    {
+        $driver = $this->getConnection();
+        $driver->describeTable('unknown_table');
+        $driver->disconnect();
+    }
+
+    /**
+     * @expectedException \ntentan\atiaa\TableNotFoundException
+     */
+    public function testTableNotFoundExceptionAgain()
+    {
+        $driver = $this->getConnection();
+        $this->getDescriptor($driver)->describeTables($driver->getDefaultSchema(), array('users', 'unknown_table'));
         $driver->disconnect();
     }
 }

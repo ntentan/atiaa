@@ -1,8 +1,14 @@
 <?php
 namespace ntentan\atiaa;
 
-use ntentan\atiaa\DescriptionException;
+use ntentan\atiaa\TableNotFoundException;
 
+/**
+ * Does the job of describing the schema of the underlying database. This 
+ * abstract class is usually extended by database platform specific descriptor
+ * classes which provide the details of the actual database items. The main work
+ * of this class is to format the description into a common format.
+ */
 abstract class Descriptor
 {   
     /**
@@ -55,11 +61,17 @@ abstract class Descriptor
     
     private function throwTableExceptions($tables, $requestedTables)
     {
+        $foundTables = array();
+        foreach($tables as $table)
+        {
+            $foundTables[] = $table['name'];
+        }
+        
         foreach($requestedTables as $requestedTable)
         {
-            if(array_search($requestedTable, $tables) === false)
+            if(array_search($requestedTable, $foundTables) === false)
             {
-                throw new DescriptionException("`$requestedTable` not found on target database.");
+                throw new TableNotFoundException("$requestedTable not found on target database.");
             }
         }
     }
@@ -76,13 +88,6 @@ abstract class Descriptor
         
         foreach($tables as $table)
         {
-            if(is_string($table))
-            {
-                $table = array(
-                    'name' => $table,
-                    'schema' => $schema
-                );
-            }
             $table['columns'] = $this->describeColumns($table);
             $table['primary_key'] = $this->describePrimaryKey($table);
             $table['unique_keys'] = $this->describeUniqueKeys($table);

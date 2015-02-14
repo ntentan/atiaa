@@ -81,6 +81,7 @@ abstract class Driver
     public function disconnect()
     {
         $this->pdo = null;
+        $this->pdo = new NullConnection();
     }
     
     /**
