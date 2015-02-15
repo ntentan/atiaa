@@ -2,11 +2,11 @@
 
 namespace ntentan\atiaa\tests\cases;
 
-class MysqlTest extends \ntentan\atiaa\tests\lib\DriverTest
+class PostgresqlTest extends \ntentan\atiaa\tests\lib\DriverTest
 {
     public function getDriverName() 
     {
-        return "mysql";
+        return "postgresql";
     }
 
     protected function getQuotedString() 
@@ -16,17 +16,16 @@ class MysqlTest extends \ntentan\atiaa\tests\lib\DriverTest
     
     protected function getQuotedIdentifier()
     {
-        return "`identifier`";
+        return '"identifier"';
     }
 
     protected function getQuotedQueryIdentifiers() 
     {
-        return "SELECT `some`, `identifiers` FROM `some`.`table`";
+        return 'SELECT "some", "identifiers" FROM "some"."table"';
     }
 
     protected function hasSchemata() 
     {
-        return false;
+        return true;
     }
 }
-

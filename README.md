@@ -6,12 +6,12 @@ ntentan framework might need.
 
 Currently atiaa provides the following features:
  - Wrappers arround the PDO query method which prepare the query and execute in 
-   one stretch. These methods then and return all the results as a simple 
+   one stretch. These methods then return all the results as a simple 
    PHP associative array.
  - Methods which describe the schema of the database represented by the connection. 
  - A platform independent approach for quoting database literals in queries.
 
-Currentl atiaa works only with MySQL and PostgreSQL databases. 
+Currently atiaa works only with MySQL and PostgreSQL databases. 
 Support for other platforms is planned for later releases.
 
 Installation

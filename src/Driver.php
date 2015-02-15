@@ -263,7 +263,18 @@ abstract class Driver
         {
             $this->pdo->commit();
         }
-    }    
+    }   
+    
+    /**
+     * A wrapper around PDO's rollback transaction methd which rolls back all
+     * activities performed since the first call to begin transaction. 
+     * Unfortunately, transactions cannot be rolled back in a nested fashion.
+     */
+    public function rollback()
+    {
+        $this->pdo->rollBack();
+        self::$transactions = 0;
+    }
     
     /**
      * Return the underlying PDO object.
@@ -310,6 +321,12 @@ abstract class Driver
     abstract protected function getDriverName();
     abstract public function quoteIdentifier($identifier);
     
+    /**
+     * Returns a new instance of a driver based on the connection parameters 
+     * passed. The 
+     * @param type $config
+     * @return \ntentan\atiaa\class
+     */
     public static function getConnection($config)
     {
         if(is_string($config) && file_exists($config))

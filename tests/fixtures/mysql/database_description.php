@@ -226,6 +226,23 @@ $databaseDescription = array (
       ),
       'foreign_keys' => 
       array (
+        'user_role_fk' => 
+        array (
+          'schema' => '',
+          'table' => 'users',
+          'columns' => 
+          array (
+            0 => 'role_id',
+          ),
+          'foreign_table' => 'roles',
+          'foreign_schema' => '',
+          'foreign_columns' => 
+          array (
+            0 => 'id',
+          ),
+          'on_update' => 'RESTRICT',
+          'on_delete' => 'RESTRICT',
+        ),
       ),
       'indices' => 
       array (
