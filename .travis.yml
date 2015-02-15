@@ -7,7 +7,7 @@ before_script:
  - psql -c 'create database atiaa_test;' -U postgres
  - psql -f tests/databases/postgresql.sql -U postgres -d atiaa_test
  - mysql -e 'create database atiaa_test;'
- - mysql atiaa_tests < tests/databases/mysql.sql
+ - mysql atiaa_test < tests/databases/mysql.sql
 
 services:
  - mysql
