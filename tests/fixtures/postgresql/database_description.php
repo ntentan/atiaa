@@ -452,23 +452,5 @@ $databaseDescription = array (
       ),
       'auto_increment' => true,
     ),
-  ),
-  'views' => 
-  array (
-    'users_view' => 
-    array (
-      'name' => 'users_view',
-      'schema' => 'public',
-      'definition' => ' SELECT users.id,
-    users.username,
-    users.password,
-    users.firstname,
-    users.lastname,
-    users.othernames,
-    users.email,
-    roles.name AS role
-   FROM (users
-     JOIN roles ON ((users.role_id = roles.id)));',
-    ),
-  ),
+  )
 );

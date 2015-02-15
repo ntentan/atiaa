@@ -250,13 +250,4 @@ $databaseDescription = array (
       'auto_increment' => true,
     ),
   ),
-  'views' => 
-  array (
-    'users_view' => 
-    array (
-      'name' => 'users_view',
-      'schema' => 'atiaa_test',
-      'definition' => 'select `atiaa_test`.`users`.`id` AS `id`,`atiaa_test`.`users`.`username` AS `username`,`atiaa_test`.`users`.`password` AS `password`,`atiaa_test`.`users`.`firstname` AS `firstname`,`atiaa_test`.`users`.`lastname` AS `lastname`,`atiaa_test`.`users`.`othernames` AS `othernames`,`atiaa_test`.`users`.`email` AS `email`,`atiaa_test`.`roles`.`name` AS `role` from (`atiaa_test`.`users` join `atiaa_test`.`roles` on((`atiaa_test`.`users`.`role_id` = `atiaa_test`.`roles`.`id`)))',
-    ),
-  ),
 );

@@ -37,8 +37,13 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase implements AtiaaTe
         $type = $this->getDriverName();
         
         $testDbDescription = $driver->describe();
+        $views = $testDbDescription['views'];
+        unset($testDbDescription['views']);
         require "tests/fixtures/{$type}/database_description.php";
         $this->assertEquals($databaseDescription, $testDbDescription);
+        $this->assertArrayHasKey('users_view', $views);
+        $this->assertArrayHasKey('definition', $views['users_view']);
+        $this->assertEquals('users_view', $views['users_view']['name']);
         $driver->disconnect();
     }
     
