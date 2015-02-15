@@ -13,5 +13,5 @@ services:
  - mysql
  - postgresql
 
-script: phpunit --configuration tests/config/travis.xml
+script: vendor/bin/phpunit --configuration tests/config/travis.xml
 
