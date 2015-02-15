@@ -4,6 +4,8 @@ Atiaa PDO Wrapper
 [![Build Status](https://travis-ci.org/ntentan/atiaa.svg)](https://travis-ci.org/ntentan/atiaa)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ntentan/atiaa/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ntentan/atiaa/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/ntentan/atiaa/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/ntentan/atiaa/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/ntentan/atiaa/version.svg)](https://packagist.org/packages/ntentan/atiaa)
+[![Total Downloads](https://poser.pugx.org/ntentan/atiaa/downloads.svg)](https://packagist.org/packages/ntentan/atiaa)
 
 Atiaa is a thin wrapper around PHP's PDO database abstraction layer. The main 
 purpose of atiaa is to provide some utility classes that other packages in the 
