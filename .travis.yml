@@ -1,0 +1,17 @@
+language: php
+php:
+ - "5.4"
+ - "5.5"
+before_script:
+ - composer install
+ - psql -c 'create database atiaa_tests;' -U postgres
+ - psql -f tests/databases/postgresql.sql -U postgres -d atiaa_tests
+ - mysql -e 'create database atiaa_tests;'
+ - mysql atiaa_tests < tests/databases/mysql.sql
+
+services:
+ - mysql
+ - postgresql
+
+script: phpunit --configuration tests/config/travis.xml
+
