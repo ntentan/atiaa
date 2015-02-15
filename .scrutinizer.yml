@@ -2,10 +2,13 @@ tools:
     php_sim: true
     php_pdepend: true
     php_analyzer: true
+    external_code_coverage:
+        timeout: 600    # Timeout in seconds.    
+filter:
+    excluded_paths: [bin/*, tests/*]
 
 checks:
     php:
-        variable_existence: true
         unused_variables: true
         unused_properties: true
         unused_parameters: true
@@ -13,23 +16,27 @@ checks:
         unreachable_code: true
         too_many_arguments: true
         sql_injection_vulnerabilities: true
-        duplication: true
-        no_long_variable_names:
-            maximum: '20'
+        side_effects_or_types: true
+        useless_calls: true
         return_doc_comments: true
         return_doc_comment_if_not_inferrable: true
-        parameter_doc_comments: true
-        param_doc_comment_if_not_inferrable: true
-        more_specific_types_in_doc_comments: true
+        require_php_tag_first: true
+        avoid_corrupting_byteorder_marks: true
+        avoid_tab_indentation: true
+        avoid_unnecessary_concatenation: true
+        avoid_useless_overridden_methods: true
+        code_rating: true
+        deadlock_detection_in_loops: true
+        duplication: true
         fix_doc_comments: true
-        remove_php_closing_tag: true
-        remove_extra_empty_lines: true
+        fix_identation_4spaces: true
+        fix_line_ending: true
         fix_use_statements:
             remove_unused: true
             preserve_multiple: false
             preserve_blanklines: false
             order_alphabetically: true
-        fix_identation_4spaces: true
-        fix_line_ending: true
-        fix_linefeed: true
-        fix_php_opening_tag: true
+        newline_at_end_of_file: true
+        no_debug_code: true
+        no_unnecessary_function_call_in_for_loop: true
+        prefer_unix_line_ending: true
