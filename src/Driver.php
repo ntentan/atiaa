@@ -323,9 +323,30 @@ abstract class Driver
     
     /**
      * Returns a new instance of a driver based on the connection parameters 
-     * passed. The 
-     * @param type $config
-     * @return \ntentan\atiaa\class
+     * passed to the method. The connection parameters are passed through an
+     * associative array with the following keys.
+     * 
+     * driver 
+     * : The name of the driver to use for the database connection. Supported
+     *   drivers are `mysql` and `postgresql`. This parameter is required for
+     *   all connections.
+     * 
+     * user
+     * : The username to use for the database connection on platforms that 
+     *   support it.
+     * 
+     * password
+     * : The password associated to the user specified in the connection.
+     * 
+     * host
+     * : The host name of the database server.
+     * 
+     * dbname
+     * : The name of the default database to use after the connection to the 
+     *   database is established.
+     * 
+     * @param array $config 
+     * @return \ntentan\atiaa\Driver
      */
     public static function getConnection($config)
     {
