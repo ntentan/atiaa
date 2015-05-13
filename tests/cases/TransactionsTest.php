@@ -13,7 +13,7 @@ class TransactionsTest extends \PHPUnit_Extensions_Database_TestCase
     
     public function testTransactions()
     {
-        $driver = $this->getDriver($this);
+        $driver = $this->getDriver();
         $this->assertEquals(0, $this->getConnection()->getRowCount('roles'));
         $driver->beginTransaction();
         $driver->query("INSERT INTO roles(name) VALUES(?)", array('hello'));
@@ -23,7 +23,7 @@ class TransactionsTest extends \PHPUnit_Extensions_Database_TestCase
 
     public function testTransactionsRollback()
     {
-        $driver = $this->getDriver($this);
+        $driver = $this->getDriver();
         $this->assertEquals(0, $this->getConnection()->getRowCount('roles'));
         $driver->beginTransaction();
         $driver->query("INSERT INTO roles(name) VALUES(?)", array('hello'));
@@ -39,13 +39,6 @@ class TransactionsTest extends \PHPUnit_Extensions_Database_TestCase
     
     protected function getSetUpOperation()
     {
-        if($GLOBALS['TEST_SCOPE'] === 'local')
-        {
-            return \PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL();
-        }
-        else
-        {
-            return new \PHPUnit_Extensions_Database_Operation_Null();
-        }
+        return \PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL();
     }    
 }
