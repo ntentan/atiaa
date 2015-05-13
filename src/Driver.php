@@ -39,7 +39,7 @@ abstract class Driver
      * through the \ntentan\atiaa\Atiaa::getConnection() method. For example
      * to create a new instance of a connection to a mysql database.
      * 
-     * <code>
+     * ````php
      * use ntentan\atiaa\Driver;
      * 
      * \\ This automatically insitatiates the driver class
@@ -55,7 +55,7 @@ abstract class Driver
      * 
      * var_dump($driver->query("SELECT * FROM some_table");
      * var_dump($driver->describe());
-     * </code>
+     * ````
      * 
      * @param array<string> $config The configuration with which to connect to the database.
      */
