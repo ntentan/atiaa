@@ -34,5 +34,5 @@ services:
  - postgresql
 
 script: vendor/bin/phpunit --coverage-clover coverage.clover --configuration tests/config/travis.xml
-after_success: if [ $COVERAGE == "yes" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+after_success: if [ "$COVERAGE" == "yes" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
 
