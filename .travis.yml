@@ -8,14 +8,14 @@ php:
 
 env:
  - ATIAA_DRIVER=mysql ATIAA_HOST=localhost ATIAA_USER=root ATIAA_DBNAME=atiaa_test ATIAA_PDO_DSN=mysql:host=localhost;dbname=atiaa_test;user=root
- - ATIAA_DRIVER=postgresql ATIAA_HOST=localhost ATIAA_USER=root ATIAA_DBNAME=atiaa_test ATIAA_PDO_DSN=pgsql:host=localhost;dbname=atiaa_test;user=postgres
+ - ATIAA_DRIVER=postgresql ATIAA_HOST=localhost ATIAA_USER=postgres ATIAA_DBNAME=atiaa_test ATIAA_PDO_DSN=pgsql:host=localhost;dbname=atiaa_test;user=postgres
 
 matrix:
  allow_failures:
   - php: "7"
- exclue:
+ exclude:
   - php: "hhvm"
-  - env: ATIAA_DRIVER=postgresql ATIAA_HOST=localhost ATIAA_USER=root ATIAA_DBNAME=atiaa_test ATIAA_PDO_DSN=pgsql:host=localhost;dbname=atiaa_test;user=postgres
+  - env: ATIAA_DRIVER=postgresql ATIAA_HOST=localhost ATIAA_USER=postgres ATIAA_DBNAME=atiaa_test ATIAA_PDO_DSN=pgsql:host=localhost;dbname=atiaa_test;user=postgres
   
 before_script:
  - composer install
