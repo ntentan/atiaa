@@ -73,6 +73,7 @@ abstract class Driver
             $password
         );
         $this->pdo->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, false);
+        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
     
     /**
@@ -108,22 +109,21 @@ abstract class Driver
      * @param boolean $status
      * @param \PDOStatement  $result 
      */
-    private function fetchRows($status, $result, $query)
+    private function fetchRows($statement)
     {
-        if($status !== false)
+        try
         {
-            $rows = $result->fetchAll(\PDO::FETCH_ASSOC);
+            $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            return $rows;
         }
-        else
+        catch(\PDOException $e)
         {
-            $errorInfo = $this->pdo->errorInfo();
-            throw new DatabaseDriverException("{$errorInfo[2]}. Query [$query]");
+            // Skip any exceptions from fetching rows
         }
-        return $rows;
     }
     
     /**
-     * Pepare and execute a query while binding data at the same time. Prevents
+     * Pepare and execute a query, while binding data at the same time. Prevents
      * the writing of repetitive prepare and execute statements. This method
      * returns an array which contains the results of the query that was
      * executed. For queries which do not return any results a null is returned.
@@ -136,21 +136,22 @@ abstract class Driver
      */
     public function query($query, $bindData = false)
     {
-        $return = array();
-        
-        if(is_array($bindData))
-        {
-            $statement = $this->pdo->prepare($query);
-            $status = $statement->execute($bindData);
-            $return = $this->fetchRows($status, $statement, $query);
+        try{
+            if(is_array($bindData))
+            {
+                $statement = $this->pdo->prepare($query);
+                $statement->execute($bindData);
+            }
+            else
+            {
+                $statement = $this->pdo->query($query);
+            }
         }
-        else
+        catch(\PDOException $e)
         {
-            $result = $this->pdo->query($query);
-            $return = $this->fetchRows($result, $result, $query);
+            throw new DatabaseDriverException("$query");
         }
-        
-        return $return;
+        return $this->fetchRows($statement);
     }
     
     /**

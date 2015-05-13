@@ -19,6 +19,7 @@ class TransactionsTest extends \PHPUnit_Extensions_Database_TestCase
         $driver->query("INSERT INTO roles(name) VALUES(?)", array('hello'));
         $driver->commit();
         $this->assertEquals(1, $this->getConnection()->getRowCount('roles'));
+        $driver->disconnect();
     }
 
     public function testTransactionsRollback()
@@ -29,6 +30,7 @@ class TransactionsTest extends \PHPUnit_Extensions_Database_TestCase
         $driver->query("INSERT INTO roles(name) VALUES(?)", array('hello'));
         $driver->rollback();
         $this->assertEquals(0, $this->getConnection()->getRowCount('roles'));
+        $driver->disconnect();
     }
     
     public function getConnection() 

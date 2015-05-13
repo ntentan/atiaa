@@ -3,6 +3,10 @@ namespace ntentan\atiaa\tests\lib;
 
 trait DriverLoader
 {
+    /**
+     * 
+     * @return \ntentan\atiaa\Driver
+     */
     public function getDriver()
     {
         $driver = \ntentan\atiaa\Driver::getConnection(
