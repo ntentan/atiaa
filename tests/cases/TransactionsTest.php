@@ -43,5 +43,9 @@ class TransactionsTest extends \PHPUnit_Extensions_Database_TestCase
         {
             return \PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL();
         }
+        else
+        {
+            return new \PHPUnit_Extensions_Database_Operation_Null();
+        }
     }    
 }
