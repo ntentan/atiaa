@@ -15,9 +15,9 @@ matrix:
   - php: "7"
  include:
   - php: "5.6"
-    env: ATIAA_DRIVER=mysql ATIAA_HOST=localhost ATIAA_USER=root ATIAA_DBNAME=atiaa_test ATIAA_PDO_DSN='mysql:host=localhost;dbname=atiaa_test;user=root' COVEAGE=yes
+    env: ATIAA_DRIVER=mysql ATIAA_HOST=localhost ATIAA_USER=root ATIAA_DBNAME=atiaa_test ATIAA_PDO_DSN='mysql:host=localhost;dbname=atiaa_test;user=root' COVERAGE=yes
   - php: "5.6"
-    env: ATIAA_DRIVER=postgresql ATIAA_HOST=localhost ATIAA_USER=postgres ATIAA_DBNAME=atiaa_test ATIAA_HAS_SCHEMAS=yes ATIAA_PDO_DSN='pgsql:host=localhost;dbname=atiaa_test;user=postgres' COVEAGE=yes
+    env: ATIAA_DRIVER=postgresql ATIAA_HOST=localhost ATIAA_USER=postgres ATIAA_DBNAME=atiaa_test ATIAA_HAS_SCHEMAS=yes ATIAA_PDO_DSN='pgsql:host=localhost;dbname=atiaa_test;user=postgres' COVERAGE=yes
  exclude:
   - php: "hhvm"
     env: ATIAA_DRIVER=postgresql ATIAA_HOST=localhost ATIAA_USER=postgres ATIAA_DBNAME=atiaa_test ATIAA_HAS_SCHEMAS=yes ATIAA_PDO_DSN='pgsql:host=localhost;dbname=atiaa_test;user=postgres'
@@ -34,5 +34,5 @@ services:
  - postgresql
 
 script: vendor/bin/phpunit --coverage-clover coverage.clover --configuration tests/config/travis.xml
-after_success: if [ $COVERAGE == 'yes' ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+after_success: if [ $COVERAGE == "yes" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
 
