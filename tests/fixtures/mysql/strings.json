@@ -1,0 +1,5 @@
+{
+    "quoted_string": "'string'",
+    "quoted_identifier" : "`identifier`",
+    "quoted_query_identifiers" : "SELECT `some`, `identifiers` FROM `some`.`table`"
+}

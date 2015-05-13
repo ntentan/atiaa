@@ -3,23 +3,22 @@ namespace ntentan\atiaa\tests\lib;
 
 trait DriverLoader
 {
-    /**
-     * 
-     * @return \ntentan\atiaa\Driver;
-     */    
-    public static function getDriver($test)
+    public function getDriver()
     {
-        $driverName = $test->getDriverName();
         $driver = \ntentan\atiaa\Driver::getConnection(
             array(
-                'driver' => $driverName,
-                'host' => $GLOBALS["{$driverName}_host"],
-                'user' => $GLOBALS["{$driverName}_user"],
-                'password' => $GLOBALS["{$driverName}_password"],
-                'dbname' => $GLOBALS["{$driverName}_dbname"]
+                'driver' => getenv('ATIAA_DRIVER'),
+                'host' => getenv('ATIAA_HOST'),
+                'user' => getenv('ATIAA_USER'),
+                'password' => getenv('ATIAA_PASSWORD'),
+                'dbname' => getenv("ATIAA_DBNAME")
             )
         );
         return $driver;        
     }
+    
+    public function getDriverName()
+    {
+        return getenv('ATIAA_DRIVER');
+    }
 }
-

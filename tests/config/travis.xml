@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit>
     <php>
-        <var name="TEST_SCOPE" value="local" />   
-        
-        <var name="mysql_host" value="localhost" />
-        <var name="mysql_user" value="root" />
-        <var name="mysql_password" value="" />
-        <var name="mysql_dbname" value="atiaa_test" />              
-        
-        <var name="postgresql_host" value="localhost" />
-        <var name="postgresql_user" value="postgres" />
-        <var name="postgresql_password" value="" />
-        <var name="postgresql_dbname" value="atiaa_test" />          
-        
+        <var name="TEST_SCOPE" value="travis" />   
     </php>
     <testsuites>
         <testsuite name="Main Test Suite">

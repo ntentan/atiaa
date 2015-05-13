@@ -1,8 +1,9 @@
 <?php
-namespace ntentan\atiaa\tests\lib;
+namespace ntentan\atiaa\tests\cases;
+use ntentan\atiaa\tests\lib\DriverLoader;
 
-abstract class TransactionsTest extends \PHPUnit_Extensions_Database_TestCase implements AtiaaTest
-{
+class TransactionsTest extends \PHPUnit_Extensions_Database_TestCase
+{   
     use DriverLoader;
     
     public function getDataSet() 
@@ -30,6 +31,11 @@ abstract class TransactionsTest extends \PHPUnit_Extensions_Database_TestCase im
         $this->assertEquals(0, $this->getConnection()->getRowCount('roles'));
     }
     
+    public function getConnection() 
+    {
+        $pdo = new \PDO(getenv('ATIAA_PDO_DSN'), getenv('ATIAA_USER'), getenv('ATIAA_PASSWORD'));
+        return $this->createDefaultDBConnection($pdo);
+    }
     
     protected function getSetUpOperation()
     {

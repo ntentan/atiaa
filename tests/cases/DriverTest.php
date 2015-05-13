@@ -1,7 +1,8 @@
 <?php
-namespace ntentan\atiaa\tests\lib;
+namespace ntentan\atiaa\tests\cases;
+use ntentan\atiaa\tests\lib\DriverLoader;
 
-abstract class DriverTest extends \PHPUnit_Framework_TestCase implements AtiaaTest
+class DriverTest extends \PHPUnit_Framework_TestCase
 {    
     use DriverLoader;
     
@@ -12,18 +13,16 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase implements AtiaaTe
         return $descriptor;
     }
     
-    
-    abstract protected function getQuotedString();
-    abstract protected function getQuotedIdentifier();
-    abstract protected function getQuotedQueryIdentifiers();
-    abstract protected function hasSchemata();
-    
     public function testFunctions()
     {
+        $driverName = $this->getDriverName();
         $driver = $this->getDriver($this);
-        $this->assertEquals($this->getQuotedString(), $driver->quote("string"));
-        $this->assertEquals($this->getQuotedIdentifier(), $driver->quoteIdentifier("identifier"));
-        $this->assertEquals($this->getQuotedQueryIdentifiers(), 
+        
+        $strings = json_decode(file_get_contents("tests/fixtures/$driverName/strings.json"), true);
+        
+        $this->assertEquals($strings['quoted_string'], $driver->quote("string"));
+        $this->assertEquals($strings['quoted_identifier'], $driver->quoteIdentifier("identifier"));
+        $this->assertEquals($strings['quoted_query_identifiers'], 
             $driver->quoteQueryIdentifiers('SELECT "some", "identifiers" FROM "some"."table"')
         );
         $pdo = $driver->getPDO();
@@ -115,5 +114,10 @@ abstract class DriverTest extends \PHPUnit_Framework_TestCase implements AtiaaTe
         $driver = $this->getDriver($this);
         $driver->disconnect();
         $driver->query("SELECT * FROM users");
+    }
+    
+    private function hasSchemata()
+    {
+        return strtolower(getenv('ATIAA_HAS_SCHEMAS')) === 'yes';
     }
 }

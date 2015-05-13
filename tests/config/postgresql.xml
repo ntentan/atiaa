@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit>
+    <php>
+        <var name="TEST_SCOPE" value="local" />   
+        
+        <!--<var name="mysql_host" value="localhost" />
+        <var name="mysql_user" value="root" />
+        <var name="mysql_password" value="root" />
+        <var name="mysql_dbname" value="atiaa_test" />              
+        
+        <var name="postgresql_host" value="localhost" />
+        <var name="postgresql_user" value="ekow" />
+        <var name="postgresql_password" value="ainooson" />
+        <var name="postgresql_dbname" value="atiaa_test" />          -->
+        <env name='ATIAA_DRIVER' value='postgresql' />
+        <env name='ATIAA_HOST' value='localhost' />
+        <env name='ATIAA_USER' value='ekow' />
+        <env name='ATIAA_PASSWORD' value='ainooson' />
+        <env name='ATIAA_DBNAME' value='atiaa_test' />
+        <env name='ATIAA_HAS_SCHEMAS' value='yes' />
+        <env name='ATIAA_PDO_DSN' value='pgsql:host=localhost;dbname=atiaa_test;user=ekow;password=ainooson' />
+        
+    </php>
+    <testsuites>
+        <testsuite name="Main Test Suite">
+            <directory>../cases</directory>    
+        </testsuite>
+    </testsuites>
+</phpunit>

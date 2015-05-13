@@ -4,6 +4,7 @@ tools:
     php_analyzer: true
     external_code_coverage:
         timeout: 600    # Timeout in seconds.    
+        runs: 8
 filter:
     excluded_paths: [bin/*, tests/*]
 
