@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit>
     <php>
-        <var name="TEST_SCOPE" value="travis" />   
+        <var name="TEST_SCOPE" value="cloud" />   
     </php>
     <testsuites>
         <testsuite name="Main Test Suite">

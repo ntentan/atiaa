@@ -39,6 +39,9 @@ class TransactionsTest extends \PHPUnit_Extensions_Database_TestCase
     
     protected function getSetUpOperation()
     {
-        return \PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL();
+        if($GLOBALS['TEST_SCOPE'] === 'local')
+        {
+            return \PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL();
+        }
     }    
 }
