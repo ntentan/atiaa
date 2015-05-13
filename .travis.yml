@@ -29,5 +29,5 @@ services:
  - postgresql
 
 script: vendor/bin/phpunit --coverage-clover coverage.clover --configuration tests/config/travis.xml
-after_success: wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --access-token="93e209791d440d1069195255daaa32ce84f96e88ced6d40490b1352dca34f96c" --format=php-clover coverage.clover
+after_success: wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
