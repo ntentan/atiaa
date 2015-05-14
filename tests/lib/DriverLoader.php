@@ -15,6 +15,7 @@ trait DriverLoader
                 'host' => getenv('ATIAA_HOST'),
                 'user' => getenv('ATIAA_USER'),
                 'password' => getenv('ATIAA_PASSWORD'),
+                'file' => getenv('ATIAA_FILE'),
                 'dbname' => getenv("ATIAA_DBNAME")
             )
         );

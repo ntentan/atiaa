@@ -179,8 +179,17 @@ abstract class Driver
         $equated = array();
         foreach($params as $key => $value)
         {
-            if($value == '') { continue; }
-            $equated[] = "$key=$value";
+            if($value == '') { 
+                continue;
+            }
+            if($key == 'file')
+            {
+                $equated[] = $value;
+            }
+            else
+            {
+                $equated[] = "$key=$value";
+            }
         }
         return implode(';', $equated);
     }
