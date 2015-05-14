@@ -27,15 +27,11 @@ matrix:
   
 before_script:
  - composer install --prefer-dist
- - if [ "$ATIAA_DRIVER" = "postgresql" ]; then
- - psql -c 'create database atiaa_test;' -U postgres
- - psql -f tests/databases/postgresql.sql -U postgres -d atiaa_test
- - fi
- - if [ "$ATIAA_DRIVER" = "mysql" ]; then
- - mysql -e 'create database atiaa_test;'
- - mysql atiaa_test < tests/databases/mysql.sql
- - fi
- - if [ "$ATIAA_DRIVER@ = "sqlite"]; then sqlite3 sqlite.db < tests/databases/sqlite.sql; fi
+ - if [ "$ATIAA_DRIVER" = "postgresql" ]; then psql -c 'create database atiaa_test;' -U postgres; fi
+ - if [ "$ATIAA_DRIVER" = "postgresql" ]; then psql -f tests/databases/postgresql.sql -U postgres -d atiaa_test; fi
+ - if [ "$ATIAA_DRIVER" = "mysql" ]; then mysql -e 'create database atiaa_test;'; fi
+ - if [ "$ATIAA_DRIVER" = "mysql" ]; then mysql atiaa_test < tests/databases/mysql.sql; fi
+ - if [ "$ATIAA_DRIVER" = "sqlite" ]; then sqlite3 sqlite.db < tests/databases/sqlite.sql; fi
 
 services:
  - mysql
@@ -43,4 +39,3 @@ services:
 
 script: vendor/bin/phpunit --coverage-clover coverage.clover --configuration tests/config/travis.xml
 after_success: if [ "$COVERAGE" == "yes" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
-
