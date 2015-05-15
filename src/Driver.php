@@ -149,7 +149,7 @@ abstract class Driver
         }
         catch(\PDOException $e)
         {
-            throw new DatabaseDriverException("$query");
+            throw new DatabaseDriverException("{$e->getMessage()} [$query]");
         }
         return $this->fetchRows($statement);
     }
