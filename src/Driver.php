@@ -176,22 +176,25 @@ abstract class Driver
      */
     private function expand($params)
     {
-        $equated = array();
-        foreach($params as $key => $value)
+        if(isset($params['file']))
         {
-            if($value == '') { 
-                continue;
-            }
-            if($key == 'file')
-            {
-                $equated[] = $value;
-            }
-            else
-            {
-                $equated[] = "$key=$value";
-            }
+            return $params['file'];
         }
-        return implode(';', $equated);
+        else
+        {
+            $equated = array();
+            foreach($params as $key => $value)
+            {
+                if($value == '') { 
+                    continue;
+                }
+                else
+                {
+                    $equated[] = "$key=$value";
+                }
+            }
+            return implode(';', $equated);
+        }
     }
     
     /**
