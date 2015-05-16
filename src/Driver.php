@@ -3,7 +3,13 @@
 namespace ntentan\atiaa;
 
 /**
- * The abstract class used by Atiaa.
+ * A driver class for connecting to a specific database platform.
+ * The Driver class is the main wrapper for atiaa. The driver class contains
+ * an instance of PDO with which it performs its operations. Aside from wrapping
+ * around PDO it also provides methods which makes it possible to quote strings
+ * and identifiers in a platform independent fashion. The driver class is
+ * responsible for loading the descriptors which are used for describing the
+ * database schemas.
  */
 abstract class Driver
 {
@@ -217,8 +223,8 @@ abstract class Driver
     
     /**
      * Returns an array description of the schema represented by the connection.
-     * The description returns contains information about tables, columns, keys,
-     * constraints, views and indices.
+     * The description returns contains information about `tables`, `columns`, `keys`,
+     * `constraints`, `views` and `indices`.
      * 
      * @return array<mixed>
      */

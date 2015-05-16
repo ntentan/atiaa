@@ -12,7 +12,8 @@ use ntentan\atiaa\TableNotFoundException;
 abstract class Descriptor
 {   
     /**
-     *
+     * An instance of the database driver used for accessing the database
+     * system.
      * @var \ntentan\atiaa\Driver;
      */
     protected $driver;
@@ -22,8 +23,30 @@ abstract class Descriptor
         $this->driver = $driver;
     }
     
+    /**
+     * Returns a list of schemata available on the database.
+     * @return array
+     */
     abstract protected function getSchemata();
+    
+    /**
+     * Retrieve the names of all the tables in a given schema. 
+     * The array returned is a list of structured arrays which have `name`
+     * and `schema` as keys. The `name` key represents the name of the table and
+     * the `schema` key represents the name of the schema (which is the same
+     * as the schema which was passed to the function.
+     * 
+     * @param string $schema The name of the schema from which the tab
+     * @param array<string> An array contianing names of specific tables 
+     *     who's information should be retrieved. 
+     * @return array<array>  
+     */
     abstract protected function getTables($schema, $requestedTables, $includeViews);
+    
+    /**
+     * Retrieve all the columns available in a given table. 
+     * The array returned contains structured arrays with the following keys.
+     */
     abstract protected function getColumns(&$table);
     abstract protected function getViews(&$schema);
     abstract protected function getPrimaryKey(&$table);
