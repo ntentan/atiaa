@@ -43,9 +43,9 @@ class SqliteDescriptor extends \ntentan\atiaa\Descriptor
         return $foreignKeys;
     }
     
-    private function extractIndexDetails($detail, $index, &$indexDetails)
+    private function extractIndexDetails($details, $index, &$indexDetails)
     {
-        if(isset($detail['name']))
+        foreach($details as $detail)
         {
             if($detail['name'] != '')
             {
@@ -54,7 +54,7 @@ class SqliteDescriptor extends \ntentan\atiaa\Descriptor
                     'name' => $index['name']
                 ];
             }
-        }        
+        }
     }
     
     private function getIndexDetails($table, $unique)
