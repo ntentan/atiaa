@@ -34,7 +34,7 @@ class SqliteDescriptor extends \ntentan\atiaa\Descriptor
                 'table' => $table['name'],
                 'column' => $foreignKey['from'],
                 'foreign_table' => $foreignKey['table'],
-                'foreign_schema' => 'master',
+                'foreign_schema' => 'main',
                 'foreign_column' => $foreignKey['to'],
                 'on_update' => $foreignKey['on_update'],
                 'on_delete' => $foreignKey['on_delete']
@@ -51,7 +51,8 @@ class SqliteDescriptor extends \ntentan\atiaa\Descriptor
             {
                 $indexDetails[] = [
                     'column' => $detail['name'],
-                    'name' => $index['name']
+                    'name' => $index['name'],
+                    'schema' => $index['schema']
                 ];
             }
         }
@@ -66,6 +67,7 @@ class SqliteDescriptor extends \ntentan\atiaa\Descriptor
         {
             if($index['unique'] == $unique)
             {
+                $index['schema'] = $table['schema'];
                 $detail = $this->driver->query("pragma index_xinfo({$index['name']})");
                 $this->extractIndexDetails($detail, $index, $indexDetails);
             }
@@ -110,7 +112,7 @@ class SqliteDescriptor extends \ntentan\atiaa\Descriptor
         if($includeViews)
         {
             $condition = "(type = ? or type = ?)";
-            $bind = array('type', 'view');
+            $bind = array('table', 'view');
         }
         else
         {
@@ -121,7 +123,7 @@ class SqliteDescriptor extends \ntentan\atiaa\Descriptor
         if(count($tables) > 0)
         {
             return $this->driver->quotedQuery(
-                'select name as "name", \'master\' as "schema" from sqlite_master
+                'select name as "name", \'main\' as "schema" from sqlite_master
                 where ' . $condition . ' and name not in (\'sqlite_master\', \'sqlite_sequence\') and name in (?' . str_repeat(', ?', count($tables) - 1) . ')
                 order by name',
                 array_merge($bind, $tables)
@@ -130,7 +132,7 @@ class SqliteDescriptor extends \ntentan\atiaa\Descriptor
         else
         {
             return $this->driver->quotedQuery(
-                'select name as "name", \'master\' as "schema" from sqlite_master
+                'select name as "name", \'main\' as "schema" from sqlite_master
                 where name not in (\'sqlite_master\', \'sqlite_sequence\') and ' . $condition,
                 array_merge($bind)
             );
@@ -144,7 +146,7 @@ class SqliteDescriptor extends \ntentan\atiaa\Descriptor
 
     protected function getViews(&$schema) 
     {
-        return $this->driver->query("select 'master' as schema, name, sql as definition from sqlite_master where type = 'view'");
+        return $this->driver->query("select 'main' as schema, name, sql as definition from sqlite_master where type = 'view'");
     }
 
     protected function hasAutoIncrementingKey(&$table) 
