@@ -182,7 +182,7 @@ abstract class Driver
      */
     private function expand($params)
     {
-        if(isset($params['file']))
+        if($params['file'] != '')
         {
             return $params['file'];
         }
