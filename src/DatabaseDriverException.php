@@ -28,5 +28,11 @@ namespace ntentan\atiaa;
 
 class DatabaseDriverException extends \Exception
 {
+    private $pdoException;
     
+    public function __construct($message, $pdoException = null) 
+    {
+        parent::__construct($message);
+        $this->pdoException = $pdoException;
+    }
 }

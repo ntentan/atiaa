@@ -3,7 +3,7 @@ $viewDescription = array (
   'users_view' => 
   array (
     'name' => 'users_view',
-    'schema' => 'master',
+    'schema' => '',
     'columns' => 
     array (
       'id' => 

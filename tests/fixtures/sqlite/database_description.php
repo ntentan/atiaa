@@ -9,7 +9,7 @@ $databaseDescription = array (
     'departments' => 
     array (
       'name' => 'departments',
-      'schema' => 'master',
+      'schema' => '',
       'columns' => 
       array (
         'id' => 
@@ -54,7 +54,7 @@ $databaseDescription = array (
     'roles' => 
     array (
       'name' => 'roles',
-      'schema' => 'master',
+      'schema' => '',
       'columns' => 
       array (
         'id' => 
@@ -99,7 +99,7 @@ $databaseDescription = array (
     'users' => 
     array (
       'name' => 'users',
-      'schema' => 'master',
+      'schema' => '',
       'columns' => 
       array (
         'id' => 
@@ -220,19 +220,27 @@ $databaseDescription = array (
       ),
       'unique_keys' => 
       array (
+        'sqlite_autoindex_users_1' => 
+        array (
+          'columns' => 
+          array (
+            0 => 'username',
+          ),
+          'schema' => '',
+        ),
       ),
       'foreign_keys' => 
       array (
         'users_departments_fk' => 
         array (
-          'schema' => 'master',
+          'schema' => '',
           'table' => 'users',
           'columns' => 
           array (
             0 => 'office',
           ),
           'foreign_table' => 'departments',
-          'foreign_schema' => 'master',
+          'foreign_schema' => '',
           'foreign_columns' => 
           array (
             0 => 'id',
@@ -242,14 +250,14 @@ $databaseDescription = array (
         ),
         'users_roles_fk' => 
         array (
-          'schema' => 'master',
+          'schema' => '',
           'table' => 'users',
           'columns' => 
           array (
             0 => 'role_id',
           ),
           'foreign_table' => 'roles',
-          'foreign_schema' => 'master',
+          'foreign_schema' => '',
           'foreign_columns' => 
           array (
             0 => 'id',
@@ -260,8 +268,16 @@ $databaseDescription = array (
       ),
       'indices' => 
       array (
+        'user_email_idx' => 
+        array (
+          'columns' => 
+          array (
+            0 => 'email',
+          ),
+          'schema' => '',
+        ),
       ),
       'auto_increment' => true,
     ),
-  )
+  ),
 );

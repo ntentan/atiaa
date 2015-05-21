@@ -373,7 +373,18 @@ abstract class Driver
         {
             require $config;
         }
-        $class = "\\ntentan\\atiaa\\drivers\\" . ucfirst($config['driver']). "Driver";
-        return new $class($config); 
+        else if($config['driver'] == '')
+        {
+            throw new DatabaseDriverException("Please specify a name for your database driver.");
+        }
+        try
+        {
+            $class = "\\ntentan\\atiaa\\drivers\\" . ucfirst($config['driver']). "Driver";
+            return new $class($config); 
+        } 
+        catch (\PDOException $e) 
+        {
+            throw new DatabaseDriverException("PDO failed to connect: {$e->getMessage()}", $e);
+        }
     }    
 }
