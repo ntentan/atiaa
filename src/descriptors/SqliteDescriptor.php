@@ -61,7 +61,6 @@ class SqliteDescriptor extends \ntentan\atiaa\Descriptor
     private function getIndexDetails($table, $unique)
     {
         $indices = $this->driver->query("pragma index_list({$table['name']})");
-        var_dump($indices);
         $indexDetails = [];
         
         foreach($indices as $index)
@@ -69,7 +68,7 @@ class SqliteDescriptor extends \ntentan\atiaa\Descriptor
             if($index['unique'] == $unique)
             {
                 $index['schema'] = $table['schema'];
-                $detail = $this->driver->query("pragma index_xinfo({$index['name']})");
+                $detail = $this->driver->query("pragma index_info({$index['name']})");
                 $this->extractIndexDetails($detail, $index, $indexDetails);
             }
         }
