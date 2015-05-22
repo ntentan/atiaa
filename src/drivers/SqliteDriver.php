@@ -19,6 +19,7 @@ class SqliteDriver extends \ntentan\atiaa\Driver
     {
         $this->defaultSchema = 'main';
         parent::__construct($config);
+        $this->query("PRAGMA foreign_keys=ON");
     }
     
     protected function getDriverName() 

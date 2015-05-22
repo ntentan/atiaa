@@ -231,7 +231,7 @@ $databaseDescription = array (
       ),
       'foreign_keys' => 
       array (
-        'users_departments_fk' => 
+        'users_departments_0_fk' => 
         array (
           'schema' => '',
           'table' => 'users',
@@ -248,7 +248,7 @@ $databaseDescription = array (
           'on_update' => 'CASCADE',
           'on_delete' => 'CASCADE',
         ),
-        'users_roles_fk' => 
+        'users_roles_1_fk' => 
         array (
           'schema' => '',
           'table' => 'users',
