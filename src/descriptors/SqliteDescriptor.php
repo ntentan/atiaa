@@ -26,10 +26,10 @@ class SqliteDescriptor extends \ntentan\atiaa\Descriptor
     {
         $foreignKeys = [];
         $pragmaColumns = $this->driver->query("pragma foreign_key_list({$table['name']})");
-        foreach($pragmaColumns as $foreignKey)
+        foreach($pragmaColumns as $i => $foreignKey)
         {
             $foreignKeys[] = [
-                'name' => "{$table['name']}_{$foreignKey['table']}_fk",
+                'name' => "{$table['name']}_{$foreignKey['table']}_{$i}_fk",
                 'schema' => $table['schema'],
                 'table' => $table['name'],
                 'column' => $foreignKey['from'],
@@ -40,6 +40,7 @@ class SqliteDescriptor extends \ntentan\atiaa\Descriptor
                 'on_delete' => $foreignKey['on_delete']
             ];
         }
+                
         return $foreignKeys;
     }
     
