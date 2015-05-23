@@ -31,30 +31,173 @@ abstract class Descriptor
     
     /**
      * Retrieve the names of all the tables in a given schema. 
-     * The array returned is a list of structured arrays which have `name`
-     * and `schema` as keys. The `name` key represents the name of the table and
-     * the `schema` key represents the name of the schema (which is the same
-     * as the schema which was passed to the function.
+     * The array returned must be a list of structured arrays which have `name`
+     * and `schema` as keys. The `name` key should represent the name of the table and
+     * the `schema` key should represent the name of the schema (which is the same
+     * as the schema which was passed to the function).
      * 
-     * @param string $schema The name of the schema from which the tab
+     * @param string $schema The name of the schema whose tables should be
+     *     describled.
      * @param array<string> An array contianing names of specific tables 
-     *     who's information should be retrieved. 
+     *     who's descriptions should be retrieved. 
      * @return array<array>  
      */
     abstract protected function getTables($schema, $requestedTables, $includeViews);
     
     /**
-     * Retrieve all the columns available in a given table. 
-     * The array returned contains structured arrays with the following keys.
+     * Retrieve descriptions of all the columns available in a given table as an array.
+     * The array returned must contain structured arrays with the following keys.
+     * 
+     * name
+     * : The name of the column.
+     * 
+     * type
+     * : The system specific datatype of the column.
+     * 
+     * nulls
+     * : A boolean which is true for columsn which can contain null values
+     *   and false for columns which can't.
+     * 
+     * default
+     * : The default value of the column. In cases where there is no default
+     *   this column is set to null.
+     * 
+     * length
+     * : The maximum character lenght of the column.
+     * 
+     * @param array $table An array which contains the name of the table as it's
+     *     `name` key and the schema of the table as it's `schema` key.
+     * @return array<array<string>>
      */
     abstract protected function getColumns(&$table);
+    
+    /**
+     * Retrieve the descriptions of all the views of a given schema in a array.
+     * The array returned must contain structured arrays with the following keys.
+     * 
+     * name
+     * : The name of the view.
+     * 
+     * schema
+     * : The schema to which the view belongs.
+     * 
+     * definition
+     * : The SQL query which represents the definition of the view.
+     * 
+     * @param string $schema The name of the database schema
+     * @return array<array<string>>
+     */
     abstract protected function getViews(&$schema);
+    
+    /**
+     * Retrieve the description of a primary key on a given table.
+     * The description returned must be an array which contains structured
+     * arrays with the following keys.
+     * 
+     * column
+     * : The name of a column which is part of the primary key
+     * 
+     * name
+     * : The name of the primary key constraint (must be the same throughout
+     *   all the items returned).
+     * 
+     * For primary keys with multiple columns, the array returned would contain
+     * one entry for each column.
+     * 
+     * @param array $table An array which contains the name of the table as it's
+     *     `name` key and the schema of the table as it's `schema` key.
+     * @return array<array<string>>
+     */
     abstract protected function getPrimaryKey(&$table);
+    
+    /**
+     * Retrieve the description of unique keys on a given table.
+     * The description returned must be an array which contains structured
+     * arrays with the following keys.
+     * 
+     * column
+     * : The name of a column which is part of a unique key
+     * 
+     * name
+     * : The name of the unique key constraint.
+     * 
+     * For unique keys with multiple columns, the value of the `name` key must
+     * be the same for only the columns in the key. 
+     * 
+     * @param array $table An array which contains the name of the table as it's
+     *     `name` key and the schema of the table as it's `schema` key.
+     * @return array<array<string>>
+     */
     abstract protected function getUniqueKeys(&$table);
+    
+    /**
+     * Retrieve the description of foreign keys on a given table.
+     * The description returned must be an array which contains structured
+     * arrays with the following keys.
+     * 
+     * name
+     * : The name of the foreign key constraint.
+     * 
+     * table
+     * : The name of the database table (should be same as passed to the function)
+     * 
+     * schema
+     * : The schema of the database table (should be same as passed to the 
+     *   function)
+     * 
+     * column
+     * : The foreign key column on the table.
+     * 
+     * foreign_table
+     * : The name of the database table to be referenced.
+     * 
+     * foreign_schema
+     * : The schema which contains the database table to be referenced.
+     * 
+     * foreign_column:
+     * : The column to be refereced on the foreign table.
+     * 
+     * For foreign keys with multiple columns, the value of the `name` key must
+     * be the same for only the columns in the key. 
+     * 
+     * @param array $table An array which contains the name of the table as it's
+     *     `name` key and the schema of the table as it's `schema` key.
+     * @return array<array<string>>
+     */    
     abstract protected function getForeignKeys(&$table);
+    
+    /**
+     * Retrieve the description of indices on a given table.
+     * The description returned must be an array which contains structured
+     * arrays with the following keys.
+     * 
+     * column
+     * : The name of a column which is part of an index
+     * 
+     * name
+     * : The name of the index.
+     * 
+     * For unique keys with multiple columns, the value of the `name` key must
+     * be the same for only the columns in the key. 
+     * 
+     * @param array $table An array which contains the name of the table as it's
+     *     `name` key and the schema of the table as it's `schema` key.
+     * @return array<array<string>>
+     */    
     abstract protected function getIndices(&$table);
+    
+    /**
+     * Returns a boolean value which tells whether a table has an auto incrementing
+     * key or not.
+     * 
+     * @return boolean
+     */
     abstract protected function hasAutoIncrementingKey(&$table);
 
+    /**
+     * 
+     * @return array
+     */
     public function describe()
     {
         $defaultSchema = $this->driver->getDefaultSchema();
