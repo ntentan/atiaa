@@ -4,6 +4,7 @@ use ntentan\atiaa\tests\lib\DriverLoader;
 
 class DriverTest extends \PHPUnit_Framework_TestCase
 {    
+    private $dbName;
     use DriverLoader;
     
     private function getDescriptor($driver)
@@ -13,10 +14,36 @@ class DriverTest extends \PHPUnit_Framework_TestCase
         return $descriptor;
     }
     
+    public function setUp() 
+    {
+        // Preserve the original dbname just in case it changes in any test
+        $this->dbName = getenv('ATIAA_DBNAME');
+    }
+    
+    public function tearDown() 
+    {
+        putenv("ATIAA_DBNAME={$this->dbName}");
+    }
+
+    /**
+     * 
+     * @expectedException \ntentan\atiaa\DatabaseDriverException
+     */
+    public function testDbNotFound()
+    {
+        if(getenv('ATIAA_SKIP_DB') === 'yes')
+        {
+            $this->markTestSkipped();
+            return;
+        }        
+        putenv("ATIAA_DBNAME=none");
+        $this->getDriver();
+    }
+    
     public function testFunctions()
     {
         $driverName = $this->getDriverName();
-        $driver = $this->getDriver($this);
+        $driver = $this->getDriver();
         
         $strings = json_decode(file_get_contents("tests/fixtures/$driverName/strings.json"), true);
         
@@ -32,7 +59,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
     
     public function testFullDescription()
     {
-        $driver = $this->getDriver($this);
+        $driver = $this->getDriver();
         $type = $this->getDriverName();
         
         $testDbDescription = $driver->describe();
@@ -48,7 +75,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
     
     public function testViewDescriptionAsTable()
     {
-        $driver = $this->getDriver($this);
+        $driver = $this->getDriver();
         $type = $this->getDriverName();
         
         $viewDbDescription = $driver->describeTable('users_view');
@@ -66,7 +93,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
             return;
         }
         
-        $driver = $this->getDriver($this);
+        $driver = $this->getDriver();
         $type = $this->getDriverName();
         
         $employeesDbDescription = $driver->describeTable('hr.employees');
@@ -81,7 +108,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
      */
     public function testTableNotFoundException()
     {
-        $driver = $this->getDriver($this);
+        $driver = $this->getDriver();
         $driver->describeTable('unknown_table');
         $driver->disconnect();
     }
