@@ -26,6 +26,9 @@
 
 namespace ntentan\atiaa\drivers;
 
+/**
+ * MySQL driver implementation
+ */
 class MysqlDriver extends \ntentan\atiaa\Driver
 {
     public function __construct($params)

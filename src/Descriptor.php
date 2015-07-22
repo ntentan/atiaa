@@ -195,6 +195,7 @@ abstract class Descriptor
     abstract protected function hasAutoIncrementingKey(&$table);
 
     /**
+     * Returns the description of the database as an array.
      * 
      * @return array
      */
@@ -225,6 +226,14 @@ abstract class Descriptor
         return $description;       
     }
     
+    /**
+     * Throws exceptions for which are found in the list of requested tables
+     * but not found in the list of found tables.
+     * 
+     * @param array $tables
+     * @param array $requestedTables
+     * @throws TableNotFoundException
+     */
     private function throwTableExceptions($tables, $requestedTables)
     {
         $foundTables = array();
