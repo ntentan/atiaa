@@ -83,6 +83,10 @@ abstract class Driver
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
     
+    public function __destruct() {
+        $this->disconnect();
+    }
+    
     /**
      * Close a connection to the database server.
      */
@@ -265,11 +269,7 @@ abstract class Driver
      */
     public function beginTransaction()
     {
-        if(self::$transactions == 0)
-        {
-            $this->pdo->beginTransaction();
-        }
-        self::$transactions++;
+        $this->pdo->beginTransaction();
     }
     
     /**
@@ -278,11 +278,7 @@ abstract class Driver
      */
     public function commit()
     {
-        self::$transactions--;
-        if(self::$transactions == 0)
-        {
-            $this->pdo->commit();
-        }
+        $this->pdo->commit();
     }   
     
     /**
@@ -293,7 +289,6 @@ abstract class Driver
     public function rollback()
     {
         $this->pdo->rollBack();
-        self::$transactions = 0;
     }
     
     /**

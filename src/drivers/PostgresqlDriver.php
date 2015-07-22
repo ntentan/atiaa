@@ -14,4 +14,10 @@ class PostgresqlDriver extends \ntentan\atiaa\Driver
     {
         return "\"$identifier\"";
     }    
+    
+    public function getLastInsertId() 
+    {
+        $lastval = $this->query("SELECT LASTVAL() as last");
+        return $lastval[0]["last"];        
+    }    
 }
