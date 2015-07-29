@@ -3,6 +3,28 @@ namespace ntentan\atiaa\descriptors;
 
 class PostgresqlDescriptor extends InformationSchemaDescriptor
 {
+    protected function getColumns(&$table)
+    {
+        $columns = parent::getColumns($table);
+        foreach($columns as $i => $column) {
+            if(preg_match("/(?<value>.*)(::)(?<type>[a-zA-Z0-9\s]*)/", $column['default'], $matches)) {
+                $columns[$i]['default'] = $this->cleanDefaultValue($matches['value']);
+            }
+        }
+        return $columns;
+    }
+    
+    private function cleanDefaultValue($defaultValue) 
+    {
+        if(is_numeric($defaultValue)) {
+            return $defaultValue;
+        } else if (preg_match("/'(?<string>.*)'/", $defaultValue, $matches)) {
+            return $matches['string'];
+        } else {
+            return null;
+        }
+    }
+
     /**
      * 
      * @note Query sourced from http://stackoverflow.com/questions/2204058/show-which-columns-an-index-is-on-in-postgresql
