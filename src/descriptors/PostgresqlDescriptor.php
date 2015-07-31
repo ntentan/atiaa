@@ -2,24 +2,36 @@
 namespace ntentan\atiaa\descriptors;
 
 class PostgresqlDescriptor extends InformationSchemaDescriptor
-{
-    protected function getColumns(&$table)
+{   
+    protected function cleanDefaultValue($defaultValue) 
     {
-        $columns = parent::getColumns($table);
-        foreach($columns as $i => $column) {
-            if(preg_match("/(?<value>.*)(::)(?<type>[a-zA-Z0-9\s]*)/", $column['default'], $matches)) {
-                $columns[$i]['default'] = $this->cleanDefaultValue($matches['value']);
+        // Deal with typecasts
+        if(preg_match("/(?<value>.*)(::)(?<type>[a-zA-Z0-9\s]*)$/", $defaultValue, $matches)) {
+            
+            $value = $matches['value'];
+            
+            // If numeric
+            if(is_numeric($value)) {
+                return $value;
+                
+            // If its a string
+            } else if (preg_match("/'(?<string>.*)'/", $value, $matches)) {
+                return $matches['string'];
+                
+            // null for anything else
+            } else {
+                return null;
             }
-        }
-        return $columns;
-    }
-    
-    private function cleanDefaultValue($defaultValue) 
-    {
-        if(is_numeric($defaultValue)) {
+        
+        // Return the nextval as atiaa uses them to detect auto keys
+        } else if(preg_match("/nextval\(.*/", $defaultValue)) {
             return $defaultValue;
-        } else if (preg_match("/'(?<string>.*)'/", $defaultValue, $matches)) {
-            return $matches['string'];
+            
+        // Return numeric default values
+        } else if(is_numeric($defaultValue)) {
+            return $defaultValue;
+            
+        // Return null for anything else
         } else {
             return null;
         }

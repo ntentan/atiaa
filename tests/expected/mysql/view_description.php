@@ -43,8 +43,8 @@ $viewDescription = array (
         'name' => 'othernames',
         'type' => 'varchar',
         'nulls' => true,
-        'default' => NULL,
-        'length' => '255',
+        'default' => 'None',
+        'length' => 255,
       ),
       'password' => 
       array (

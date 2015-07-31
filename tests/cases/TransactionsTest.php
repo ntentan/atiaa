@@ -8,7 +8,7 @@ class TransactionsTest extends \PHPUnit_Extensions_Database_TestCase
     
     public function getDataSet() 
     {
-        return $this->createFlatXMLDataSet("tests/fixtures/xml/transactions.xml");
+        return $this->createFlatXMLDataSet("tests/expected/xml/transactions.xml");
     }
     
     public function testTransactions()

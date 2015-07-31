@@ -45,7 +45,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
         $driverName = $this->getDriverName();
         $driver = $this->getDriver();
         
-        $strings = json_decode(file_get_contents("tests/fixtures/$driverName/strings.json"), true);
+        $strings = json_decode(file_get_contents("tests/expected/$driverName/strings.json"), true);
         
         $this->assertEquals($strings['quoted_string'], $driver->quote("string"));
         $this->assertEquals($strings['quoted_identifier'], $driver->quoteIdentifier("identifier"));
@@ -65,7 +65,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
         $testDbDescription = $driver->describe();
         $views = $testDbDescription['views'];
         unset($testDbDescription['views']);
-        require "tests/fixtures/{$type}/database_description.php";
+        require "tests/expected/{$type}/database_description.php";
         $this->assertEquals($databaseDescription, $testDbDescription);
         $this->assertArrayHasKey('users_view', $views);
         $this->assertArrayHasKey('definition', $views['users_view']);
@@ -73,13 +73,30 @@ class DriverTest extends \PHPUnit_Framework_TestCase
         $driver->disconnect();
     }
     
+    public function testCleanDefaultDescription()
+    {
+        $driver = $this->getDriver();
+        $type = $this->getDriverName();
+        $driver->setCleanDefaults(true);
+        
+        $testDbDescription = $driver->describe();
+        $views = $testDbDescription['views'];
+        unset($testDbDescription['views']);
+        require "tests/expected/{$type}/database_description_clean_defaults.php";
+        $this->assertEquals($databaseDescription, $testDbDescription);
+        $this->assertArrayHasKey('users_view', $views);
+        $this->assertArrayHasKey('definition', $views['users_view']);
+        $this->assertEquals('users_view', $views['users_view']['name']);
+        $driver->disconnect();
+    }    
+    
     public function testViewDescriptionAsTable()
     {
         $driver = $this->getDriver();
         $type = $this->getDriverName();
         
         $viewDbDescription = $driver->describeTable('users_view');
-        require "tests/fixtures/{$type}/view_description.php";
+        require "tests/expected/{$type}/view_description.php";
         $this->assertEquals($viewDescription, $viewDbDescription);
                 
         $driver->disconnect();
@@ -97,7 +114,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
         $type = $this->getDriverName();
         
         $employeesDbDescription = $driver->describeTable('hr.employees');
-        require "tests/fixtures/{$type}/employees_description.php";
+        require "tests/expected/{$type}/employees_description.php";
         $this->assertEquals($employeesDescription, $employeesDbDescription);
                 
         $driver->disconnect();

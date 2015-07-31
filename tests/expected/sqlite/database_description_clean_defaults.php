@@ -155,7 +155,7 @@ $databaseDescription = array (
           'name' => 'othernames',
           'type' => 'TEXT',
           'nulls' => true,
-          'default' => NULL,
+          'default' => 'None',
           'length' => NULL,
         ),
         'status' => 
@@ -163,7 +163,7 @@ $databaseDescription = array (
           'name' => 'status',
           'type' => 'INTEGER',
           'nulls' => true,
-          'default' => NULL,
+          'default' => '2',
           'length' => NULL,
         ),
         'email' => 

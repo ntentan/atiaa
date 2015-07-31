@@ -1,4 +1,5 @@
 <?php
+
 $databaseDescription = array (
   'schemata' => 
   array (
@@ -7,31 +8,32 @@ $databaseDescription = array (
   array (
     'departments' => 
     array (
-      'schema' => '',
       'name' => 'departments',
+      'schema' => '',
       'columns' => 
       array (
         'id' => 
         array (
           'name' => 'id',
-          'type' => 'int',
-          'nulls' => false,
+          'type' => 'INTEGER',
+          'nulls' => true,
           'default' => NULL,
           'length' => NULL,
         ),
         'name' => 
         array (
           'name' => 'name',
-          'type' => 'varchar',
+          'type' => 'TEXT',
           'nulls' => false,
           'default' => NULL,
-          'length' => '255',
+          'length' => NULL,
         ),
       ),
       'primary_key' => 
       array (
-        'PRIMARY' => 
+        'departments_pk' => 
         array (
+          'order' => '1',
           'columns' => 
           array (
             0 => 'id',
@@ -51,31 +53,32 @@ $databaseDescription = array (
     ),
     'roles' => 
     array (
-      'schema' => '',
       'name' => 'roles',
+      'schema' => '',
       'columns' => 
       array (
         'id' => 
         array (
           'name' => 'id',
-          'type' => 'int',
-          'nulls' => false,
+          'type' => 'INTEGER',
+          'nulls' => true,
           'default' => NULL,
           'length' => NULL,
         ),
         'name' => 
         array (
           'name' => 'name',
-          'type' => 'varchar',
+          'type' => 'TEXT',
           'nulls' => false,
           'default' => NULL,
-          'length' => '255',
+          'length' => NULL,
         ),
       ),
       'primary_key' => 
       array (
-        'PRIMARY' => 
+        'roles_pk' => 
         array (
+          'order' => '1',
           'columns' => 
           array (
             0 => 'id',
@@ -84,13 +87,6 @@ $databaseDescription = array (
       ),
       'unique_keys' => 
       array (
-        'name' => 
-        array (
-          'columns' => 
-          array (
-            0 => 'name',
-          ),
-        ),
       ),
       'foreign_keys' => 
       array (
@@ -102,102 +98,14 @@ $databaseDescription = array (
     ),
     'users' => 
     array (
-      'schema' => '',
       'name' => 'users',
+      'schema' => '',
       'columns' => 
       array (
-        'email' => 
-        array (
-          'name' => 'email',
-          'type' => 'varchar',
-          'nulls' => false,
-          'default' => NULL,
-          'length' => '255',
-        ),
-        'firstname' => 
-        array (
-          'name' => 'firstname',
-          'type' => 'varchar',
-          'nulls' => false,
-          'default' => NULL,
-          'length' => '255',
-        ),
         'id' => 
         array (
           'name' => 'id',
-          'type' => 'int',
-          'nulls' => false,
-          'default' => NULL,
-          'length' => NULL,
-        ),
-        'is_admin' => 
-        array (
-          'name' => 'is_admin',
-          'type' => 'tinyint',
-          'nulls' => true,
-          'default' => NULL,
-          'length' => NULL,
-        ),
-        'lastname' => 
-        array (
-          'name' => 'lastname',
-          'type' => 'varchar',
-          'nulls' => false,
-          'default' => NULL,
-          'length' => '255',
-        ),
-        'last_login_time' => 
-        array (
-          'name' => 'last_login_time',
-          'type' => 'timestamp',
-          'nulls' => true,
-          'default' => NULL,
-          'length' => NULL,
-        ),
-        'office' => 
-        array (
-          'name' => 'office',
-          'type' => 'int',
-          'nulls' => true,
-          'default' => NULL,
-          'length' => NULL,
-        ),
-        'othernames' => 
-        array (
-          'name' => 'othernames',
-          'type' => 'varchar',
-          'nulls' => true,
-          'default' => NULL,
-          'length' => '255',
-        ),
-        'password' => 
-        array (
-          'name' => 'password',
-          'type' => 'varchar',
-          'nulls' => false,
-          'default' => NULL,
-          'length' => '255',
-        ),
-        'phone' => 
-        array (
-          'name' => 'phone',
-          'type' => 'varchar',
-          'nulls' => true,
-          'default' => NULL,
-          'length' => '64',
-        ),
-        'role_id' => 
-        array (
-          'name' => 'role_id',
-          'type' => 'int',
-          'nulls' => false,
-          'default' => NULL,
-          'length' => NULL,
-        ),
-        'status' => 
-        array (
-          'name' => 'status',
-          'type' => 'int',
+          'type' => 'INTEGER',
           'nulls' => false,
           'default' => NULL,
           'length' => NULL,
@@ -205,16 +113,105 @@ $databaseDescription = array (
         'username' => 
         array (
           'name' => 'username',
-          'type' => 'varchar',
+          'type' => 'TEXT',
           'nulls' => false,
           'default' => NULL,
           'length' => '255',
         ),
+        'password' => 
+        array (
+          'name' => 'password',
+          'type' => 'TEXT',
+          'nulls' => false,
+          'default' => NULL,
+          'length' => NULL,
+        ),
+        'role_id' => 
+        array (
+          'name' => 'role_id',
+          'type' => 'INTEGER',
+          'nulls' => false,
+          'default' => NULL,
+          'length' => NULL,
+        ),
+        'firstname' => 
+        array (
+          'name' => 'firstname',
+          'type' => 'TEXT',
+          'nulls' => false,
+          'default' => NULL,
+          'length' => NULL,
+        ),
+        'lastname' => 
+        array (
+          'name' => 'lastname',
+          'type' => 'TEXT',
+          'nulls' => false,
+          'default' => NULL,
+          'length' => NULL,
+        ),
+        'othernames' => 
+        array (
+          'name' => 'othernames',
+          'type' => 'TEXT',
+          'nulls' => true,
+          'default' => '\'None\'',
+          'length' => NULL,
+        ),
+        'status' => 
+        array (
+          'name' => 'status',
+          'type' => 'INTEGER',
+          'nulls' => true,
+          'default' => '\'2\'',
+          'length' => NULL,
+        ),
+        'email' => 
+        array (
+          'name' => 'email',
+          'type' => 'TEXT',
+          'nulls' => true,
+          'default' => NULL,
+          'length' => NULL,
+        ),
+        'phone' => 
+        array (
+          'name' => 'phone',
+          'type' => 'TEXT',
+          'nulls' => true,
+          'default' => NULL,
+          'length' => NULL,
+        ),
+        'office' => 
+        array (
+          'name' => 'office',
+          'type' => 'INTEGER',
+          'nulls' => false,
+          'default' => NULL,
+          'length' => NULL,
+        ),
+        'last_login_time' => 
+        array (
+          'name' => 'last_login_time',
+          'type' => 'TEXT',
+          'nulls' => true,
+          'default' => NULL,
+          'length' => NULL,
+        ),
+        'is_admin' => 
+        array (
+          'name' => 'is_admin',
+          'type' => 'INTEGER',
+          'nulls' => true,
+          'default' => NULL,
+          'length' => NULL,
+        ),
       ),
       'primary_key' => 
       array (
-        'PRIMARY' => 
+        'users_pk' => 
         array (
+          'order' => '1',
           'columns' => 
           array (
             0 => 'id',
@@ -223,10 +220,35 @@ $databaseDescription = array (
       ),
       'unique_keys' => 
       array (
+        'sqlite_autoindex_users_1' => 
+        array (
+          'columns' => 
+          array (
+            0 => 'username',
+          ),
+          'schema' => '',
+        ),
       ),
       'foreign_keys' => 
       array (
-        'user_role_fk' => 
+        'users_departments_0_fk' => 
+        array (
+          'schema' => '',
+          'table' => 'users',
+          'columns' => 
+          array (
+            0 => 'office',
+          ),
+          'foreign_table' => 'departments',
+          'foreign_schema' => '',
+          'foreign_columns' => 
+          array (
+            0 => 'id',
+          ),
+          'on_update' => 'CASCADE',
+          'on_delete' => 'CASCADE',
+        ),
+        'users_roles_1_fk' => 
         array (
           'schema' => '',
           'table' => 'users',
@@ -240,12 +262,20 @@ $databaseDescription = array (
           array (
             0 => 'id',
           ),
-          'on_update' => 'RESTRICT',
-          'on_delete' => 'RESTRICT',
+          'on_update' => 'CASCADE',
+          'on_delete' => 'CASCADE',
         ),
       ),
       'indices' => 
       array (
+        'user_email_idx' => 
+        array (
+          'columns' => 
+          array (
+            0 => 'email',
+          ),
+          'schema' => '',
+        ),
       ),
       'auto_increment' => true,
     ),

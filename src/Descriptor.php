@@ -18,6 +18,8 @@ abstract class Descriptor
      */
     protected $driver;
     
+    private $cleanDefaults = false;
+    
     public function __construct($driver)
     {
         $this->driver = $driver;
@@ -193,7 +195,7 @@ abstract class Descriptor
      * @return boolean
      */
     abstract protected function hasAutoIncrementingKey(&$table);
-
+    
     /**
      * Returns the description of the database as an array.
      * 
@@ -224,6 +226,11 @@ abstract class Descriptor
         }
         
         return $description;       
+    }
+    
+    public function setCleanDefaults($cleanDefaults)
+    {
+        $this->cleanDefaults = $cleanDefaults;
     }
     
     /**
@@ -284,6 +291,10 @@ abstract class Descriptor
         {
             $columns[$column['name']] = $column;
             $columns[$column['name']]['nulls'] = $columns[$column['name']]['nulls'] == 'YES' ? true : false;
+            
+            if($this->cleanDefaults) {
+                $columns[$column['name']]['default'] = $this->cleanDefaultValue($column['default']);
+            }
         }
         
         return $columns;        
@@ -361,5 +372,10 @@ abstract class Descriptor
         {
             return $schema;
         }
-    }    
+    }   
+    
+    protected function cleanDefaultValue($defaultValue)
+    {
+        return $defaultValue;
+    }
 }

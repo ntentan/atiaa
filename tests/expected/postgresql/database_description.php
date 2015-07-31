@@ -353,7 +353,7 @@ $databaseDescription = array (
           'name' => 'othernames',
           'type' => 'character varying',
           'nulls' => true,
-          'default' => 'NULL::character varying',
+          'default' => '\'None\'::character varying',
           'length' => 255,
         ),
         'password' => 
@@ -385,7 +385,7 @@ $databaseDescription = array (
           'name' => 'status',
           'type' => 'integer',
           'nulls' => false,
-          'default' => NULL,
+          'default' => '2',
           'length' => NULL,
         ),
         'username' => 
@@ -452,5 +452,5 @@ $databaseDescription = array (
       ),
       'auto_increment' => true,
     ),
-  )
+  ),
 );
