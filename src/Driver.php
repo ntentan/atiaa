@@ -149,7 +149,8 @@ abstract class Driver
                 $statement = $this->pdo->query($query);
             }
         } catch (\PDOException $e) {
-            throw new DatabaseDriverException("{$e->getMessage()} [$query]");
+            $boundData = json_encode($bindData);
+            throw new DatabaseDriverException("{$e->getMessage()} [$query] [BOUND DATA:$boundData]");
         }
         return $this->fetchRows($statement);
     }
