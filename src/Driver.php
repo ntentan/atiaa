@@ -177,7 +177,7 @@ abstract class Driver
      */
     private function expand($params)
     {
-        if ($params['file'] != '') {
+        if (isset($params['file'])) {
             return $params['file'];
         } else {
             $equated = array();
