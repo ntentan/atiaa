@@ -37,6 +37,8 @@ abstract class Driver
      * @var \ntentan\atiaa\Descriptor
      */
     private $descriptor;
+    
+    private static $transactionCount = 0;
 
     /**
      * Creates a new instance of the Atiaa driver. This class is usually initiated
@@ -251,7 +253,9 @@ abstract class Driver
      */
     public function beginTransaction()
     {
-        $this->pdo->beginTransaction();
+        if(self::$transactionCount++ === 0) {
+            $this->pdo->beginTransaction();
+        }
     }
 
     /**
@@ -260,7 +264,9 @@ abstract class Driver
      */
     public function commit()
     {
-        $this->pdo->commit();
+        if(--self::$transactionCount === 0) {
+            $this->pdo->commit();
+        }
     }
 
     /**
@@ -271,6 +277,7 @@ abstract class Driver
     public function rollback()
     {
         $this->pdo->rollBack();
+        self::$transactionCount = 0;
     }
 
     /**
