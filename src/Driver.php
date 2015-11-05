@@ -354,7 +354,6 @@ abstract class Driver
      */
     public static function getConnection($config)
     {
-        $defaultSchema = null;
         if (is_string($config) && file_exists($config)) {
             require $config;
         } else if ($config['driver'] == '') {
@@ -362,13 +361,7 @@ abstract class Driver
         }
         try {
             $class = "\\ntentan\\atiaa\\drivers\\" . ucfirst($config['driver']) . "Driver";
-            if(isset($config['default_schema'])) {
-                $defaultSchema = $config['default_schema'];
-                unset($config['default_schema']);
-            }
-            $driver = new $class($config);
-            $driver->setDefaultSchema($defaultSchema);
-            return $driver;
+            return new $class($config);
         } catch (\PDOException $e) {
             throw new DatabaseDriverException("PDO failed to connect: {$e->getMessage()}", $e);
         }
