@@ -354,6 +354,7 @@ abstract class Driver
      */
     public static function getConnection($config)
     {
+        $defaultSchema = null;
         if (is_string($config) && file_exists($config)) {
             require $config;
         } else if ($config['driver'] == '') {
