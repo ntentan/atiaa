@@ -361,7 +361,13 @@ abstract class Driver
         }
         try {
             $class = "\\ntentan\\atiaa\\drivers\\" . ucfirst($config['driver']) . "Driver";
-            return new $class($config);
+            if(isset($config['default_schema'])) {
+                $defaultSchema = $config['default_schema'];
+                unset($config['default_schema']);
+            }
+            $driver = new $class($config);
+            $driver->setDefaultSchema($defaultSchema);
+            return $driver;
         } catch (\PDOException $e) {
             throw new DatabaseDriverException("PDO failed to connect: {$e->getMessage()}", $e);
         }
