@@ -154,7 +154,9 @@ abstract class Driver
             $boundData = json_encode($bindData);
             throw new DatabaseDriverException("{$e->getMessage()} [$query] [BOUND DATA:$boundData]");
         }
-        return $this->fetchRows($statement);
+        $rows = $this->fetchRows($statement);
+        $statement->closeCursor();
+        return $rows;
     }
 
     /**
