@@ -121,7 +121,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException \ntentan\atiaa\TableNotFoundException
+     * @expectedException \ntentan\atiaa\exceptions\TableNotFoundException
      */
     public function testTableNotFoundException()
     {
@@ -131,7 +131,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \ntentan\atiaa\TableNotFoundException
+     * @expectedException \ntentan\atiaa\exceptions\TableNotFoundException
      */
     public function testTableNotFoundExceptionAgain()
     {

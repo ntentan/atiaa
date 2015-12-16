@@ -1,8 +1,6 @@
 <?php
 namespace ntentan\atiaa;
 
-use ntentan\atiaa\TableNotFoundException;
-
 /**
  * Does the job of describing the schema of the underlying database. This 
  * abstract class is usually extended by database platform specific descriptor
@@ -239,7 +237,7 @@ abstract class Descriptor
      * 
      * @param array $tables
      * @param array $requestedTables
-     * @throws TableNotFoundException
+     * @throws exceptions\TableNotFoundException
      */
     private function throwTableExceptions($tables, $requestedTables)
     {
@@ -253,7 +251,7 @@ abstract class Descriptor
         {
             if(array_search($requestedTable, $foundTables) === false)
             {
-                throw new TableNotFoundException("$requestedTable not found on target database.");
+                throw new exceptions\TableNotFoundException("$requestedTable not found on target database.");
             }
         }
     }
