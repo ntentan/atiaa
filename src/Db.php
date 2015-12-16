@@ -7,6 +7,10 @@ class Db
     private static $db;
     private static $defaultSettings;
     
+    /**
+     * 
+     * @return Driver
+     */
     public static function getDriver()
     {
         if(self::$db == null) {
@@ -43,4 +47,9 @@ class Db
             self::$db = null;
         }
     }    
+    
+    public static function query($query, $bindData = false)
+    {
+        return self::getDriver()->query($query, $bindData);
+    }
 }
