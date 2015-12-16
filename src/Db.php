@@ -30,4 +30,17 @@ class Db
     {
         self::$defaultSettings = $settings;
     }    
+    
+    public static function getDefaultSettings()
+    {
+        return self::$defaultSettings;
+    }
+    
+    public static function reset()
+    {
+        if(self::$db !== null) {
+            self::$db->disconnect();
+            self::$db = null;
+        }
+    }    
 }
