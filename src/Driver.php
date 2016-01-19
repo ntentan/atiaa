@@ -68,8 +68,8 @@ abstract class Driver
     public function __construct($config)
     {
         $this->config = $config;
-        $username = $config['user'];
-        $password = $config['password'];
+        $username = isset($config['user']) ? $config['user'] : null;
+        $password = isset($config['password']) ? $config['password'] : null;
 
         unset($config['driver']);
 
