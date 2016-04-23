@@ -1,7 +1,7 @@
 language: php
 php:
  - "5.5"
- - "7"
+ - "5.6"
  - "hhvm"
 
 env:
@@ -11,14 +11,12 @@ env:
 
 
 matrix:
- allow_failures:
-  - php: "7"
  include:
-  - php: "5.6"
+  - php: "7"
     env: ATIAA_DRIVER=mysql ATIAA_HOST=localhost ATIAA_USER=root ATIAA_DBNAME=atiaa_test ATIAA_PDO_DSN='mysql:host=localhost;dbname=atiaa_test;user=root' COVERAGE=yes
-  - php: "5.6"
+  - php: "7"
     env: ATIAA_DRIVER=postgresql ATIAA_HOST=localhost ATIAA_USER=postgres ATIAA_DBNAME=atiaa_test ATIAA_HAS_SCHEMAS=yes ATIAA_PDO_DSN='pgsql:host=localhost;dbname=atiaa_test;user=postgres' COVERAGE=yes
-  - php: "5.6"
+  - php: "7"
     env: ATIAA_DRIVER=sqlite ATIAA_FILE=sqlite.db ATIAA_PDO_DSN='sqlite:sqlite.db' ATIAA_SKIP_DB=yes COVERAGE=yes
  exclude:
   - php: "hhvm"
