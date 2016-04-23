@@ -74,8 +74,6 @@ abstract class Driver
         $username = isset($this->config['user']) ? $this->config['user'] : null;
         $password = isset($this->config['password']) ? $this->config['password'] : null;
 
-        unset($config['driver']);
-
         try{
             $this->pdo = new \PDO(
                 $this->getDriverName() . ":" . $this->expand($this->config), $username, $password
@@ -190,6 +188,7 @@ abstract class Driver
      */
     private function expand($params)
     {
+        unset($params['driver']);
         if (isset($params['file'])) {
             if($params['file'] != '') {
                 return $params['file'];

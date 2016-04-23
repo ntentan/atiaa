@@ -21,13 +21,17 @@ class Db
     
     public static function getDefaultDriverClassName()
     {
-        $driver = Config::get('ntentan:db.driver');
+        return self::getDriverClassName(Config::get('ntentan:db.driver'));
+    }
+    
+    private static function getDriverClassName($driver)
+    {
         if($driver == null) {
             throw new exceptions\DatabaseDriverException(
                 "Please provide a valid driver name in your database config file"
             );
         }
-        return '\ntentan\atiaa\drivers\\' . Text::ucamelize(Config::get('ntentan:db.driver')) . "Driver";
+        return '\ntentan\atiaa\drivers\\' . Text::ucamelize($driver) . "Driver";
     }
     
     public static function reset()
@@ -37,6 +41,12 @@ class Db
             self::$db = null;
         }
     }    
+    
+    public static function getConnection($parameters)
+    {
+        Config::set('ntentan:db', $parameters);
+        return InjectionContainer::resolve(self::getDriverClassName($parameters['driver']));
+    }
     
     public static function query($query, $bindData = false)
     {

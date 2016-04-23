@@ -9,7 +9,7 @@ trait DriverLoader
      */
     public function getDriver()
     {
-        $driver = \ntentan\atiaa\Driver::getConnection(
+        $driver = \ntentan\atiaa\Db::getConnection(
             array(
                 'driver' => getenv('ATIAA_DRIVER'),
                 'host' => getenv('ATIAA_HOST'),

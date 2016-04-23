@@ -6,6 +6,6 @@ class NullConnection
 {
     public function __call($name, $arguments) 
     {
-        throw new DatabaseDriverException("Your database is currently not connected");
+        throw new exceptions\DatabaseDriverException("Your database is currently not connected");
     }
 }

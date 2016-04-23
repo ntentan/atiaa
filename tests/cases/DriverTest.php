@@ -27,7 +27,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
 
     /**
      * 
-     * @expectedException \ntentan\atiaa\DatabaseDriverException
+     * @expectedException \ntentan\atiaa\exceptions\DatabaseDriverException
      */
     public function testDbNotFound()
     {
@@ -141,7 +141,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException \ntentan\atiaa\DatabaseDriverException
+     * @expectedException \ntentan\atiaa\exceptions\DatabaseDriverException
      */
     public function testFaultyQueryException()
     {
@@ -151,7 +151,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException \ntentan\atiaa\DatabaseDriverException
+     * @expectedException \ntentan\atiaa\exceptions\DatabaseDriverException
      */    
     public function testDisconnect()
     {
