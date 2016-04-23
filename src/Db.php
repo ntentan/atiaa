@@ -36,10 +36,7 @@ class Db
     
     public static function reset()
     {
-        if(self::$db !== null) {
-            self::$db->disconnect();
-            self::$db = null;
-        }
+        self::getDriver()->disconnect();
     }    
     
     public static function getConnection($parameters)
