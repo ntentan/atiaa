@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace ntentan\atiaa;
+namespace ntentan\atiaa\exceptions;
 
 class DatabaseDriverException extends \Exception
 {

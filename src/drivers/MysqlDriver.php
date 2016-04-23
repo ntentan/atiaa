@@ -31,14 +31,14 @@ namespace ntentan\atiaa\drivers;
  */
 class MysqlDriver extends \ntentan\atiaa\Driver
 {
-    public function __construct($params)
+    /*public function __construct($params = null)
     {
-        if($params['dbname'] != '')
+        if(isset($params['dbname']))
         {
             $this->defaultSchema = $params['dbname'];
         }
         parent::__construct($params);
-    }
+    }*/
     
     protected function getDriverName()
     {
@@ -48,5 +48,10 @@ class MysqlDriver extends \ntentan\atiaa\Driver
     public function quoteIdentifier($identifier)
     {
         return "`$identifier`";
+    }
+    
+    public function getDefaultSchema()
+    {
+        if(!$this->defaultSchema) return $this->config['dbname'];
     }
 }

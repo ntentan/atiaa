@@ -2,10 +2,13 @@
 
 namespace ntentan\atiaa;
 
+use ntentan\config\Config;
+use ntentan\panie\InjectionContainer;
+use ntentan\utils\Text;
+
 class Db
 {
-    private static $db;
-    private static $defaultSettings;
+    //private static $db;
     
     /**
      * 
@@ -13,31 +16,18 @@ class Db
      */
     public static function getDriver()
     {
-        if(self::$db == null) {
-            self::$db = \ntentan\atiaa\Driver::getConnection(self::$defaultSettings);
-            self::$db->setCleanDefaults(true);
-
-            try {
-                self::$db->getPDO()->setAttribute(\PDO::ATTR_AUTOCOMMIT, false);
-            } catch (\PDOException $e) {
-                // Just do nothing for drivers which do not allow turning off autocommit
-            }
+        return InjectionContainer::singleton(Driver::class);
+    }
+    
+    public static function getDefaultDriverClassName()
+    {
+        $driver = Config::get('ntentan:db.driver');
+        if($driver == null) {
+            throw new exceptions\DatabaseDriverException(
+                "Please provide a valid driver name in your database config file"
+            );
         }
-        return self::$db;
-    }    
-    
-    /**
-     * Set the settings used for creating default datastores.
-     * @param array $settings
-     */
-    public static function setDefaultSettings($settings)
-    {
-        self::$defaultSettings = $settings;
-    }    
-    
-    public static function getDefaultSettings()
-    {
-        return self::$defaultSettings;
+        return '\ntentan\atiaa\drivers\\' . Text::ucamelize(Config::get('ntentan:db.driver')) . "Driver";
     }
     
     public static function reset()

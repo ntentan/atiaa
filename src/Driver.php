@@ -2,6 +2,9 @@
 
 namespace ntentan\atiaa;
 
+use ntentan\config\Config;
+use ntentan\atiaa\exceptions\DatabaseDriverException;
+
 /**
  * A driver class for connecting to a specific database platform.
  * The Driver class is the main wrapper for atiaa. The driver class contains
@@ -30,7 +33,7 @@ abstract class Driver
      * The connection parameters with which this connection was established.
      * @var array
      */
-    private $config;
+    protected $config;
 
     /**
      * An instance of the descriptor used internally.
@@ -65,20 +68,26 @@ abstract class Driver
      * 
      * @param array<string> $config The configuration with which to connect to the database.
      */
-    public function __construct($config)
+    public function __construct($config = null)
     {
-        $this->config = $config;
-        $username = isset($config['user']) ? $config['user'] : null;
-        $password = isset($config['password']) ? $config['password'] : null;
+        $this->config = $config ? $config : Config::get('ntentan:db');
+        $username = isset($this->config['user']) ? $this->config['user'] : null;
+        $password = isset($this->config['password']) ? $this->config['password'] : null;
 
         unset($config['driver']);
 
-        $this->pdo = new \PDO(
-                $this->getDriverName() . ":" . $this->expand($config), $username, $password
-        );
-        $this->pdo->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, false);
-        $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
-        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        try{
+            $this->pdo = new \PDO(
+                $this->getDriverName() . ":" . $this->expand($this->config), $username, $password
+            );
+            $this->pdo->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, false);
+            $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+            $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        }
+        catch (\PDOException $e)
+        {
+            throw new DatabaseDriverException("PDO failed to connect: {$e->getMessage()}", $e);
+        }
     }
 
     public function __destruct()
@@ -354,7 +363,7 @@ abstract class Driver
      * @param array $config 
      * @return \ntentan\atiaa\Driver
      */
-    public static function getConnection($config)
+    /*public static function getConnection($config)
     {
         if (is_string($config) && file_exists($config)) {
             require $config;
@@ -367,7 +376,7 @@ abstract class Driver
         } catch (\PDOException $e) {
             throw new DatabaseDriverException("PDO failed to connect: {$e->getMessage()}", $e);
         }
-    }
+    }*/
     
     public function setCleanDefaults($cleanDefaults)
     {
