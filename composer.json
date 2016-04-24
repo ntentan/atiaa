@@ -10,8 +10,8 @@
     ],
     "require": {
         "php" : ">=5.5.0",
-        "ntentan/panie": "dev-master",
-        "ntentan/config": "dev-master",
+        "ntentan/panie": "0.*",
+        "ntentan/config": "0.*",
         "ntentan/utils": "0.*"
     },
     "require-dev" : {

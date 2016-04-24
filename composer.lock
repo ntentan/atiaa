@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bc3ead352833c6d4f65821f3ddfc6975",
-    "content-hash": "2bc099f90228095426afd067988ac8be",
+    "hash": "735da73f72649766ddddfc1e96f3f3b8",
+    "content-hash": "774733885a28d724b7cf9543cb5ab86e",
     "packages": [
         {
             "name": "ntentan/config",
-            "version": "dev-master",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/config.git",
-                "reference": "80cd65a714174863d2c30d8352c9f268a4224dba"
+                "reference": "644a35b73a837ce31e8350e8618b62f97369b52b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/config/zipball/80cd65a714174863d2c30d8352c9f268a4224dba",
-                "reference": "80cd65a714174863d2c30d8352c9f268a4224dba",
+                "url": "https://api.github.com/repos/ntentan/config/zipball/644a35b73a837ce31e8350e8618b62f97369b52b",
+                "reference": "644a35b73a837ce31e8350e8618b62f97369b52b",
                 "shasum": ""
             },
             "require-dev": {
@@ -43,24 +43,27 @@
                 }
             ],
             "description": "Configurations manager for ntentan",
-            "time": "2016-04-23 11:58:18"
+            "time": "2016-04-23 21:05:42"
         },
         {
             "name": "ntentan/panie",
-            "version": "dev-master",
+            "version": "v0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ntentan/panie.git",
-                "reference": "da31f355f2e28bb185cc3a075430aff2dfd0bf83"
+                "reference": "fbcbc0d3c802a6db18b7c6919630c1fd6e307ec0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ntentan/panie/zipball/da31f355f2e28bb185cc3a075430aff2dfd0bf83",
-                "reference": "da31f355f2e28bb185cc3a075430aff2dfd0bf83",
+                "url": "https://api.github.com/repos/ntentan/panie/zipball/fbcbc0d3c802a6db18b7c6919630c1fd6e307ec0",
+                "reference": "fbcbc0d3c802a6db18b7c6919630c1fd6e307ec0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0"
             },
             "type": "library",
             "autoload": {
@@ -80,7 +83,7 @@
                 }
             ],
             "description": "A thin DI container for NtentanFX",
-            "time": "2016-04-23 12:16:19"
+            "time": "2016-04-24 10:38:24"
         },
         {
             "name": "ntentan/utils",
@@ -1137,10 +1140,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "ntentan/panie": 20,
-        "ntentan/config": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
