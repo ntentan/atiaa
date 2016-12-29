@@ -241,7 +241,7 @@ abstract class Driver
     /**
      * Returns the description of a database table as an associative array.
      * 
-     * @param type $table
+     * @param string $table
      * @return array<mixed>
      */
     public function describeTable($table)
