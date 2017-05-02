@@ -10,7 +10,7 @@
     ],
     "require": {
         "php" : ">=5.5.0",
-        "ntentan/panie": "0.*",
+        "ntentan/panie": "dev-master",
         "ntentan/config": "0.*",
         "ntentan/utils": "0.*"
     },
@@ -23,5 +23,6 @@
             "ntentan\\atiaa\\" : "src/",
             "ntentan\\atiaa\\tests\\" : "tests/"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }

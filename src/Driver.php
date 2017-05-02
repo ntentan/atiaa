@@ -14,8 +14,7 @@ use ntentan\atiaa\exceptions\DatabaseDriverException;
  * responsible for loading the descriptors which are used for describing the
  * database schemas.
  */
-abstract class Driver
-{
+abstract class Driver {
 
     /**
      * The internal PDO connection that is wrapped by this driver.
@@ -40,7 +39,6 @@ abstract class Driver
      * @var \ntentan\atiaa\Descriptor
      */
     private $descriptor;
-    
     private static $transactionCount = 0;
 
     /**
@@ -68,36 +66,31 @@ abstract class Driver
      * 
      * @param array<string> $config The configuration with which to connect to the database.
      */
-    public function __construct($config = null)
-    {
+    public function __construct($config = null) {
         $this->config = $config ? $config : Config::get('ntentan:db');
         $username = isset($this->config['user']) ? $this->config['user'] : null;
         $password = isset($this->config['password']) ? $this->config['password'] : null;
 
-        try{
+        try {
             $this->pdo = new \PDO(
-                $this->getDriverName() . ":" . $this->expand($this->config), $username, $password
+                    $this->getDriverName() . ":" . $this->expand($this->config), $username, $password
             );
             $this->pdo->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, false);
             $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        }
-        catch (\PDOException $e)
-        {
+        } catch (\PDOException $e) {
             throw new DatabaseDriverException("PDO failed to connect: {$e->getMessage()}", $e);
         }
     }
 
-    public function __destruct()
-    {
+    public function __destruct() {
         $this->disconnect();
     }
 
     /**
      * Close a connection to the database server.
      */
-    public function disconnect()
-    {
+    public function disconnect() {
         $this->pdo = null;
         $this->pdo = new NullConnection();
     }
@@ -106,8 +99,7 @@ abstract class Driver
      * Get the default schema of the current connection.
      * @return string
      */
-    public function getDefaultSchema()
-    {
+    public function getDefaultSchema() {
         return $this->defaultSchema;
     }
 
@@ -116,8 +108,7 @@ abstract class Driver
      * @param type $string
      * @return string
      */
-    public function quote($string)
-    {
+    public function quote($string) {
         return $this->pdo->quote($string);
     }
 
@@ -126,8 +117,7 @@ abstract class Driver
      * @param boolean $status
      * @param \PDOStatement  $result 
      */
-    private function fetchRows($statement)
-    {
+    private function fetchRows($statement) {
         try {
             $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
             return $rows;
@@ -148,8 +138,7 @@ abstract class Driver
      * @param false|array<mixed> $bindData The data to be bound to the query object.
      * @return array<mixed>
      */
-    public function query($query, $bindData = false)
-    {
+    public function query($query, $bindData = false) {
         try {
             if (is_array($bindData)) {
                 $statement = $this->pdo->prepare($query);
@@ -174,8 +163,7 @@ abstract class Driver
      * @param false|array<mixed> $bindData
      * @return array<mixed>
      */
-    public function quotedQuery($query, $bindData = false)
-    {
+    public function quotedQuery($query, $bindData = false) {
         return $this->query($this->quoteQueryIdentifiers($query), $bindData);
     }
 
@@ -186,15 +174,14 @@ abstract class Driver
      * @param array $params The query parameters
      * @return string
      */
-    private function expand($params)
-    {
+    private function expand($params) {
         unset($params['driver']);
         if (isset($params['file'])) {
-            if($params['file'] != '') {
+            if ($params['file'] != '') {
                 return $params['file'];
             }
-        } 
-        
+        }
+
         $equated = array();
         foreach ($params as $key => $value) {
             if ($value == '') {
@@ -216,13 +203,11 @@ abstract class Driver
      * @param string $query
      * @return string
      */
-    public function quoteQueryIdentifiers($query)
-    {
+    public function quoteQueryIdentifiers($query) {
         return preg_replace_callback(
-            '/\"([a-zA-Z\_ ]*)\"/', 
-            function($matches) {
-                return $this->quoteIdentifier($matches[1]);
-            }, $query
+                '/\"([a-zA-Z\_ ]*)\"/', function($matches) {
+            return $this->quoteIdentifier($matches[1]);
+        }, $query
         );
     }
 
@@ -233,8 +218,7 @@ abstract class Driver
      * 
      * @return array<mixed>
      */
-    public function describe()
-    {
+    public function describe() {
         return $this->getDescriptor()->describe();
     }
 
@@ -244,8 +228,7 @@ abstract class Driver
      * @param string $table
      * @return array<mixed>
      */
-    public function describeTable($table)
-    {
+    public function describeTable($table) {
         $table = explode('.', $table);
         if (count($table) > 1) {
             $schema = $table[0];
@@ -261,9 +244,8 @@ abstract class Driver
      * A wrapper arround PDO's beginTransaction method which uses a static reference
      * counter to implement nested transactions.
      */
-    public function beginTransaction()
-    {
-        if(self::$transactionCount++ === 0) {
+    public function beginTransaction() {
+        if (self::$transactionCount++ === 0) {
             $this->pdo->beginTransaction();
         }
     }
@@ -272,9 +254,8 @@ abstract class Driver
      * A wrapper around PDO's commit transaction method which uses a static reference
      * counter to implement nested transactions.
      */
-    public function commit()
-    {
-        if(--self::$transactionCount === 0) {
+    public function commit() {
+        if (--self::$transactionCount === 0) {
             $this->pdo->commit();
         }
     }
@@ -284,8 +265,7 @@ abstract class Driver
      * activities performed since the first call to begin transaction. 
      * Unfortunately, transactions cannot be rolled back in a nested fashion.
      */
-    public function rollback()
-    {
+    public function rollback() {
         $this->pdo->rollBack();
         self::$transactionCount = 0;
     }
@@ -294,8 +274,7 @@ abstract class Driver
      * Return the underlying PDO object.
      * @return \PDO
      */
-    public function getPDO()
-    {
+    public function getPDO() {
         return $this->pdo;
     }
 
@@ -303,8 +282,7 @@ abstract class Driver
      * Returns an instance of a descriptor for a given driver.
      * @return \atiaa\Descriptor
      */
-    private function getDescriptor()
-    {
+    private function getDescriptor() {
         if (!is_object($this->descriptor)) {
             $descriptorClass = "\\ntentan\\atiaa\\descriptors\\" . ucfirst($this->config['driver']) . "Descriptor";
             $this->descriptor = new $descriptorClass($this);
@@ -316,8 +294,7 @@ abstract class Driver
      * A wrapper around PDO's lastInsertId() method.
      * @return mixed
      */
-    public function getLastInsertId()
-    {
+    public function getLastInsertId() {
         return $this->pdo->lastInsertId();
     }
 
@@ -326,8 +303,7 @@ abstract class Driver
      * as part of the table reference.
      * @param string $defaultSchema
      */
-    public function setDefaultSchema($defaultSchema)
-    {
+    public function setDefaultSchema($defaultSchema) {
         $this->defaultSchema = $defaultSchema;
     }
 
@@ -362,23 +338,23 @@ abstract class Driver
      * @param array $config 
      * @return \ntentan\atiaa\Driver
      */
-    /*public static function getConnection($config)
-    {
-        if (is_string($config) && file_exists($config)) {
-            require $config;
-        } else if ($config['driver'] == '') {
-            throw new DatabaseDriverException("Please specify a name for your database driver.");
-        }
-        try {
-            $class = "\\ntentan\\atiaa\\drivers\\" . ucfirst($config['driver']) . "Driver";
-            return new $class($config);
-        } catch (\PDOException $e) {
-            throw new DatabaseDriverException("PDO failed to connect: {$e->getMessage()}", $e);
-        }
-    }*/
-    
-    public function setCleanDefaults($cleanDefaults)
-    {
+    /* public static function getConnection($config)
+      {
+      if (is_string($config) && file_exists($config)) {
+      require $config;
+      } else if ($config['driver'] == '') {
+      throw new DatabaseDriverException("Please specify a name for your database driver.");
+      }
+      try {
+      $class = "\\ntentan\\atiaa\\drivers\\" . ucfirst($config['driver']) . "Driver";
+      return new $class($config);
+      } catch (\PDOException $e) {
+      throw new DatabaseDriverException("PDO failed to connect: {$e->getMessage()}", $e);
+      }
+      } */
+
+    public function setCleanDefaults($cleanDefaults) {
         $this->getDescriptor()->setCleanDefaults($cleanDefaults);
     }
+
 }
