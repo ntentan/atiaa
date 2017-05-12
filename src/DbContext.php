@@ -8,7 +8,6 @@ use ntentan\utils\Text;
 
 class DbContext {
 
-    private $driver;
     private $container;
 
     public function __construct(Container $container, $config = null) {
@@ -17,7 +16,6 @@ class DbContext {
             $container->bind(Driver::class)
                 ->to(self::getDriverClassName(Config::get('ntentan:db.driver')));
         }
-        $this->driver = $container->resolve(Driver::class);
         $this->container = $container;
     }
 
@@ -26,7 +24,7 @@ class DbContext {
      * @return Driver
      */
     public function getDriver() {
-        return $this->driver;
+        return $this->container->singleton(Driver::class);
     }
 
     public static function getDriverClassName($driver) {
@@ -39,7 +37,7 @@ class DbContext {
     }
 
     public function query($query, $bindData = false) {
-        return $this->driver->query($query, $bindData);
+        return $this->getDriver()->query($query, $bindData);
     }
 
 }
