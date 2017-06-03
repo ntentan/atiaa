@@ -2,21 +2,19 @@
 
 namespace ntentan\atiaa;
 
-use ntentan\config\Config;
 use ntentan\panie\Container;
 use ntentan\utils\Text;
 
 class DbContext {
 
     private $container;
+    private $config;
 
-    public function __construct(Container $container, $config = null) {
-        if ($config) {
-            Config::set('ntentan:db', $config);
-            $container->bind(Driver::class)
-                ->to(self::getDriverClassName(Config::get('ntentan:db.driver')));
-        }
+    public function __construct(Container $container, array $config) {
+        $container->bind(Driver::class)
+            ->to(self::getDriverClassName($config['driver']));
         $this->container = $container;
+        $this->config = $config;
     }
 
     /**
@@ -24,7 +22,7 @@ class DbContext {
      * @return Driver
      */
     public function getDriver() {
-        return $this->container->singleton(Driver::class);
+        return $this->container->singleton(Driver::class, ['config' => $this->config]);
     }
 
     public static function getDriverClassName($driver) {

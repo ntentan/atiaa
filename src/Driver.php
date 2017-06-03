@@ -2,7 +2,6 @@
 
 namespace ntentan\atiaa;
 
-use ntentan\config\Config;
 use ntentan\atiaa\exceptions\DatabaseDriverException;
 
 /**
@@ -67,7 +66,7 @@ abstract class Driver {
      * @param array<string> $config The configuration with which to connect to the database.
      */
     public function __construct($config = null) {
-        $this->config = $config ? $config : Config::get('ntentan:db');
+        $this->config = $config;
         $username = isset($this->config['user']) ? $this->config['user'] : null;
         $password = isset($this->config['password']) ? $this->config['password'] : null;
 
