@@ -3,6 +3,8 @@
 namespace ntentan\atiaa;
 
 use ntentan\atiaa\exceptions\DatabaseDriverException;
+use ntentan\panie\Container;
+use ntentan\panie\exceptions\ResolutionException;
 
 /**
  * A driver class for connecting to a specific database platform.
@@ -20,6 +22,8 @@ abstract class Driver {
      * @var \PDO
      */
     private $pdo;
+    
+    private $logger;
 
     /**
      * The default schema used in the connection.
@@ -65,14 +69,20 @@ abstract class Driver {
      * 
      * @param array<string> $config The configuration with which to connect to the database.
      */
-    public function __construct($config = null) {
+    public function __construct(Container $container, $config = null) {
         $this->config = $config;
         $username = isset($this->config['user']) ? $this->config['user'] : null;
         $password = isset($this->config['password']) ? $this->config['password'] : null;
+        
+        try{
+            $this->logger = $container->resolve(QueryLogger::class);
+        } catch (ResolutionException $e) {
+            
+        }
 
         try {
             $this->pdo = new \PDO(
-                    $this->getDriverName() . ":" . $this->expand($this->config), $username, $password
+                $this->getDriverName() . ":" . $this->expand($this->config), $username, $password
             );
             $this->pdo->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, false);
             $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
@@ -137,7 +147,7 @@ abstract class Driver {
      * @param false|array<mixed> $bindData The data to be bound to the query object.
      * @return array<mixed>
      */
-    public function query($query, $bindData = false) {
+    public function query($query, $bindData = []) {
         try {
             if (is_array($bindData)) {
                 $statement = $this->pdo->prepare($query);
@@ -148,6 +158,9 @@ abstract class Driver {
         } catch (\PDOException $e) {
             $boundData = json_encode($bindData);
             throw new DatabaseDriverException("{$e->getMessage()} [$query] [BOUND DATA:$boundData]");
+        }
+        if($this->logger) {
+            $this->logger->debug($query, $bindData);
         }
         $rows = $this->fetchRows($statement);
         $statement->closeCursor();
