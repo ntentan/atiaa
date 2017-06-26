@@ -134,6 +134,25 @@ abstract class Driver {
             // Skip any exceptions from fetching rows
         }
     }
+    
+    private function prepareQuery($query, $bindData) {
+        $statement = $this->pdo->prepare($query);
+        foreach($bindData as $key => $value) {
+            switch(gettype($value)) {
+                case "integer": 
+                    $type = \PDO::PARAM_INT;
+                    break;
+                case "boolean": 
+                    $type = \PDO::PARAM_BOOL;
+                    break;
+                default: 
+                    $type = \PDO::PARAM_STR;
+                    break;
+            }
+            $statement->bindValue(is_numeric($key) ? $key + 1: $key, $value, $type);
+        }
+        return $statement;
+    }
 
     /**
      * Pepare and execute a query, while binding data at the same time. Prevents
@@ -150,8 +169,8 @@ abstract class Driver {
     public function query($query, $bindData = []) {
         try {
             if (is_array($bindData)) {
-                $statement = $this->pdo->prepare($query);
-                $statement->execute($bindData);
+                $statement = $this->prepareQuery($query, $bindData);
+                $statement->execute();
             } else {
                 $statement = $this->pdo->query($query);
             }
