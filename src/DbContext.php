@@ -9,6 +9,7 @@ class DbContext {
 
     private $container;
     private $config;
+    private $driver;
 
     public function __construct(Container $container, array $config) {
         $container->bind(Driver::class)
@@ -22,7 +23,10 @@ class DbContext {
      * @return Driver
      */
     public function getDriver() {
-        return $this->container->singleton(Driver::class, ['config' => $this->config]);
+        if(is_null($this->driver)) {
+            $this->driver = $this->container->resolve(Driver::class, ['config' => $this->config]);
+        }
+        return $this->driver;
     }
 
     public static function getDriverClassName($driver) {
