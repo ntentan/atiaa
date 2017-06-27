@@ -25,15 +25,17 @@
 
 namespace ntentan\atiaa\drivers;
 
+use ntentan\panie\Container;
+
 /**
  * SQLite driver implementation
  */
 class SqliteDriver extends \ntentan\atiaa\Driver
 {
-    public function __construct($config) 
+    public function __construct(Container $container, $config = null) 
     {
         $this->defaultSchema = 'main';
-        parent::__construct($config);
+        parent::__construct($container, $config);
         $this->query("PRAGMA foreign_keys=ON");
     }
     

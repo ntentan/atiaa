@@ -30,16 +30,7 @@ namespace ntentan\atiaa\drivers;
  * MySQL driver implementation
  */
 class MysqlDriver extends \ntentan\atiaa\Driver
-{
-    /*public function __construct($params = null)
-    {
-        if(isset($params['dbname']))
-        {
-            $this->defaultSchema = $params['dbname'];
-        }
-        parent::__construct($params);
-    }*/
-    
+{   
     protected function getDriverName()
     {
         return 'mysql';
