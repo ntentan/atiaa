@@ -342,48 +342,6 @@ abstract class Driver {
 
     abstract public function quoteIdentifier($identifier);
 
-    /**
-     * Returns a new instance of a driver based on the connection parameters 
-     * passed to the method. The connection parameters are passed through an
-     * associative array with the following keys.
-     * 
-     * driver 
-     * : The name of the driver to use for the database connection. Supported
-     *   drivers are `mysql` and `postgresql`. This parameter is required for
-     *   all connections.
-     * 
-     * user
-     * : The username to use for the database connection on platforms that 
-     *   support it.
-     * 
-     * password
-     * : The password associated to the user specified in the connection.
-     * 
-     * host
-     * : The host name of the database server.
-     * 
-     * dbname
-     * : The name of the default database to use after the connection to the 
-     *   database is established.
-     * 
-     * @param array $config 
-     * @return \ntentan\atiaa\Driver
-     */
-    /* public static function getConnection($config)
-      {
-      if (is_string($config) && file_exists($config)) {
-      require $config;
-      } else if ($config['driver'] == '') {
-      throw new DatabaseDriverException("Please specify a name for your database driver.");
-      }
-      try {
-      $class = "\\ntentan\\atiaa\\drivers\\" . ucfirst($config['driver']) . "Driver";
-      return new $class($config);
-      } catch (\PDOException $e) {
-      throw new DatabaseDriverException("PDO failed to connect: {$e->getMessage()}", $e);
-      }
-      } */
-
     public function setCleanDefaults($cleanDefaults) {
         $this->getDescriptor()->setCleanDefaults($cleanDefaults);
     }
