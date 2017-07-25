@@ -22,4 +22,4 @@ services:
  - postgresql
 
 script: vendor/bin/phpunit --coverage-clover coverage.clover --configuration tests/config/travis.xml
-wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+after_script: wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover
