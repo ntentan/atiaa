@@ -1,8 +1,9 @@
 <?php
 namespace ntentan\atiaa\tests\cases;
 use ntentan\atiaa\tests\lib\DriverLoader;
+use PHPUnit\Framework\TestCase;
 
-class TransactionsTest extends \PHPUnit_Extensions_Database_TestCase
+class TransactionsTest extends TestCase
 {   
     use DriverLoader;
     

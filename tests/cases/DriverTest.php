@@ -3,8 +3,9 @@
 namespace ntentan\atiaa\tests\cases;
 
 use ntentan\atiaa\tests\lib\DriverLoader;
+use PHPUnit\Framework\TestCase;
 
-class DriverTest extends \PHPUnit_Framework_TestCase {
+class DriverTest extends TestCase {
 
     private $dbName;
 

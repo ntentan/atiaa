@@ -8,8 +8,8 @@ Atiaa PDO Wrapper
 [![Total Downloads](https://poser.pugx.org/ntentan/atiaa/downloads.svg)](https://packagist.org/packages/ntentan/atiaa)
 
 Atiaa is a thin wrapper around PHP's PDO database abstraction layer. The main 
-purpose of atiaa is to provide some utility classes that other packages in the 
-ntentan framework might need. 
+purpose of atiaa is to provide utility classes that other packages in the 
+ntentan framework need (which are not available in PDO). 
 
 Currently atiaa provides the following features:
  - Wrappers arround the PDO query method which prepare the query and execute in 
@@ -18,7 +18,7 @@ Currently atiaa provides the following features:
  - Methods which describe the schema of the database represented by the connection. 
  - A platform independent approach for quoting database literals in queries.
 
-Currently atiaa works only with MySQL and PostgreSQL databases. 
+Currently atiaa works only with MySQL, PostgreSQL and SQLite databases. 
 Support for other platforms is planned for later releases.
 
 Installation
