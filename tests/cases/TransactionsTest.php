@@ -1,7 +1,7 @@
 <?php
 namespace ntentan\atiaa\tests\cases;
 use ntentan\atiaa\tests\lib\DriverLoader;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\DbUnit\TestCase;
 
 class TransactionsTest extends TestCase
 {   
@@ -42,6 +42,7 @@ class TransactionsTest extends TestCase
     
     protected function getSetUpOperation()
     {
-        return \PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL();
+        //return \PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL();
+        return \PHPUnit\DbUnit\Operation\Factory::DELETE_ALL();
     }    
 }
