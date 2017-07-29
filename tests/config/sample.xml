@@ -8,6 +8,7 @@
         <env name='ATIAA_PASSWORD' value='root' />
         <env name='ATIAA_DBNAME' value='atiaa_test' />
         <env name='ATIAA_HAS_SCHEMAS' value='no' />
+        <env name='ATIAA_PDO_DSN' value='mysql:host=localhost;dbname=atiaa_tests;user=ekow;password=ekow' />
         <!-- <env name='ATIAA_FILE' value='sqlite.db' /> -->
         
     </php>
@@ -16,4 +17,9 @@
             <directory>../cases</directory>    
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../../src</directory>
+        </whitelist>
+    </filter>       
 </phpunit>

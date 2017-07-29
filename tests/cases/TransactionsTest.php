@@ -42,7 +42,6 @@ class TransactionsTest extends TestCase
     
     protected function getSetUpOperation()
     {
-        //return \PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL();
         return \PHPUnit\DbUnit\Operation\Factory::DELETE_ALL();
     }    
 }
