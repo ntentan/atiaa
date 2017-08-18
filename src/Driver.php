@@ -15,14 +15,14 @@ use ntentan\panie\exceptions\ResolutionException;
  * responsible for loading the descriptors which are used for describing the
  * database schemas.
  */
-abstract class Driver {
+abstract class Driver
+{
 
     /**
      * The internal PDO connection that is wrapped by this driver.
      * @var \PDO
      */
     private $pdo;
-    
     private $logger;
 
     /**
@@ -69,12 +69,13 @@ abstract class Driver {
      * 
      * @param array<string> $config The configuration with which to connect to the database.
      */
-    public function __construct(Container $container, $config = null) {
+    public function __construct(Container $container, $config = null)
+    {
         $this->config = $config;
         $username = isset($this->config['user']) ? $this->config['user'] : null;
         $password = isset($this->config['password']) ? $this->config['password'] : null;
-        
-        try{
+
+        try {
             $this->logger = $container->resolve(QueryLogger::class);
         } catch (ResolutionException $e) {
             
@@ -90,14 +91,16 @@ abstract class Driver {
         }
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
         $this->disconnect();
     }
 
     /**
      * Close a connection to the database server.
      */
-    public function disconnect() {
+    public function disconnect()
+    {
         $this->pdo = null;
         $this->pdo = new NullConnection();
     }
@@ -106,7 +109,8 @@ abstract class Driver {
      * Get the default schema of the current connection.
      * @return string
      */
-    public function getDefaultSchema() {
+    public function getDefaultSchema()
+    {
         return $this->defaultSchema;
     }
 
@@ -115,7 +119,8 @@ abstract class Driver {
      * @param type $string
      * @return string
      */
-    public function quote($string) {
+    public function quote($string)
+    {
         return $this->pdo->quote($string);
     }
 
@@ -124,7 +129,8 @@ abstract class Driver {
      * @param boolean $status
      * @param \PDOStatement  $result 
      */
-    private function fetchRows($statement) {
+    private function fetchRows($statement)
+    {
         try {
             $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
             return $rows;
@@ -132,22 +138,23 @@ abstract class Driver {
             // Skip any exceptions from fetching rows
         }
     }
-    
-    private function prepareQuery($query, $bindData) {
+
+    private function prepareQuery($query, $bindData)
+    {
         $statement = $this->pdo->prepare($query);
-        foreach($bindData as $key => $value) {
-            switch(gettype($value)) {
-                case "integer": 
+        foreach ($bindData as $key => $value) {
+            switch (gettype($value)) {
+                case "integer":
                     $type = \PDO::PARAM_INT;
                     break;
-                case "boolean": 
+                case "boolean":
                     $type = \PDO::PARAM_BOOL;
                     break;
-                default: 
+                default:
                     $type = \PDO::PARAM_STR;
                     break;
             }
-            $statement->bindValue(is_numeric($key) ? $key + 1: $key, $value, $type);
+            $statement->bindValue(is_numeric($key) ? $key + 1 : $key, $value, $type);
         }
         return $statement;
     }
@@ -164,7 +171,8 @@ abstract class Driver {
      * @param false|array<mixed> $bindData The data to be bound to the query object.
      * @return array<mixed>
      */
-    public function query($query, $bindData = []) {
+    public function query($query, $bindData = [])
+    {
         try {
             if (is_array($bindData)) {
                 $statement = $this->prepareQuery($query, $bindData);
@@ -176,7 +184,7 @@ abstract class Driver {
             $boundData = json_encode($bindData);
             throw new DatabaseDriverException("{$e->getMessage()} [$query] [BOUND DATA:$boundData]");
         }
-        if($this->logger) {
+        if ($this->logger) {
             $this->logger->debug($query, $bindData);
         }
         $rows = $this->fetchRows($statement);
@@ -192,7 +200,8 @@ abstract class Driver {
      * @param false|array<mixed> $bindData
      * @return array<mixed>
      */
-    public function quotedQuery($query, $bindData = false) {
+    public function quotedQuery($query, $bindData = false)
+    {
         return $this->query($this->quoteQueryIdentifiers($query), $bindData);
     }
 
@@ -203,7 +212,8 @@ abstract class Driver {
      * @param array $params The query parameters
      * @return string
      */
-    private function expand($params) {
+    private function expand($params)
+    {
         unset($params['driver']);
         if (isset($params['file'])) {
             if ($params['file'] != '') {
@@ -232,7 +242,8 @@ abstract class Driver {
      * @param string $query
      * @return string
      */
-    public function quoteQueryIdentifiers($query) {
+    public function quoteQueryIdentifiers($query)
+    {
         return preg_replace_callback(
                 '/\"([a-zA-Z\_ ]*)\"/', function($matches) {
             return $this->quoteIdentifier($matches[1]);
@@ -247,7 +258,8 @@ abstract class Driver {
      * 
      * @return array<mixed>
      */
-    public function describe() {
+    public function describe()
+    {
         return $this->getDescriptor()->describe();
     }
 
@@ -257,7 +269,8 @@ abstract class Driver {
      * @param string $table
      * @return array<mixed>
      */
-    public function describeTable($table) {
+    public function describeTable($table)
+    {
         $table = explode('.', $table);
         if (count($table) > 1) {
             $schema = $table[0];
@@ -273,7 +286,8 @@ abstract class Driver {
      * A wrapper arround PDO's beginTransaction method which uses a static reference
      * counter to implement nested transactions.
      */
-    public function beginTransaction() {
+    public function beginTransaction()
+    {
         if (self::$transactionCount++ === 0) {
             $this->pdo->beginTransaction();
         }
@@ -283,7 +297,8 @@ abstract class Driver {
      * A wrapper around PDO's commit transaction method which uses a static reference
      * counter to implement nested transactions.
      */
-    public function commit() {
+    public function commit()
+    {
         if (--self::$transactionCount === 0) {
             $this->pdo->commit();
         }
@@ -294,7 +309,8 @@ abstract class Driver {
      * activities performed since the first call to begin transaction. 
      * Unfortunately, transactions cannot be rolled back in a nested fashion.
      */
-    public function rollback() {
+    public function rollback()
+    {
         $this->pdo->rollBack();
         self::$transactionCount = 0;
     }
@@ -303,7 +319,8 @@ abstract class Driver {
      * Return the underlying PDO object.
      * @return \PDO
      */
-    public function getPDO() {
+    public function getPDO()
+    {
         return $this->pdo;
     }
 
@@ -311,7 +328,8 @@ abstract class Driver {
      * Returns an instance of a descriptor for a given driver.
      * @return \atiaa\Descriptor
      */
-    private function getDescriptor() {
+    private function getDescriptor()
+    {
         if (!is_object($this->descriptor)) {
             $descriptorClass = "\\ntentan\\atiaa\\descriptors\\" . ucfirst($this->config['driver']) . "Descriptor";
             $this->descriptor = new $descriptorClass($this);
@@ -323,7 +341,8 @@ abstract class Driver {
      * A wrapper around PDO's lastInsertId() method.
      * @return mixed
      */
-    public function getLastInsertId() {
+    public function getLastInsertId()
+    {
         return $this->pdo->lastInsertId();
     }
 
@@ -332,7 +351,8 @@ abstract class Driver {
      * as part of the table reference.
      * @param string $defaultSchema
      */
-    public function setDefaultSchema($defaultSchema) {
+    public function setDefaultSchema($defaultSchema)
+    {
         $this->defaultSchema = $defaultSchema;
     }
 
@@ -340,7 +360,8 @@ abstract class Driver {
 
     abstract public function quoteIdentifier($identifier);
 
-    public function setCleanDefaults($cleanDefaults) {
+    public function setCleanDefaults($cleanDefaults)
+    {
         $this->getDescriptor()->setCleanDefaults($cleanDefaults);
     }
 
