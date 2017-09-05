@@ -5,40 +5,47 @@ namespace ntentan\atiaa;
 use ntentan\panie\Container;
 use ntentan\utils\Text;
 
-class DbContext {
+class DbContext
+{
 
-    private $container;
-    private $config;
     private $driver;
+    private $driverFactory;
+    private static $instance;
 
-    public function __construct(Container $container, array $config) {
-        $container->bind(Driver::class)
-            ->to(self::getDriverClassName($config['driver']));
-        $this->container = $container;
-        $this->config = $config;
+    private function __construct(DriverFactory $driverFactory)
+    {
+        $this->driverFactory = $driverFactory;
+        self::$instance = $this;
+    }
+
+    public static function initialize(DriverFactory $driverFactory)
+    {
+        self::$instance = new self($driverFactory);
+        return self::$instance;
+    }
+
+    public static function getInstance(): DbContext
+    {
+        if(!self::$instance) {
+            throw new \Exception("The database context has not been initialized");  
+        }
+        return self::$instance;
     }
 
     /**
-     * 
+     *
      * @return Driver
      */
-    public function getDriver() {
-        if(is_null($this->driver)) {
-            $this->driver = $this->container->resolve(Driver::class, ['config' => $this->config]);
+    public function getDriver() : Driver
+    {
+        if (is_null($this->driver)) {
+            $this->driver = $this->driverFactory->createDriver();
         }
         return $this->driver;
     }
 
-    public static function getDriverClassName($driver) {
-        if ($driver == null) {
-            throw new exceptions\DatabaseDriverException(
-            "Please provide a valid driver name in your database config file"
-            );
-        }
-        return '\ntentan\atiaa\drivers\\' . Text::ucamelize($driver) . "Driver";
-    }
-
-    public function query($query, $bindData = false) {
+    public function query($query, $bindData = false)
+    {
         return $this->getDriver()->query($query, $bindData);
     }
 

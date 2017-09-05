@@ -32,10 +32,10 @@ use ntentan\panie\Container;
  */
 class SqliteDriver extends \ntentan\atiaa\Driver
 {
-    public function __construct(Container $container, $config = null) 
+    public function __construct($config = null)
     {
         $this->defaultSchema = 'main';
-        parent::__construct($container, $config);
+        parent::__construct($config);
         $this->query("PRAGMA foreign_keys=ON");
     }
     

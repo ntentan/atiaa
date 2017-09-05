@@ -69,17 +69,11 @@ abstract class Driver
      * 
      * @param array<string> $config The configuration with which to connect to the database.
      */
-    public function __construct(Container $container, $config = null)
+    public function __construct(array $config)
     {
         $this->config = $config;
         $username = isset($this->config['user']) ? $this->config['user'] : null;
         $password = isset($this->config['password']) ? $this->config['password'] : null;
-
-        try {
-            $this->logger = $container->resolve(QueryLogger::class);
-        } catch (ResolutionException $e) {
-            
-        }
 
         try {
             $this->pdo = new \PDO($this->getDriverName() . ":" . $this->expand($this->config), $username, $password);
