@@ -40,6 +40,7 @@ class DbContext
     {
         if (is_null($this->driver)) {
             $this->driver = $this->driverFactory->createDriver();
+            $this->driver->connect();
         }
         return $this->driver;
     }
@@ -47,6 +48,12 @@ class DbContext
     public function query($query, $bindData = false)
     {
         return $this->getDriver()->query($query, $bindData);
+    }
+
+    public static function destroy()
+    {
+        self::$instance->getDriver()->disconnect();
+        self::$instance = null;
     }
 
 }

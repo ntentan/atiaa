@@ -72,9 +72,12 @@ abstract class Driver
     public function __construct(array $config)
     {
         $this->config = $config;
+    }
+
+    public function connect()
+    {
         $username = isset($this->config['user']) ? $this->config['user'] : null;
         $password = isset($this->config['password']) ? $this->config['password'] : null;
-
         try {
             $this->pdo = new \PDO($this->getDriverName() . ":" . $this->expand($this->config), $username, $password);
             $this->pdo->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, false);
