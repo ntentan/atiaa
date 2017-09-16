@@ -3,8 +3,6 @@
 namespace ntentan\atiaa;
 
 use ntentan\atiaa\exceptions\DatabaseDriverException;
-use ntentan\panie\Container;
-use ntentan\panie\exceptions\ResolutionException;
 
 /**
  * A driver class for connecting to a specific database platform.
