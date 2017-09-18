@@ -28,7 +28,7 @@ class DriverTest extends TestCase {
 
     /**
      * 
-     * @expectedException \ntentan\atiaa\exceptions\DatabaseDriverException
+     * @expectedException \ntentan\atiaa\exceptions\ConnectionException
      */
     public function testDbNotFound() {
         if (getenv('ATIAA_SKIP_DB') === 'yes') {
@@ -44,7 +44,6 @@ class DriverTest extends TestCase {
         $driver = $this->getDriver();
 
         $strings = json_decode(file_get_contents("tests/expected/$driverName/strings.json"), true);
-
         $this->assertEquals($strings['quoted_string'], $driver->quote("string"));
         $this->assertEquals($strings['quoted_identifier'], $driver->quoteIdentifier("identifier"));
         $this->assertEquals($strings['quoted_query_identifiers'], $driver->quoteQueryIdentifiers('SELECT "some", "identifiers" FROM "some"."table"'));

@@ -3,6 +3,7 @@
 namespace ntentan\atiaa;
 
 use ntentan\atiaa\exceptions\DatabaseDriverException;
+use ntentan\atiaa\exceptions\ConnectionException;
 
 /**
  * A driver class for connecting to a specific database platform.
@@ -82,7 +83,7 @@ abstract class Driver
             $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
-            throw new DatabaseDriverException("PDO failed to connect: {$e->getMessage()}", $e);
+            throw new ConnectionException("PDO failed to connect: {$e->getMessage()}", $e);
         }
     }
 
@@ -116,7 +117,7 @@ abstract class Driver
      */
     public function quote($string)
     {
-        return $this->pdo->quote($string);
+        return $this->getPDO()->quote($string);
     }
 
     /**
@@ -316,6 +317,9 @@ abstract class Driver
      */
     public function getPDO()
     {
+        if($this->pdo === null) {
+            throw new ConnectionException("A connection has not been estableshed. Please call the connect() method.");
+        }
         return $this->pdo;
     }
 

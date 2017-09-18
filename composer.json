@@ -10,7 +10,6 @@
     ],
     "require": {
         "php" : ">=7.1.0",
-        "ntentan/panie": "0.*",
         "ntentan/utils": "0.*"
     },
     "require-dev" : {

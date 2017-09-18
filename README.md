@@ -34,11 +34,12 @@ The following example tries to summarise the entirety of atiaa.
 <?php
 
 // Connect to a database
-$atiaa = \ntentan\atiaa\Atiaa::getConnection(
+$factory = new \ntentan\atiaa\DriverFactory(
     array(
         'driver' => 'mysql'
     )
 );
+$atiaa = $factory->createDriver();
 
 // Perform some queries
 $data = $atiaa->query('SELECT * FROM some_table');
