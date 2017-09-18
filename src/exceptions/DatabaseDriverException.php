@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 ekow.
@@ -27,10 +27,12 @@
 namespace ntentan\atiaa\exceptions;
 
 class DatabaseDriverException extends \Exception
-{   
-    public function __construct($message, $pdoException = null) 
+{
+
+    public function __construct($message, $pdoException = null)
     {
         $pdoMessage = $pdoException ? $pdoException->getMessage() : "";
         parent::__construct("$message PDO Says: $pdoMessage");
     }
+
 }
