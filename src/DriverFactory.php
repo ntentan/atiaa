@@ -13,7 +13,12 @@ class DriverFactory
      * 
      * @param array $config
      */
-    public function __construct(array $config)
+    public function __construct(array $config = null)
+    {
+        $this->config = $config;
+    }
+    
+    public function setConfig($config) : void
     {
         $this->config = $config;
     }
