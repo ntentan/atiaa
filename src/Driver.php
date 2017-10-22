@@ -4,6 +4,7 @@ namespace ntentan\atiaa;
 
 use ntentan\atiaa\exceptions\DatabaseDriverException;
 use ntentan\atiaa\exceptions\ConnectionException;
+use Psr\Log\LoggerInterface;
 
 /**
  * A driver class for connecting to a specific database platform.
@@ -22,6 +23,11 @@ abstract class Driver
      * @var \PDO
      */
     private $pdo;
+
+    /**
+     * A logger for logging queries during debug.
+     * @var LoggerInterface
+     */
     private $logger;
 
     /**
@@ -47,10 +53,10 @@ abstract class Driver
      * Creates a new instance of the Atiaa driver. This class is usually initiated
      * through the \ntentan\atiaa\Atiaa::getConnection() method. For example
      * to create a new instance of a connection to a mysql database.
-     * 
+     *
      * ````php
      * use ntentan\atiaa\Driver;
-     * 
+     *
      * \\ This automatically insitatiates the driver class
      * $driver = Driver::getConnection(
      *     array(
@@ -61,12 +67,12 @@ abstract class Driver
      *         'dbname' => 'somedb'
      *     )
      * );
-     * 
+     *
      * var_dump($driver->query("SELECT * FROM some_table");
      * var_dump($driver->describe());
      * ````
-     * 
-     * @param array<string> $config The configuration with which to connect to the database.
+     *
+     * @param array <string> $config The configuration with which to connect to the database.
      */
     public function __construct(array $config)
     {
@@ -121,9 +127,9 @@ abstract class Driver
     }
 
     /**
-     * 
-     * @param boolean $status
-     * @param \PDOStatement  $result 
+     *
+     * @param $statement
+     * @return mixed
      */
     private function fetchRows($statement)
     {
@@ -160,12 +166,14 @@ abstract class Driver
      * the writing of repetitive prepare and execute statements. This method
      * returns an array which contains the results of the query that was
      * executed. For queries which do not return any results a null is returned.
-     * 
+     *
      * @todo Add a parameter to cache prepared statements so they can be reused easily.
-     * 
+     *
      * @param string $query The query to be executed quoted in PDO style
-     * @param false|array<mixed> $bindData The data to be bound to the query object.
-     * @return array<mixed>
+     * @param array $bindData
+     * @return array <mixed>
+     * @throws DatabaseDriverException
+     * @internal param $ false|array<mixed> $bindData The data to be bound to the query object.
      */
     public function query($query, $bindData = [])
     {
@@ -191,10 +199,11 @@ abstract class Driver
     /**
      * Runs a query but ensures that all identifiers are properly quoted by calling
      * the Driver::quoteQueryIdentifiers method on the query before executing it.
-     * 
+     *
      * @param string $query
-     * @param false|array<mixed> $bindData
-     * @return array<mixed>
+     * @param bool $bindData
+     * @return array <mixed>
+     * @internal param $ false|array<mixed> $bindData
      */
     public function quotedQuery($query, $bindData = false)
     {
@@ -204,7 +213,7 @@ abstract class Driver
     /**
      * Expands the configuration array into a format that can easily be passed
      * to PDO.
-     * 
+     *
      * @param array $params The query parameters
      * @return string
      */
@@ -234,14 +243,14 @@ abstract class Driver
      * When a query quoted with double quotes is passed through this method the
      * output generated has the double quotes replaced with the quoting character
      * of the target database platform.
-     * 
+     *
      * @param string $query
      * @return string
      */
     public function quoteQueryIdentifiers($query)
     {
         return preg_replace_callback(
-                '/\"([a-zA-Z\_ ]*)\"/', function($matches) {
+            '/\"([a-zA-Z\_ ]*)\"/', function ($matches) {
             return $this->quoteIdentifier($matches[1]);
         }, $query
         );
@@ -251,7 +260,7 @@ abstract class Driver
      * Returns an array description of the schema represented by the connection.
      * The description returns contains information about `tables`, `columns`, `keys`,
      * `constraints`, `views` and `indices`.
-     * 
+     *
      * @return array<mixed>
      */
     public function describe()
@@ -261,7 +270,7 @@ abstract class Driver
 
     /**
      * Returns the description of a database table as an associative array.
-     * 
+     *
      * @param string $table
      * @return array<mixed>
      */
@@ -302,7 +311,7 @@ abstract class Driver
 
     /**
      * A wrapper around PDO's rollback transaction methd which rolls back all
-     * activities performed since the first call to begin transaction. 
+     * activities performed since the first call to begin transaction.
      * Unfortunately, transactions cannot be rolled back in a nested fashion.
      */
     public function rollback()
@@ -317,7 +326,7 @@ abstract class Driver
      */
     public function getPDO()
     {
-        if($this->pdo === null) {
+        if ($this->pdo === null) {
             throw new ConnectionException("A connection has not been estableshed. Please call the connect() method.");
         }
         return $this->pdo;
