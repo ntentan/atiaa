@@ -205,7 +205,7 @@ abstract class Driver
      * @return array <mixed>
      * @internal param $ false|array<mixed> $bindData
      */
-    public function quotedQuery($query, $bindData = false)
+    public function quotedQuery($query, $bindData = [])
     {
         return $this->query($this->quoteQueryIdentifiers($query), $bindData);
     }
