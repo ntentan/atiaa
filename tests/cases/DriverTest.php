@@ -5,32 +5,37 @@ namespace ntentan\atiaa\tests\cases;
 use ntentan\atiaa\tests\lib\DriverLoader;
 use PHPUnit\Framework\TestCase;
 
-class DriverTest extends TestCase {
+class DriverTest extends TestCase
+{
 
     private $dbName;
 
     use DriverLoader;
 
-    private function getDescriptor($driver) {
+    private function getDescriptor($driver)
+    {
         $descriptorClass = "\\ntentan\\atiaa\\descriptors\\" . ucfirst($this->getDriverName()) . "Descriptor";
         $descriptor = new $descriptorClass($driver);
         return $descriptor;
     }
 
-    public function setUp() {
+    public function setUp()
+    {
         // Preserve the original dbname just in case it changes in any test
         $this->dbName = getenv('ATIAA_DBNAME');
     }
 
-    public function tearDown() {
+    public function tearDown()
+    {
         putenv("ATIAA_DBNAME={$this->dbName}");
     }
 
     /**
-     * 
+     *
      * @expectedException \ntentan\atiaa\exceptions\ConnectionException
      */
-    public function testDbNotFound() {
+    public function testDbNotFound()
+    {
         if (getenv('ATIAA_SKIP_DB') === 'yes') {
             $this->markTestSkipped();
             return;
@@ -39,7 +44,8 @@ class DriverTest extends TestCase {
         $this->getDriver();
     }
 
-    public function testFunctions() {
+    public function testFunctions()
+    {
         $driverName = $this->getDriverName();
         $driver = $this->getDriver();
 
@@ -51,7 +57,8 @@ class DriverTest extends TestCase {
         $this->assertInstanceOf("PDO", $pdo);
     }
 
-    public function testFullDescription() {
+    public function testFullDescription()
+    {
         $driver = $this->getDriver();
         $type = $this->getDriverName();
 
@@ -65,7 +72,8 @@ class DriverTest extends TestCase {
         $this->assertEquals('users_view', $views['users_view']['name']);
     }
 
-    public function testCleanDefaultDescription() {
+    public function testCleanDefaultDescription()
+    {
         $driver = $this->getDriver();
         $type = $this->getDriverName();
         $driver->setCleanDefaults(true);
@@ -80,7 +88,8 @@ class DriverTest extends TestCase {
         $this->assertEquals('users_view', $views['users_view']['name']);
     }
 
-    public function testViewDescriptionAsTable() {
+    public function testViewDescriptionAsTable()
+    {
         $driver = $this->getDriver();
         $type = $this->getDriverName();
 
@@ -89,7 +98,8 @@ class DriverTest extends TestCase {
         $this->assertEquals($viewDescription, $viewDbDescription);
     }
 
-    public function testStringSchema() {
+    public function testStringSchema()
+    {
         if (!$this->hasSchemata()) {
             $this->markTestSkipped();
             return;
@@ -106,7 +116,8 @@ class DriverTest extends TestCase {
     /**
      * @expectedException \ntentan\atiaa\exceptions\TableNotFoundException
      */
-    public function testTableNotFoundException() {
+    public function testTableNotFoundException()
+    {
         $driver = $this->getDriver();
         $driver->describeTable('unknown_table');
     }
@@ -114,7 +125,8 @@ class DriverTest extends TestCase {
     /**
      * @expectedException \ntentan\atiaa\exceptions\TableNotFoundException
      */
-    public function testTableNotFoundExceptionAgain() {
+    public function testTableNotFoundExceptionAgain()
+    {
         $driver = $this->getDriver($this);
         $this->getDescriptor($driver)->describeTables($driver->getDefaultSchema(), array('users', 'unknown_table'));
     }
@@ -122,7 +134,8 @@ class DriverTest extends TestCase {
     /**
      * @expectedException \ntentan\atiaa\exceptions\DatabaseDriverException
      */
-    public function testFaultyQueryException() {
+    public function testFaultyQueryException()
+    {
         $driver = $this->getDriver($this);
         $driver->query("SPELECT * FROM dummy");
     }
@@ -130,14 +143,15 @@ class DriverTest extends TestCase {
     /**
      * @expectedException \ntentan\atiaa\exceptions\DatabaseDriverException
      */
-    public function testDisconnect() {
+    public function testDisconnect()
+    {
         $driver = $this->getDriver($this);
         $driver->disconnect();
         $driver->query("SELECT * FROM users");
     }
 
-    private function hasSchemata() {
+    private function hasSchemata()
+    {
         return strtolower(getenv('ATIAA_HAS_SCHEMAS')) === 'yes';
     }
-
 }
