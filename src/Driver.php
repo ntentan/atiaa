@@ -202,7 +202,6 @@ abstract class Driver
      * @param string $query
      * @param bool $bindData
      * @return array <mixed>
-     * @internal param $ false|array<mixed> $bindData
      */
     public function quotedQuery($query, $bindData = [])
     {
