@@ -8,7 +8,7 @@ use ntentan\utils\Text;
 /**
  * Holds the a database connection instance.
  */
-class DbContext
+final class DbContext
 {
 
     /**

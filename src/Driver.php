@@ -173,16 +173,15 @@ abstract class Driver
      * @param array $bindData
      * @return array <mixed>
      * @throws DatabaseDriverException
-     * @internal param $ false|array<mixed> $bindData The data to be bound to the query object.
      */
     public function query($query, $bindData = [])
     {
         try {
-            if (is_array($bindData)) {
+            if (empty($bindData)) {
+                $statement = $this->pdo->query($query);
+            } else {
                 $statement = $this->prepareQuery($query, $bindData);
                 $statement->execute();
-            } else {
-                $statement = $this->pdo->query($query);
             }
         } catch (\PDOException $e) {
             $boundData = json_encode($bindData);
