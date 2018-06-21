@@ -10,7 +10,7 @@
     ],
     "require": {
         "php" : ">=7.1.0",
-        "ntentan/utils": "0.*"
+        "ntentan/utils": "dev-dev"
     },
     "require-dev" : {
         "phpunit/phpunit" : "@stable",

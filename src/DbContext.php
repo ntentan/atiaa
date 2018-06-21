@@ -59,6 +59,7 @@ final class DbContext
      * Get the current singleton instance of the context.
      *
      * @return DbContext
+     * @throws \Exception
      */
     public static function getInstance(): DbContext
     {
@@ -72,6 +73,7 @@ final class DbContext
      * Get the Driver instance wrapped in the context.
      *
      * @return Driver
+     * @throws exceptions\ConnectionException
      */
     public function getDriver() : Driver
     {
@@ -88,6 +90,8 @@ final class DbContext
      * @param string $query
      * @param array $bindData
      * @return array
+     * @throws exceptions\ConnectionException
+     * @throws exceptions\DatabaseDriverException
      */
     public function query($query, $bindData = [])
     {
@@ -98,6 +102,7 @@ final class DbContext
      * Destroy the context.
      *
      * @return void
+     * @throws exceptions\ConnectionException
      */
     public static function destroy()
     {
