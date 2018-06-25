@@ -89,7 +89,7 @@ abstract class Driver
             $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
-            throw new ConnectionException("PDO failed to connect: {$e->getMessage()}", $e);
+            throw new ConnectionException("PDO failed to connect: {$e->getMessage()}");
         }
     }
 

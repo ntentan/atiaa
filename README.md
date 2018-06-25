@@ -36,7 +36,11 @@ The following example tries to summarise the entirety of atiaa.
 // Connect to a database
 $factory = new \ntentan\atiaa\DriverFactory(
     array(
-        'driver' => 'mysql'
+        'driver' => 'mysql',
+        'user' => 'root',
+        'password' => 'rootpassy',
+        'host' => 'localhost',
+        'dbname' => 'somedb'
     )
 );
 $atiaa = $factory->createDriver();
