@@ -20,7 +20,7 @@ class DriverFactory
 
     /**
      * Set or replace the configuration found in the factory.
-     * 
+     *
      * @param $config
      */
     public function setConfig($config) : void
@@ -31,10 +31,9 @@ class DriverFactory
     /**
      * Return the configuration currently stored in the factory.
      *
-     * @param $config
      * @return array
      */
-    public function getConfig($config) : array
+    public function getConfig() : array
     {
         return $this->config;
     }
