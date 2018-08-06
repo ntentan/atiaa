@@ -17,10 +17,25 @@ class DriverFactory
     {
         $this->config = $config;
     }
-    
+
+    /**
+     * Set or replace the configuration found in the factory.
+     *
+     * @param $config
+     */
     public function setConfig($config) : void
     {
         $this->config = $config;
+    }
+
+    /**
+     * Return the configuration currently stored in the factory.
+     *
+     * @return array
+     */
+    public function getConfig() : array
+    {
+        return $this->config;
     }
 
     /**

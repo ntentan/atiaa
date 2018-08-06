@@ -89,7 +89,7 @@ abstract class Driver
             $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
-            throw new ConnectionException("PDO failed to connect: {$e->getMessage()}", $e);
+            throw new ConnectionException("PDO failed to connect: {$e->getMessage()}");
         }
     }
 
@@ -120,6 +120,7 @@ abstract class Driver
      * Use the PDO driver to quote a string.
      * @param type $string
      * @return string
+     * @throws ConnectionException
      */
     public function quote($string)
     {
@@ -202,6 +203,7 @@ abstract class Driver
      * @param string $query
      * @param bool $bindData
      * @return array <mixed>
+     * @throws DatabaseDriverException
      */
     public function quotedQuery($query, $bindData = [])
     {
@@ -321,18 +323,19 @@ abstract class Driver
     /**
      * Return the underlying PDO object.
      * @return \PDO
+     * @throws ConnectionException
      */
     public function getPDO()
     {
         if ($this->pdo === null) {
-            throw new ConnectionException("A connection has not been estableshed. Please call the connect() method.");
+            throw new ConnectionException("A connection has not been established. Please call the connect() method.");
         }
         return $this->pdo;
     }
 
     /**
      * Returns an instance of a descriptor for a given driver.
-     * @return \atiaa\Descriptor
+     * @return \ntentan\atiaa\Descriptor
      */
     private function getDescriptor()
     {
