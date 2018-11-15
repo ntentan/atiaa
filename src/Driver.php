@@ -148,15 +148,14 @@ abstract class Driver
         foreach ($bindData as $key => $value) {
             switch (gettype($value)) {
                 case "integer":
+                case "boolean": // casts to boolean seems unstable
                     $type = \PDO::PARAM_INT;
-                    break;
-                case "boolean":
-                    $type = \PDO::PARAM_BOOL;
                     break;
                 default:
                     $type = \PDO::PARAM_STR;
                     break;
             }
+            // Bind values while adjusting numerical indices to start from 1
             $statement->bindValue(is_numeric($key) ? $key + 1 : $key, $value, $type);
         }
         return $statement;
@@ -183,6 +182,7 @@ abstract class Driver
             } else {
                 $statement = $this->prepareQuery($query, $bindData);
                 $statement->execute();
+                $statement->errorCode();
             }
         } catch (\PDOException $e) {
             $boundData = json_encode($bindData);
