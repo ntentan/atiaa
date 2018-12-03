@@ -181,8 +181,8 @@ abstract class Driver
         $statement = $this->pdo->prepare($query);
         foreach ($bindData as $key => $value) {
             switch (gettype($value)) {
-                case "integer":
-                case "boolean": // casts to boolean seems unstable
+                case 'integer':
+                case 'boolean': // casts to boolean seems unstable
                     $type = \PDO::PARAM_INT;
                     break;
                 default:
