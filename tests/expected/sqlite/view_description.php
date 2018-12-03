@@ -1,88 +1,99 @@
 <?php
-$viewDescription = array (
-  'users_view' => 
-  array (
-    'name' => 'users_view',
-    'schema' => '',
-    'columns' => 
-    array (
-      'id' => 
-      array (
-        'name' => 'id',
-        'type' => 'INTEGER',
-        'nulls' => true,
-        'default' => NULL,
-        'length' => NULL,
-      ),
-      'username' => 
-      array (
-        'name' => 'username',
-        'type' => 'TEXT',
-        'nulls' => true,
-        'default' => NULL,
-        'length' => '255',
-      ),
-      'password' => 
-      array (
-        'name' => 'password',
-        'type' => 'TEXT',
-        'nulls' => true,
-        'default' => NULL,
-        'length' => NULL,
-      ),
-      'firstname' => 
-      array (
-        'name' => 'firstname',
-        'type' => 'TEXT',
-        'nulls' => true,
-        'default' => NULL,
-        'length' => NULL,
-      ),
-      'lastname' => 
-      array (
-        'name' => 'lastname',
-        'type' => 'TEXT',
-        'nulls' => true,
-        'default' => NULL,
-        'length' => NULL,
-      ),
-      'othernames' => 
-      array (
-        'name' => 'othernames',
-        'type' => 'TEXT',
-        'nulls' => true,
-        'default' => NULL,
-        'length' => NULL,
-      ),
-      'email' => 
-      array (
-        'name' => 'email',
-        'type' => 'TEXT',
-        'nulls' => true,
-        'default' => NULL,
-        'length' => NULL,
-      ),
-      'role' => 
-      array (
-        'name' => 'role',
-        'type' => 'TEXT',
-        'nulls' => true,
-        'default' => NULL,
-        'length' => NULL,
-      ),
-    ),
-    'primary_key' => 
-    array (
-    ),
-    'unique_keys' => 
-    array (
-    ),
-    'foreign_keys' => 
-    array (
-    ),
-    'indices' => 
-    array (
-    ),
+
+/*
+ * The MIT License
+ *
+ * Copyright 2014-2018 James Ekow Abaka Ainooson
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+$viewDescription = [
+  'users_view' => [
+    'name'    => 'users_view',
+    'schema'  => '',
+    'columns' => [
+      'id' => [
+        'name'    => 'id',
+        'type'    => 'INTEGER',
+        'nulls'   => true,
+        'default' => null,
+        'length'  => null,
+      ],
+      'username' => [
+        'name'    => 'username',
+        'type'    => 'TEXT',
+        'nulls'   => true,
+        'default' => null,
+        'length'  => '255',
+      ],
+      'password' => [
+        'name'    => 'password',
+        'type'    => 'TEXT',
+        'nulls'   => true,
+        'default' => null,
+        'length'  => null,
+      ],
+      'firstname' => [
+        'name'    => 'firstname',
+        'type'    => 'TEXT',
+        'nulls'   => true,
+        'default' => null,
+        'length'  => null,
+      ],
+      'lastname' => [
+        'name'    => 'lastname',
+        'type'    => 'TEXT',
+        'nulls'   => true,
+        'default' => null,
+        'length'  => null,
+      ],
+      'othernames' => [
+        'name'    => 'othernames',
+        'type'    => 'TEXT',
+        'nulls'   => true,
+        'default' => null,
+        'length'  => null,
+      ],
+      'email' => [
+        'name'    => 'email',
+        'type'    => 'TEXT',
+        'nulls'   => true,
+        'default' => null,
+        'length'  => null,
+      ],
+      'role' => [
+        'name'    => 'role',
+        'type'    => 'TEXT',
+        'nulls'   => true,
+        'default' => null,
+        'length'  => null,
+      ],
+    ],
+    'primary_key' => [
+    ],
+    'unique_keys' => [
+    ],
+    'foreign_keys' => [
+    ],
+    'indices' => [
+    ],
     'auto_increment' => false,
-  )
-);
+  ],
+];
