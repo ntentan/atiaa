@@ -1,9 +1,9 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
- * Copyright 2014 ekow.
+ * Copyright 2014-2018 James Ekow Abaka Ainooson
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,10 +27,10 @@
 namespace ntentan\atiaa\drivers;
 
 /**
- * MySQL driver implementation
+ * MySQL driver implementation.
  */
 class MysqlDriver extends \ntentan\atiaa\Driver
-{   
+{
     protected function getDriverName()
     {
         return 'mysql';
@@ -40,9 +40,11 @@ class MysqlDriver extends \ntentan\atiaa\Driver
     {
         return "`$identifier`";
     }
-    
+
     public function getDefaultSchema()
     {
-        if(!$this->defaultSchema) return $this->config['dbname'];
+        if (!$this->defaultSchema) {
+            return $this->config['dbname'];
+        }
     }
 }

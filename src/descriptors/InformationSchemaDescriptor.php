@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 ekow.
+ * Copyright 2014-2018 James Ekow Abaka Ainooson
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -45,44 +45,38 @@ abstract class InformationSchemaDescriptor extends \ntentan\atiaa\Descriptor
             from "information_schema"."columns"
             where "table_name" = ? and "table_schema"=?
             order by "column_name"',
-            array(
+            [
                 $table['name'],
-                $table['schema']
-            )
+                $table['schema'],
+            ]
         );
     }
 
     protected function getTables($schema, $tables, $includeViews)
     {
-        if($includeViews)
-        {
-            $condition = "(table_type = ? or table_type = ?)";
-            $bind = array('BASE TABLE', 'VIEW');
-        }
-        else
-        {
-            $condition = "table_type = ?";
-            $bind = array('BASE TABLE');
+        if ($includeViews) {
+            $condition = '(table_type = ? or table_type = ?)';
+            $bind = ['BASE TABLE', 'VIEW'];
+        } else {
+            $condition = 'table_type = ?';
+            $bind = ['BASE TABLE'];
         }
 
-        if(count($tables) > 0)
-        {
+        if (count($tables) > 0) {
             return $this->driver->quotedQuery(
                 'select "table_schema" as "schema", "table_name" as "name"
                 from "information_schema"."tables"
-                where ' . $condition . ' and table_schema = ?
-                    and table_name in (?' . str_repeat(', ?', count($tables) - 1) . ')
+                where '.$condition.' and table_schema = ?
+                    and table_name in (?'.str_repeat(', ?', count($tables) - 1).')
                 order by "table_name"',
-                array_merge($bind, array($schema), $tables)
+                array_merge($bind, [$schema], $tables)
             );
-        }
-        else
-        {
+        } else {
             return $this->driver->quotedQuery(
                 'select "table_schema" as "schema", "table_name" as "name"
                 from "information_schema"."tables"
-                where ' . $condition . ' and table_schema = ? order by "table_name"',
-                array_merge($bind, array($schema))
+                where '.$condition.' and table_schema = ? order by "table_name"',
+                array_merge($bind, [$schema])
             );
         }
     }
@@ -111,7 +105,7 @@ abstract class InformationSchemaDescriptor extends \ntentan\atiaa\Descriptor
                "c"."constraint_schema" = "pk"."table_schema"
             where "pk"."table_name" = ? and pk.table_schema= ?
             and constraint_type = ? order by "pk"."constraint_name", "column_name"',
-            array($table['name'], $table['schema'], $type)
+            [$table['name'], $table['schema'], $type]
         );
     }
 
@@ -121,7 +115,7 @@ abstract class InformationSchemaDescriptor extends \ntentan\atiaa\Descriptor
             'select "table_schema" as "schema", "table_name" as "name", "view_definition" as "definition"
             from "information_schema"."views"
             where "table_schema" = ? order by "table_name"',
-            array($schema)
+            [$schema]
         );
     }
 }

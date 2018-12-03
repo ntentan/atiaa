@@ -1,9 +1,33 @@
 <?php
 
+/*
+ * The MIT License
+ *
+ * Copyright 2014-2018 James Ekow Abaka Ainooson
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 namespace ntentan\atiaa;
 
-use ntentan\atiaa\exceptions\DatabaseDriverException;
 use ntentan\atiaa\exceptions\ConnectionException;
+use ntentan\atiaa\exceptions\DatabaseDriverException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -17,33 +41,37 @@ use Psr\Log\LoggerInterface;
  */
 abstract class Driver
 {
-
     /**
      * The internal PDO connection that is wrapped by this driver.
+     *
      * @var \PDO
      */
     private $pdo;
 
     /**
      * A logger for logging queries during debug.
+     *
      * @var LoggerInterface
      */
     private $logger;
 
     /**
      * The default schema used in the connection.
+     *
      * @var string
      */
     protected $defaultSchema;
 
     /**
      * The connection parameters with which this connection was established.
+     *
      * @var array
      */
     protected $config;
 
     /**
      * An instance of the descriptor used internally.
+     *
      * @var \ntentan\atiaa\Descriptor
      */
     private $descriptor;
@@ -83,8 +111,9 @@ abstract class Driver
     {
         $username = isset($this->config['user']) ? $this->config['user'] : null;
         $password = isset($this->config['password']) ? $this->config['password'] : null;
+
         try {
-            $this->pdo = new \PDO($this->getDriverName() . ":" . $this->expand($this->config), $username, $password);
+            $this->pdo = new \PDO($this->getDriverName().':'.$this->expand($this->config), $username, $password);
             $this->pdo->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, false);
             $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
@@ -109,6 +138,7 @@ abstract class Driver
 
     /**
      * Get the default schema of the current connection.
+     *
      * @return string
      */
     public function getDefaultSchema()
@@ -118,9 +148,12 @@ abstract class Driver
 
     /**
      * Use the PDO driver to quote a string.
+     *
      * @param type $string
-     * @return string
+     *
      * @throws ConnectionException
+     *
+     * @return string
      */
     public function quote($string)
     {
@@ -128,14 +161,15 @@ abstract class Driver
     }
 
     /**
-     *
      * @param $statement
+     *
      * @return mixed
      */
     private function fetchRows($statement)
     {
         try {
             $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
             return $rows;
         } catch (\PDOException $e) {
             // Skip any exceptions from fetching rows
@@ -158,6 +192,7 @@ abstract class Driver
             // Bind values while adjusting numerical indices to start from 1
             $statement->bindValue(is_numeric($key) ? $key + 1 : $key, $value, $type);
         }
+
         return $statement;
     }
 
@@ -169,10 +204,12 @@ abstract class Driver
      *
      * @todo Add a parameter to cache prepared statements so they can be reused easily.
      *
-     * @param string $query The query to be executed quoted in PDO style
-     * @param array $bindData
-     * @return array <mixed>
+     * @param string $query    The query to be executed quoted in PDO style
+     * @param array  $bindData
+     *
      * @throws DatabaseDriverException
+     *
+     * @return array <mixed>
      */
     public function query($query, $bindData = [])
     {
@@ -186,6 +223,7 @@ abstract class Driver
             }
         } catch (\PDOException $e) {
             $boundData = json_encode($bindData);
+
             throw new DatabaseDriverException("{$e->getMessage()} [$query] [BOUND DATA:$boundData]");
         }
         if ($this->logger) {
@@ -193,6 +231,7 @@ abstract class Driver
         }
         $rows = $this->fetchRows($statement);
         $statement->closeCursor();
+
         return $rows;
     }
 
@@ -201,9 +240,11 @@ abstract class Driver
      * the Driver::quoteQueryIdentifiers method on the query before executing it.
      *
      * @param string $query
-     * @param bool $bindData
-     * @return array <mixed>
+     * @param bool   $bindData
+     *
      * @throws DatabaseDriverException
+     *
+     * @return array <mixed>
      */
     public function quotedQuery($query, $bindData = [])
     {
@@ -215,6 +256,7 @@ abstract class Driver
      * to PDO.
      *
      * @param array $params The query parameters
+     *
      * @return string
      */
     private function expand($params)
@@ -226,7 +268,7 @@ abstract class Driver
             }
         }
 
-        $equated = array();
+        $equated = [];
         foreach ($params as $key => $value) {
             if ($value == '') {
                 continue;
@@ -234,6 +276,7 @@ abstract class Driver
                 $equated[] = "$key=$value";
             }
         }
+
         return implode(';', $equated);
     }
 
@@ -245,14 +288,15 @@ abstract class Driver
      * of the target database platform.
      *
      * @param string $query
+     *
      * @return string
      */
     public function quoteQueryIdentifiers($query)
     {
         return preg_replace_callback(
             '/\"([a-zA-Z\_ ]*)\"/', function ($matches) {
-            return $this->quoteIdentifier($matches[1]);
-        }, $query
+                return $this->quoteIdentifier($matches[1]);
+            }, $query
         );
     }
 
@@ -272,6 +316,7 @@ abstract class Driver
      * Returns the description of a database table as an associative array.
      *
      * @param string $table
+     *
      * @return array<mixed>
      */
     public function describeTable($table)
@@ -284,7 +329,8 @@ abstract class Driver
             $schema = $this->getDefaultSchema();
             $table = $table[0];
         }
-        return $this->getDescriptor()->describeTables($schema, array($table), true);
+
+        return $this->getDescriptor()->describeTables($schema, [$table], true);
     }
 
     /**
@@ -322,32 +368,38 @@ abstract class Driver
 
     /**
      * Return the underlying PDO object.
-     * @return \PDO
+     *
      * @throws ConnectionException
+     *
+     * @return \PDO
      */
     public function getPDO()
     {
         if ($this->pdo === null) {
-            throw new ConnectionException("A connection has not been established. Please call the connect() method.");
+            throw new ConnectionException('A connection has not been established. Please call the connect() method.');
         }
+
         return $this->pdo;
     }
 
     /**
      * Returns an instance of a descriptor for a given driver.
+     *
      * @return \ntentan\atiaa\Descriptor
      */
     private function getDescriptor()
     {
         if (!is_object($this->descriptor)) {
-            $descriptorClass = "\\ntentan\\atiaa\\descriptors\\" . ucfirst($this->config['driver']) . "Descriptor";
+            $descriptorClass = '\\ntentan\\atiaa\\descriptors\\'.ucfirst($this->config['driver']).'Descriptor';
             $this->descriptor = new $descriptorClass($this);
         }
+
         return $this->descriptor;
     }
 
     /**
      * A wrapper around PDO's lastInsertId() method.
+     *
      * @return mixed
      */
     public function getLastInsertId()
@@ -358,6 +410,7 @@ abstract class Driver
     /**
      * Specify the default schema to use in cases where a schema is not provided
      * as part of the table reference.
+     *
      * @param string $defaultSchema
      */
     public function setDefaultSchema($defaultSchema)
@@ -373,5 +426,4 @@ abstract class Driver
     {
         $this->getDescriptor()->setCleanDefaults($cleanDefaults);
     }
-
 }

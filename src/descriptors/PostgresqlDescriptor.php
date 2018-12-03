@@ -1,46 +1,71 @@
 <?php
+
+/*
+ * The MIT License
+ *
+ * Copyright 2014-2018 James Ekow Abaka Ainooson
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 namespace ntentan\atiaa\descriptors;
 
 class PostgresqlDescriptor extends InformationSchemaDescriptor
-{   
-    protected function cleanDefaultValue($defaultValue) 
+{
+    protected function cleanDefaultValue($defaultValue)
     {
         // Deal with typecasts
-        if(preg_match("/(?<value>.*)(::)(?<type>[a-zA-Z0-9\s]*)$/", $defaultValue, $matches)) {
-            
+        if (preg_match("/(?<value>.*)(::)(?<type>[a-zA-Z0-9\s]*)$/", $defaultValue, $matches)) {
             $value = $matches['value'];
-            
+
             // If numeric
-            if(is_numeric($value)) {
+            if (is_numeric($value)) {
                 return $value;
-                
+
             // If its a string
-            } else if (preg_match("/'(?<string>.*)'/", $value, $matches)) {
+            } elseif (preg_match("/'(?<string>.*)'/", $value, $matches)) {
                 return $matches['string'];
-                
+
             // null for anything else
             } else {
-                return null;
+                return;
             }
-        
-        // Return the nextval as atiaa uses them to detect auto keys
-        } else if(preg_match("/nextval\(.*/", $defaultValue)) {
+
+            // Return the nextval as atiaa uses them to detect auto keys
+        } elseif (preg_match("/nextval\(.*/", $defaultValue)) {
             return $defaultValue;
-            
+
         // Return numeric default values
-        } else if(is_numeric($defaultValue)) {
+        } elseif (is_numeric($defaultValue)) {
             return $defaultValue;
-            
+
         // Return null for anything else
         } else {
-            return null;
+            return;
         }
     }
 
     /**
-     * 
      * @note Query sourced from http://stackoverflow.com/questions/2204058/show-which-columns-an-index-is-on-in-postgresql
+     *
      * @param type $table
+     *
      * @return type
      */
     protected function getIndices(&$table)
@@ -67,13 +92,14 @@ class PostgresqlDescriptor extends InformationSchemaDescriptor
                         and i.relnamespace = n.oid
                             AND indisunique != 't'
                             AND indisprimary != 't'
-                        order by i.relname, a.attname", 
+                        order by i.relname, a.attname",
             $table['name'], $table['schema'])
-        );        
+        );
     }
-    
+
     /**
      * @note Query sourced from http://stackoverflow.com/questions/1152260/postgres-sql-to-list-table-foreign-keys
+     *
      * @param type $table
      */
     protected function getForeignKeys(&$table)
@@ -103,10 +129,10 @@ class PostgresqlDescriptor extends InformationSchemaDescriptor
                 AND kcu.table_name=:name AND kcu.table_schema=:schema
                 order by kcu.constraint_name, kcu.column_name",
                 //$table['name'], $table['schema']
-                array('name'=>$table['name'], 'schema'=>$table['schema'])
+                ['name'=>$table['name'], 'schema'=>$table['schema']]
         );
     }
-    
+
     public function getSchemata()
     {
         return $this->driver->query(
@@ -122,14 +148,13 @@ class PostgresqlDescriptor extends InformationSchemaDescriptor
     {
         $auto = false;
         $primaryKey = reset($table['primary_key']);
-        if(is_array($primaryKey))
-        {
-            if(count($primaryKey) == 1 && substr_count($table['columns'][$primaryKey['columns'][0]]['default'], 'nextval'))
-            {
+        if (is_array($primaryKey)) {
+            if (count($primaryKey) == 1 && substr_count($table['columns'][$primaryKey['columns'][0]]['default'], 'nextval')) {
                 $table['columns'][$primaryKey['columns'][0]]['default'] = null;
                 $auto = true;
             }
         }
+
         return $auto;
     }
 }

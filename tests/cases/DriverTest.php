@@ -1,5 +1,29 @@
 <?php
 
+/*
+ * The MIT License
+ *
+ * Copyright 2014-2018 James Ekow Abaka Ainooson
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 namespace ntentan\atiaa\tests\cases;
 
 use ntentan\atiaa\tests\lib\DriverLoader;
@@ -7,15 +31,15 @@ use PHPUnit\Framework\TestCase;
 
 class DriverTest extends TestCase
 {
-
     private $dbName;
 
     use DriverLoader;
 
     private function getDescriptor($driver)
     {
-        $descriptorClass = "\\ntentan\\atiaa\\descriptors\\" . ucfirst($this->getDriverName()) . "Descriptor";
+        $descriptorClass = '\\ntentan\\atiaa\\descriptors\\'.ucfirst($this->getDriverName()).'Descriptor';
         $descriptor = new $descriptorClass($driver);
+
         return $descriptor;
     }
 
@@ -31,16 +55,16 @@ class DriverTest extends TestCase
     }
 
     /**
-     *
      * @expectedException \ntentan\atiaa\exceptions\ConnectionException
      */
     public function testDbNotFound()
     {
         if (getenv('ATIAA_SKIP_DB') === 'yes') {
             $this->markTestSkipped();
+
             return;
         }
-        putenv("ATIAA_DBNAME=none");
+        putenv('ATIAA_DBNAME=none');
         $this->getDriver();
     }
 
@@ -50,11 +74,11 @@ class DriverTest extends TestCase
         $driver = $this->getDriver();
 
         $strings = json_decode(file_get_contents("tests/expected/$driverName/strings.json"), true);
-        $this->assertEquals($strings['quoted_string'], $driver->quote("string"));
-        $this->assertEquals($strings['quoted_identifier'], $driver->quoteIdentifier("identifier"));
+        $this->assertEquals($strings['quoted_string'], $driver->quote('string'));
+        $this->assertEquals($strings['quoted_identifier'], $driver->quoteIdentifier('identifier'));
         $this->assertEquals($strings['quoted_query_identifiers'], $driver->quoteQueryIdentifiers('SELECT "some", "identifiers" FROM "some"."table"'));
         $pdo = $driver->getPDO();
-        $this->assertInstanceOf("PDO", $pdo);
+        $this->assertInstanceOf('PDO', $pdo);
     }
 
     public function testFullDescription()
@@ -102,6 +126,7 @@ class DriverTest extends TestCase
     {
         if (!$this->hasSchemata()) {
             $this->markTestSkipped();
+
             return;
         }
 
@@ -128,7 +153,7 @@ class DriverTest extends TestCase
     public function testTableNotFoundExceptionAgain()
     {
         $driver = $this->getDriver($this);
-        $this->getDescriptor($driver)->describeTables($driver->getDefaultSchema(), array('users', 'unknown_table'));
+        $this->getDescriptor($driver)->describeTables($driver->getDefaultSchema(), ['users', 'unknown_table']);
     }
 
     /**
@@ -137,7 +162,7 @@ class DriverTest extends TestCase
     public function testFaultyQueryException()
     {
         $driver = $this->getDriver($this);
-        $driver->query("SPELECT * FROM dummy");
+        $driver->query('SPELECT * FROM dummy');
     }
 
     /**
@@ -147,7 +172,7 @@ class DriverTest extends TestCase
     {
         $driver = $this->getDriver($this);
         $driver->disconnect();
-        $driver->query("SELECT * FROM users");
+        $driver->query('SELECT * FROM users');
     }
 
     private function hasSchemata()
