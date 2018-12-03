@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 ekow.
+ * Copyright 2014-2018 James Ekow Abaka Ainooson
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,6 @@ namespace ntentan\atiaa\descriptors;
 
 class MysqlDescriptor extends InformationSchemaDescriptor
 {
-
     protected function getForeignKeys(&$table)
     {
         return $this->driver->query(
@@ -72,12 +71,13 @@ class MysqlDescriptor extends InformationSchemaDescriptor
                 where schema_name <> 'information_schema' order by schema_name"
             );
         } else {
-            $schemata = array(
-                array(
-                    'name' => $defaultSchema
-                )
-            );
+            $schemata = [
+                [
+                    'name' => $defaultSchema,
+                ],
+            ];
         }
+
         return $schemata;
     }
 

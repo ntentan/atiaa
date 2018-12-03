@@ -1,8 +1,9 @@
 <?php
-/* 
+
+/*
  * The MIT License
  *
- * Copyright 2014 ekow.
+ * Copyright 2014-2018 James Ekow Abaka Ainooson
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +27,7 @@
 namespace ntentan\atiaa\drivers;
 
 /**
- * SQLite driver implementation
+ * SQLite driver implementation.
  */
 class SqliteDriver extends \ntentan\atiaa\Driver
 {
@@ -35,14 +36,14 @@ class SqliteDriver extends \ntentan\atiaa\Driver
         $this->defaultSchema = 'main';
         parent::__construct($config);
     }
-    
+
     public function connect()
     {
         parent::connect();
-        $this->query("PRAGMA foreign_keys=ON");
+        $this->query('PRAGMA foreign_keys=ON');
     }
-    
-    protected function getDriverName() 
+
+    protected function getDriverName()
     {
         return 'sqlite';
     }

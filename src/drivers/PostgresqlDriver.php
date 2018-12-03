@@ -1,8 +1,9 @@
 <?php
-/* 
+
+/*
  * The MIT License
  *
- * Copyright 2014 ekow.
+ * Copyright 2014-2018 James Ekow Abaka Ainooson
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,20 +32,21 @@ namespace ntentan\atiaa\drivers;
 class PostgresqlDriver extends \ntentan\atiaa\Driver
 {
     protected $defaultSchema = 'public';
-    
-    protected function getDriverName() 
+
+    protected function getDriverName()
     {
         return 'pgsql';
     }
-    
+
     public function quoteIdentifier($identifier)
     {
         return "\"$identifier\"";
-    }    
-    
-    public function getLastInsertId() 
+    }
+
+    public function getLastInsertId()
     {
-        $lastval = $this->query("SELECT LASTVAL() as last");
-        return $lastval[0]["last"];        
-    }    
+        $lastval = $this->query('SELECT LASTVAL() as last');
+
+        return $lastval[0]['last'];
+    }
 }
