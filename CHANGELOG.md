@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.7.2 - 2018-12-02
+## v0.7.3 - 2018-12-02
 - First release to have a CHANGELOG
 
 ### Removed
