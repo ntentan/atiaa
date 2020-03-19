@@ -362,8 +362,10 @@ abstract class Driver
      */
     public function rollback()
     {
-        $this->pdo->rollBack();
-        self::$transactionCount = 0;
+        if(self::$transactionCount) {
+            $this->pdo->rollBack();
+            self::$transactionCount = 0;
+        }
     }
 
     /**
