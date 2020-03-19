@@ -31,7 +31,8 @@ class MysqlDescriptor extends InformationSchemaDescriptor
     protected function getForeignKeys(&$table)
     {
         return $this->driver->query(
-            sprintf("SELECT
+            sprintf(
+                "SELECT
                     kcu.constraint_name as name,
                     kcu.table_schema as `schema`,
                     kcu.table_name as `table`,
@@ -48,7 +49,9 @@ class MysqlDescriptor extends InformationSchemaDescriptor
                     JOIN information_schema.referential_constraints AS rc
                       ON rc.constraint_name = tc.constraint_name and rc.constraint_schema = tc.table_schema
                 WHERE constraint_type = 'FOREIGN KEY'
-                    AND tc.table_name='%s' AND tc.table_schema='%s' order by kcu.constraint_name, kcu.column_name", $table['name'], $table['schema']
+                    AND tc.table_name='%s' AND tc.table_schema='%s' order by kcu.constraint_name, kcu.column_name",
+                $table['name'],
+                $table['schema']
             )
         );
     }
@@ -88,7 +91,9 @@ class MysqlDescriptor extends InformationSchemaDescriptor
             sprintf(
                 "select column_name as name
                 from information_schema.columns
-                where table_name = '%s' and table_schema='%s' and extra = 'auto_increment'", $table['name'], $table['schema']
+                where table_name = '%s' and table_schema='%s' and extra = 'auto_increment'",
+                $table['name'],
+                $table['schema']
             )
         );
 

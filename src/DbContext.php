@@ -100,7 +100,7 @@ final class DbContext
      *
      * @return Driver
      */
-    public function getDriver() : Driver
+    public function getDriver(): Driver
     {
         if (is_null($this->driver)) {
             $this->driver = $this->driverFactory->createDriver();

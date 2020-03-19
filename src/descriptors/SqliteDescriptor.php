@@ -147,14 +147,16 @@ class SqliteDescriptor extends \ntentan\atiaa\Descriptor
 
         if (count($tables) > 0) {
             return $this->driver->quotedQuery(
-                            'select name as "name", \'main\' as "schema" from sqlite_master
+                'select name as "name", \'main\' as "schema" from sqlite_master
                 where '.$condition.' and name not in (\'sqlite_master\', \'sqlite_sequence\') and name in (?'.str_repeat(', ?', count($tables) - 1).')
-                order by name', array_merge($bind, $tables)
+                order by name',
+                array_merge($bind, $tables)
             );
         } else {
             return $this->driver->quotedQuery(
-                            'select name as "name", \'main\' as "schema" from sqlite_master
-                where name not in (\'sqlite_master\', \'sqlite_sequence\') and '.$condition, array_merge($bind)
+                'select name as "name", \'main\' as "schema" from sqlite_master
+                where name not in (\'sqlite_master\', \'sqlite_sequence\') and '.$condition,
+                array_merge($bind)
             );
         }
     }

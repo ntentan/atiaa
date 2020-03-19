@@ -294,9 +294,11 @@ abstract class Driver
     public function quoteQueryIdentifiers($query)
     {
         return preg_replace_callback(
-            '/\"([a-zA-Z\_ ]*)\"/', function ($matches) {
+            '/\"([a-zA-Z\_ ]*)\"/',
+            function ($matches) {
                 return $this->quoteIdentifier($matches[1]);
-            }, $query
+            },
+            $query
         );
     }
 
@@ -362,7 +364,7 @@ abstract class Driver
      */
     public function rollback()
     {
-        if(self::$transactionCount) {
+        if (self::$transactionCount) {
             $this->pdo->rollBack();
             self::$transactionCount = 0;
         }

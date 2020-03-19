@@ -25,206 +25,206 @@
  */
 
 $databaseDescription = [
-  'schemata' => [
-  ],
-  'tables' => [
-    'departments' => [
-      'schema'  => '',
-      'name'    => 'departments',
-      'columns' => [
-        'id' => [
-          'name'    => 'id',
-          'type'    => 'int',
-          'nulls'   => false,
-          'default' => null,
-          'length'  => null,
-        ],
-        'name' => [
-          'name'    => 'name',
-          'type'    => 'varchar',
-          'nulls'   => false,
-          'default' => null,
-          'length'  => '255',
-        ],
-      ],
-      'primary_key' => [
-        'PRIMARY' => [
-          'columns' => [
-            0 => 'id',
-          ],
-        ],
-      ],
-      'unique_keys' => [
-      ],
-      'foreign_keys' => [
-      ],
-      'indices' => [
-      ],
-      'auto_increment' => true,
+    'schemata' => [
     ],
-    'roles' => [
-      'schema'  => '',
-      'name'    => 'roles',
-      'columns' => [
-        'id' => [
-          'name'    => 'id',
-          'type'    => 'int',
-          'nulls'   => false,
-          'default' => null,
-          'length'  => null,
+    'tables' => [
+        'departments' => [
+            'schema'  => '',
+            'name'    => 'departments',
+            'columns' => [
+                'id' => [
+                    'name'    => 'id',
+                    'type'    => 'int',
+                    'nulls'   => false,
+                    'default' => null,
+                    'length'  => null,
+                ],
+                'name' => [
+                    'name'    => 'name',
+                    'type'    => 'varchar',
+                    'nulls'   => false,
+                    'default' => null,
+                    'length'  => '255',
+                ],
+            ],
+            'primary_key' => [
+                'PRIMARY' => [
+                    'columns' => [
+                        0 => 'id',
+                    ],
+                ],
+            ],
+            'unique_keys' => [
+            ],
+            'foreign_keys' => [
+            ],
+            'indices' => [
+            ],
+            'auto_increment' => true,
         ],
-        'name' => [
-          'name'    => 'name',
-          'type'    => 'varchar',
-          'nulls'   => false,
-          'default' => null,
-          'length'  => '255',
+        'roles' => [
+            'schema'  => '',
+            'name'    => 'roles',
+            'columns' => [
+                'id' => [
+                    'name'    => 'id',
+                    'type'    => 'int',
+                    'nulls'   => false,
+                    'default' => null,
+                    'length'  => null,
+                ],
+                'name' => [
+                    'name'    => 'name',
+                    'type'    => 'varchar',
+                    'nulls'   => false,
+                    'default' => null,
+                    'length'  => '255',
+                ],
+            ],
+            'primary_key' => [
+                'PRIMARY' => [
+                    'columns' => [
+                        0 => 'id',
+                    ],
+                ],
+            ],
+            'unique_keys' => [
+                'name' => [
+                    'columns' => [
+                        0 => 'name',
+                    ],
+                ],
+            ],
+            'foreign_keys' => [
+            ],
+            'indices' => [
+            ],
+            'auto_increment' => true,
         ],
-      ],
-      'primary_key' => [
-        'PRIMARY' => [
-          'columns' => [
-            0 => 'id',
-          ],
+        'users' => [
+            'schema'  => '',
+            'name'    => 'users',
+            'columns' => [
+                'email' => [
+                    'name'    => 'email',
+                    'type'    => 'varchar',
+                    'nulls'   => false,
+                    'default' => null,
+                    'length'  => '255',
+                ],
+                'firstname' => [
+                    'name'    => 'firstname',
+                    'type'    => 'varchar',
+                    'nulls'   => false,
+                    'default' => null,
+                    'length'  => '255',
+                ],
+                'id' => [
+                    'name'    => 'id',
+                    'type'    => 'int',
+                    'nulls'   => false,
+                    'default' => null,
+                    'length'  => null,
+                ],
+                'is_admin' => [
+                    'name'    => 'is_admin',
+                    'type'    => 'tinyint',
+                    'nulls'   => true,
+                    'default' => null,
+                    'length'  => null,
+                ],
+                'lastname' => [
+                    'name'    => 'lastname',
+                    'type'    => 'varchar',
+                    'nulls'   => false,
+                    'default' => null,
+                    'length'  => '255',
+                ],
+                'last_login_time' => [
+                    'name'    => 'last_login_time',
+                    'type'    => 'timestamp',
+                    'nulls'   => true,
+                    'default' => null,
+                    'length'  => null,
+                ],
+                'office' => [
+                    'name'    => 'office',
+                    'type'    => 'int',
+                    'nulls'   => true,
+                    'default' => null,
+                    'length'  => null,
+                ],
+                'othernames' => [
+                    'name'    => 'othernames',
+                    'type'    => 'varchar',
+                    'nulls'   => true,
+                    'default' => 'None',
+                    'length'  => 255,
+                ],
+                'password' => [
+                    'name'    => 'password',
+                    'type'    => 'varchar',
+                    'nulls'   => false,
+                    'default' => null,
+                    'length'  => '255',
+                ],
+                'phone' => [
+                    'name'    => 'phone',
+                    'type'    => 'varchar',
+                    'nulls'   => true,
+                    'default' => null,
+                    'length'  => '64',
+                ],
+                'role_id' => [
+                    'name'    => 'role_id',
+                    'type'    => 'int',
+                    'nulls'   => false,
+                    'default' => null,
+                    'length'  => null,
+                ],
+                'status' => [
+                    'name'    => 'status',
+                    'type'    => 'int',
+                    'nulls'   => false,
+                    'default' => '2',
+                    'length'  => null,
+                ],
+                'username' => [
+                    'name'    => 'username',
+                    'type'    => 'varchar',
+                    'nulls'   => false,
+                    'default' => null,
+                    'length'  => '255',
+                ],
+            ],
+            'primary_key' => [
+                'PRIMARY' => [
+                    'columns' => [
+                        0 => 'id',
+                    ],
+                ],
+            ],
+            'unique_keys' => [
+            ],
+            'foreign_keys' => [
+                'user_role_fk' => [
+                    'schema'  => '',
+                    'table'   => 'users',
+                    'columns' => [
+                        0 => 'role_id',
+                    ],
+                    'foreign_table'   => 'roles',
+                    'foreign_schema'  => '',
+                    'foreign_columns' => [
+                        0 => 'id',
+                    ],
+                    'on_update' => 'RESTRICT',
+                    'on_delete' => 'RESTRICT',
+                ],
+            ],
+            'indices' => [
+            ],
+            'auto_increment' => true,
         ],
-      ],
-      'unique_keys' => [
-        'name' => [
-          'columns' => [
-            0 => 'name',
-          ],
-        ],
-      ],
-      'foreign_keys' => [
-      ],
-      'indices' => [
-      ],
-      'auto_increment' => true,
     ],
-    'users' => [
-      'schema'  => '',
-      'name'    => 'users',
-      'columns' => [
-        'email' => [
-          'name'    => 'email',
-          'type'    => 'varchar',
-          'nulls'   => false,
-          'default' => null,
-          'length'  => '255',
-        ],
-        'firstname' => [
-          'name'    => 'firstname',
-          'type'    => 'varchar',
-          'nulls'   => false,
-          'default' => null,
-          'length'  => '255',
-        ],
-        'id' => [
-          'name'    => 'id',
-          'type'    => 'int',
-          'nulls'   => false,
-          'default' => null,
-          'length'  => null,
-        ],
-        'is_admin' => [
-          'name'    => 'is_admin',
-          'type'    => 'tinyint',
-          'nulls'   => true,
-          'default' => null,
-          'length'  => null,
-        ],
-        'lastname' => [
-          'name'    => 'lastname',
-          'type'    => 'varchar',
-          'nulls'   => false,
-          'default' => null,
-          'length'  => '255',
-        ],
-        'last_login_time' => [
-          'name'    => 'last_login_time',
-          'type'    => 'timestamp',
-          'nulls'   => true,
-          'default' => null,
-          'length'  => null,
-        ],
-        'office' => [
-          'name'    => 'office',
-          'type'    => 'int',
-          'nulls'   => true,
-          'default' => null,
-          'length'  => null,
-        ],
-        'othernames' => [
-          'name'    => 'othernames',
-          'type'    => 'varchar',
-          'nulls'   => true,
-          'default' => 'None',
-          'length'  => 255,
-        ],
-        'password' => [
-          'name'    => 'password',
-          'type'    => 'varchar',
-          'nulls'   => false,
-          'default' => null,
-          'length'  => '255',
-        ],
-        'phone' => [
-          'name'    => 'phone',
-          'type'    => 'varchar',
-          'nulls'   => true,
-          'default' => null,
-          'length'  => '64',
-        ],
-        'role_id' => [
-          'name'    => 'role_id',
-          'type'    => 'int',
-          'nulls'   => false,
-          'default' => null,
-          'length'  => null,
-        ],
-        'status' => [
-          'name'    => 'status',
-          'type'    => 'int',
-          'nulls'   => false,
-          'default' => '2',
-          'length'  => null,
-        ],
-        'username' => [
-          'name'    => 'username',
-          'type'    => 'varchar',
-          'nulls'   => false,
-          'default' => null,
-          'length'  => '255',
-        ],
-      ],
-      'primary_key' => [
-        'PRIMARY' => [
-          'columns' => [
-            0 => 'id',
-          ],
-        ],
-      ],
-      'unique_keys' => [
-      ],
-      'foreign_keys' => [
-        'user_role_fk' => [
-          'schema'  => '',
-          'table'   => 'users',
-          'columns' => [
-            0 => 'role_id',
-          ],
-          'foreign_table'   => 'roles',
-          'foreign_schema'  => '',
-          'foreign_columns' => [
-            0 => 'id',
-          ],
-          'on_update' => 'RESTRICT',
-          'on_delete' => 'RESTRICT',
-        ],
-      ],
-      'indices' => [
-      ],
-      'auto_increment' => true,
-    ],
-  ],
 ];

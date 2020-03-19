@@ -47,7 +47,7 @@ class DriverFactory
      *
      * @param $config
      */
-    public function setConfig($config) : void
+    public function setConfig($config): void
     {
         $this->config = $config;
     }
@@ -57,7 +57,7 @@ class DriverFactory
      *
      * @return array
      */
-    public function getConfig() : array
+    public function getConfig(): array
     {
         return $this->config;
     }
@@ -67,7 +67,7 @@ class DriverFactory
      *
      * @return \ntentan\atiaa\Driver
      */
-    public function createDriver() : Driver
+    public function createDriver(): Driver
     {
         $classname = '\ntentan\atiaa\drivers\\'.Text::ucamelize($this->config['driver']).'Driver';
 

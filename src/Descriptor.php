@@ -278,7 +278,8 @@ abstract class Descriptor
 
         foreach ($requestedTables as $requestedTable) {
             if (array_search($requestedTable, $foundTables) === false) {
-                throw new exceptions\TableNotFoundException($requestedTable
+                throw new exceptions\TableNotFoundException(
+                    $requestedTable
                     ? "$requestedTable not found on target database."
                     : 'Please specify a table name.'
                 );

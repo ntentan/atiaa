@@ -71,7 +71,8 @@ class PostgresqlDescriptor extends InformationSchemaDescriptor
     protected function getIndices(&$table)
     {
         return $this->driver->query(
-            sprintf("select
+            sprintf(
+                "select
                         t.relname as table_name,
                         i.relname as name,
                         a.attname as column
@@ -93,7 +94,9 @@ class PostgresqlDescriptor extends InformationSchemaDescriptor
                             AND indisunique != 't'
                             AND indisprimary != 't'
                         order by i.relname, a.attname",
-            $table['name'], $table['schema'])
+                $table['name'],
+                $table['schema']
+            )
         );
     }
 

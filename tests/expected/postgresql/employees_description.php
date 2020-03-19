@@ -25,52 +25,52 @@
  */
 
 $employeesDescription = [
-  'employees' => [
-    'schema'  => 'hr',
-    'name'    => 'employees',
-    'columns' => [
-      'date_of_birth' => [
-        'name'    => 'date_of_birth',
-        'type'    => 'date',
-        'nulls'   => true,
-        'default' => null,
-        'length'  => null,
-      ],
-      'firstname' => [
-        'name'    => 'firstname',
-        'type'    => 'character varying',
-        'nulls'   => false,
-        'default' => null,
-        'length'  => 255,
-      ],
-      'id' => [
-        'name'    => 'id',
-        'type'    => 'integer',
-        'nulls'   => false,
-        'default' => null,
-        'length'  => null,
-      ],
-      'lastname' => [
-        'name'    => 'lastname',
-        'type'    => 'character varying',
-        'nulls'   => true,
-        'default' => null,
-        'length'  => 255,
-      ],
-    ],
-    'primary_key' => [
-      'employees_pkey' => [
+    'employees' => [
+        'schema'  => 'hr',
+        'name'    => 'employees',
         'columns' => [
-          0 => 'id',
+            'date_of_birth' => [
+                'name'    => 'date_of_birth',
+                'type'    => 'date',
+                'nulls'   => true,
+                'default' => null,
+                'length'  => null,
+            ],
+            'firstname' => [
+                'name'    => 'firstname',
+                'type'    => 'character varying',
+                'nulls'   => false,
+                'default' => null,
+                'length'  => 255,
+            ],
+            'id' => [
+                'name'    => 'id',
+                'type'    => 'integer',
+                'nulls'   => false,
+                'default' => null,
+                'length'  => null,
+            ],
+            'lastname' => [
+                'name'    => 'lastname',
+                'type'    => 'character varying',
+                'nulls'   => true,
+                'default' => null,
+                'length'  => 255,
+            ],
         ],
-      ],
+        'primary_key' => [
+            'employees_pkey' => [
+                'columns' => [
+                    0 => 'id',
+                ],
+            ],
+        ],
+        'unique_keys' => [
+        ],
+        'foreign_keys' => [
+        ],
+        'indices' => [
+        ],
+        'auto_increment' => true,
     ],
-    'unique_keys' => [
-    ],
-    'foreign_keys' => [
-    ],
-    'indices' => [
-    ],
-    'auto_increment' => true,
-  ],
 ];

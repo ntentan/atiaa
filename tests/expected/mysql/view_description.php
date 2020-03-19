@@ -25,75 +25,75 @@
  */
 
 $viewDescription = [
-  'users_view' => [
-    'schema'  => '',
-    'name'    => 'users_view',
-    'columns' => [
-      'email' => [
-        'name'    => 'email',
-        'type'    => 'varchar',
-        'nulls'   => false,
-        'default' => null,
-        'length'  => '255',
-      ],
-      'firstname' => [
-        'name'    => 'firstname',
-        'type'    => 'varchar',
-        'nulls'   => false,
-        'default' => null,
-        'length'  => '255',
-      ],
-      'id' => [
-        'name'    => 'id',
-        'type'    => 'int',
-        'nulls'   => false,
-        'default' => '0',
-        'length'  => null,
-      ],
-      'lastname' => [
-        'name'    => 'lastname',
-        'type'    => 'varchar',
-        'nulls'   => false,
-        'default' => null,
-        'length'  => '255',
-      ],
-      'othernames' => [
-        'name'    => 'othernames',
-        'type'    => 'varchar',
-        'nulls'   => true,
-        'default' => 'None',
-        'length'  => 255,
-      ],
-      'password' => [
-        'name'    => 'password',
-        'type'    => 'varchar',
-        'nulls'   => false,
-        'default' => null,
-        'length'  => '255',
-      ],
-      'role' => [
-        'name'    => 'role',
-        'type'    => 'varchar',
-        'nulls'   => false,
-        'default' => null,
-        'length'  => '255',
-      ],
-      'username' => [
-        'name'    => 'username',
-        'type'    => 'varchar',
-        'nulls'   => false,
-        'default' => null,
-        'length'  => '255',
-      ],
+    'users_view' => [
+        'schema'  => '',
+        'name'    => 'users_view',
+        'columns' => [
+            'email' => [
+                'name'    => 'email',
+                'type'    => 'varchar',
+                'nulls'   => false,
+                'default' => null,
+                'length'  => '255',
+            ],
+            'firstname' => [
+                'name'    => 'firstname',
+                'type'    => 'varchar',
+                'nulls'   => false,
+                'default' => null,
+                'length'  => '255',
+            ],
+            'id' => [
+                'name'    => 'id',
+                'type'    => 'int',
+                'nulls'   => false,
+                'default' => '0',
+                'length'  => null,
+            ],
+            'lastname' => [
+                'name'    => 'lastname',
+                'type'    => 'varchar',
+                'nulls'   => false,
+                'default' => null,
+                'length'  => '255',
+            ],
+            'othernames' => [
+                'name'    => 'othernames',
+                'type'    => 'varchar',
+                'nulls'   => true,
+                'default' => 'None',
+                'length'  => 255,
+            ],
+            'password' => [
+                'name'    => 'password',
+                'type'    => 'varchar',
+                'nulls'   => false,
+                'default' => null,
+                'length'  => '255',
+            ],
+            'role' => [
+                'name'    => 'role',
+                'type'    => 'varchar',
+                'nulls'   => false,
+                'default' => null,
+                'length'  => '255',
+            ],
+            'username' => [
+                'name'    => 'username',
+                'type'    => 'varchar',
+                'nulls'   => false,
+                'default' => null,
+                'length'  => '255',
+            ],
+        ],
+        'primary_key' => [
+        ],
+        'unique_keys' => [
+        ],
+        'foreign_keys' => [
+        ],
+        'indices' => [
+        ],
+        'auto_increment' => false,
     ],
-    'primary_key' => [
-    ],
-    'unique_keys' => [
-    ],
-    'foreign_keys' => [
-    ],
-    'indices' => [
-    ],
-    'auto_increment' => false,
-  ],
 ];

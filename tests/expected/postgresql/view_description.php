@@ -25,75 +25,75 @@
  */
 
 $viewDescription = [
-  'users_view' => [
-    'schema'  => '',
-    'name'    => 'users_view',
-    'columns' => [
-      'email' => [
-        'name'    => 'email',
-        'type'    => 'character varying',
-        'nulls'   => true,
-        'default' => null,
-        'length'  => 255,
-      ],
-      'firstname' => [
-        'name'    => 'firstname',
-        'type'    => 'character varying',
-        'nulls'   => true,
-        'default' => null,
-        'length'  => 255,
-      ],
-      'id' => [
-        'name'    => 'id',
-        'type'    => 'integer',
-        'nulls'   => true,
-        'default' => null,
-        'length'  => null,
-      ],
-      'lastname' => [
-        'name'    => 'lastname',
-        'type'    => 'character varying',
-        'nulls'   => true,
-        'default' => null,
-        'length'  => 255,
-      ],
-      'othernames' => [
-        'name'    => 'othernames',
-        'type'    => 'character varying',
-        'nulls'   => true,
-        'default' => null,
-        'length'  => 255,
-      ],
-      'password' => [
-        'name'    => 'password',
-        'type'    => 'character varying',
-        'nulls'   => true,
-        'default' => null,
-        'length'  => 255,
-      ],
-      'role' => [
-        'name'    => 'role',
-        'type'    => 'character varying',
-        'nulls'   => true,
-        'default' => null,
-        'length'  => 255,
-      ],
-      'username' => [
-        'name'    => 'username',
-        'type'    => 'character varying',
-        'nulls'   => true,
-        'default' => null,
-        'length'  => 255,
-      ],
+    'users_view' => [
+        'schema'  => '',
+        'name'    => 'users_view',
+        'columns' => [
+            'email' => [
+                'name'    => 'email',
+                'type'    => 'character varying',
+                'nulls'   => true,
+                'default' => null,
+                'length'  => 255,
+            ],
+            'firstname' => [
+                'name'    => 'firstname',
+                'type'    => 'character varying',
+                'nulls'   => true,
+                'default' => null,
+                'length'  => 255,
+            ],
+            'id' => [
+                'name'    => 'id',
+                'type'    => 'integer',
+                'nulls'   => true,
+                'default' => null,
+                'length'  => null,
+            ],
+            'lastname' => [
+                'name'    => 'lastname',
+                'type'    => 'character varying',
+                'nulls'   => true,
+                'default' => null,
+                'length'  => 255,
+            ],
+            'othernames' => [
+                'name'    => 'othernames',
+                'type'    => 'character varying',
+                'nulls'   => true,
+                'default' => null,
+                'length'  => 255,
+            ],
+            'password' => [
+                'name'    => 'password',
+                'type'    => 'character varying',
+                'nulls'   => true,
+                'default' => null,
+                'length'  => 255,
+            ],
+            'role' => [
+                'name'    => 'role',
+                'type'    => 'character varying',
+                'nulls'   => true,
+                'default' => null,
+                'length'  => 255,
+            ],
+            'username' => [
+                'name'    => 'username',
+                'type'    => 'character varying',
+                'nulls'   => true,
+                'default' => null,
+                'length'  => 255,
+            ],
+        ],
+        'primary_key' => [
+        ],
+        'unique_keys' => [
+        ],
+        'foreign_keys' => [
+        ],
+        'indices' => [
+        ],
+        'auto_increment' => false,
     ],
-    'primary_key' => [
-    ],
-    'unique_keys' => [
-    ],
-    'foreign_keys' => [
-    ],
-    'indices' => [
-    ],
-    'auto_increment' => false,
-  ],
 ];
