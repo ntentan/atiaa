@@ -1,29 +1,5 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2014-2018 James Ekow Abaka Ainooson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 namespace ntentan\atiaa;
 
 /**
@@ -233,7 +209,7 @@ abstract class Descriptor
      * @return array
      */
     public function describe()
-    {
+    {               
         $defaultSchema = $this->driver->getDefaultSchema();
         $description = [
             'schemata' => [],
@@ -242,13 +218,13 @@ abstract class Descriptor
         $schemata = $this->getSchemata();
 
         foreach ($schemata as $schema) {
+            $description['schemata'][$schema['name']]['name'] = $schema['name'];
+            $description['schemata'][$schema['name']]['tables'] = $this->describeTables($schema['name']);
+            $description['schemata'][$schema['name']]['views'] = $this->describeViews($schema['name']);
+            
             if ($schema['name'] == $defaultSchema) {
-                $description['tables'] = $this->describeTables($defaultSchema);
-                $description['views'] = $this->describeViews($defaultSchema);
-            } else {
-                $description['schemata'][$schema['name']]['name'] = $schema['name'];
-                $description['schemata'][$schema['name']]['tables'] = $this->describeTables($schema['name']);
-                $description['schemata'][$schema['name']]['views'] = $this->describeViews($schema['name']);
+                $description['tables'] = $description['schemata'][$schema['name']]['tables']; //$this->describeTables($defaultSchema);
+                $description['views'] = $description['schemata'][$schema['name']]['views']; //$this->describeViews($defaultSchema);
             }
         }
 
