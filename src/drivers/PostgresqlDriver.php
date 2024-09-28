@@ -1,4 +1,5 @@
 <?php
+
 namespace ntentan\atiaa\drivers;
 
 use ntentan\atiaa\Driver;
@@ -10,7 +11,7 @@ class PostgresqlDriver extends Driver
 {
     protected $defaultSchema = 'public';
 
-    protected function getDriverName()
+    protected function getDriverName(): string
     {
         return 'pgsql';
     }
@@ -24,5 +25,14 @@ class PostgresqlDriver extends Driver
     {
         $lastval = $this->query('SELECT LASTVAL() as last');
         return $lastval[0]['last'];
+    }
+
+    #[\Override]
+    public function connect()
+    {
+        parent::connect();
+        if (isset($this->config['schema'])) {
+            $this->query("SET search_path TO {$this->config['schema']}");
+        }
     }
 }
