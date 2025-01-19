@@ -12,5 +12,10 @@
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">../../src</directory>
         </whitelist>
-    </filter>       
+    </filter>
+    <coverage>
+        <include>
+            <directory suffix=".php">../../src</directory>
+        </include>
+    </coverage>
 </phpunit>

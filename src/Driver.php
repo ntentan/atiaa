@@ -18,39 +18,29 @@ abstract class Driver
 {
     /**
      * The internal PDO connection that is wrapped by this driver.
-     *
-     * @var \PDO
      */
-    private $pdo;
-
-    /**
-     * A logger for logging queries during debug.
-     *
-     * @var LoggerInterface
-     */
-    private $logger;
+    private ?\PDO $pdo;
 
     /**
      * The default schema used in the connection.
      *
      * @var string
      */
-    protected $defaultSchema;
+    protected string $defaultSchema;
 
     /**
      * The connection parameters with which this connection was established.
      *
      * @var array
      */
-    protected $config;
+    protected array $config;
 
     /**
      * An instance of the descriptor used internally.
-     *
-     * @var \ntentan\atiaa\Descriptor
      */
-    private $descriptor;
-    private static $transactionCount = 0;
+    private Descriptor $descriptor;
+
+    private static int $transactionCount = 0;
 
     /**
      * Creates a new instance of the Atiaa driver. This class is usually initiated
@@ -82,7 +72,7 @@ abstract class Driver
         $this->config = $config;
     }
 
-    public function connect()
+    public function connect(): void
     {
         $username = isset($this->config['user']) ? $this->config['user'] : null;
         $password = isset($this->config['password']) ? $this->config['password'] : null;
