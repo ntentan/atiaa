@@ -21,8 +21,8 @@ jobs:
               ATIAA_PDO_DSN: mysql:host=localhost;dbname=atiaa_test;user=root
             initialize: |
                 sudo /etc/init.d/mysql start
-                mysql -e 'create database atiaa_test;'
-                mysql atiaa_test < tests/databases/mysql.sql
+                mysql -h 127.0.0.1 -e 'create database atiaa_test;'
+                mysql -h 127.0.0.1 atiaa_test < tests/databases/mysql.sql
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
