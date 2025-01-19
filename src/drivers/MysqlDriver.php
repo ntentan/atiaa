@@ -41,7 +41,7 @@ class MysqlDriver extends \ntentan\atiaa\Driver
         return "`$identifier`";
     }
 
-    public function getDefaultSchema()
+    public function getDefaultSchema(): string
     {
         if (!$this->defaultSchema) {
             return $this->config['dbname'];

@@ -9,7 +9,7 @@ use ntentan\atiaa\Driver;
  */
 class PostgresqlDriver extends Driver
 {
-    protected $defaultSchema = 'public';
+    protected string $defaultSchema = 'public';
 
     protected function getDriverName(): string
     {
@@ -28,7 +28,7 @@ class PostgresqlDriver extends Driver
     }
 
     #[\Override]
-    public function connect()
+    public function connect(): void
     {
         parent::connect();
         if (isset($this->config['schema'])) {
