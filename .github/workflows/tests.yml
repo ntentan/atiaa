@@ -6,6 +6,8 @@ jobs:
     services:
       mysql:
         image: mysql:latest
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD=yes
         ports:
           - '3306:3306'
     strategy:
@@ -25,7 +27,6 @@ jobs:
               ATIAA_DBNAME: atiaa_test
               ATIAA_PDO_DSN: mysql:host=localhost;dbname=atiaa_test;user=root
             initialize: |
-                sudo /etc/init.d/mysql start
                 mysql -h 127.0.0.1 -e 'create database atiaa_test;'
                 mysql -h 127.0.0.1 atiaa_test < tests/databases/mysql.sql
     steps:
