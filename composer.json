@@ -9,12 +9,12 @@
         }
     ],
     "require": {
-        "php" : ">=7.1.0",
+        "php" : ">=8.1",
         "ntentan/utils": "0.*"
     },
     "require-dev" : {
         "phpunit/phpunit" : "@stable",
-        "phpunit/dbunit" : "@stable"
+        "ext-json": "*"
     },
     "autoload" : {
         "psr-4" : { 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d456c2fde4521dbb9e10458a7e3c15b7",
+    "content-hash": "7680332def522687dad6df63afce7a43",
     "packages": [
         {
             "name": "ntentan/utils",
@@ -2032,8 +2032,10 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1.0"
+        "php": ">=8.1"
     },
-    "platform-dev": {},
+    "platform-dev": {
+        "ext-json": "*"
+    },
     "plugin-api-version": "2.6.0"
 }

@@ -26,6 +26,7 @@
 
 namespace ntentan\atiaa\tests\cases;
 
+use ntentan\atiaa\exceptions\ConnectionException;
 use ntentan\atiaa\exceptions\DatabaseDriverException;
 use ntentan\atiaa\exceptions\TableNotFoundException;
 use ntentan\atiaa\tests\lib\DriverLoader;
@@ -55,15 +56,12 @@ class DriverTest extends TestCase
     {
         putenv("ATIAA_DBNAME={$this->dbName}");
     }
-
-    /**
-     * @expectedException \ntentan\atiaa\exceptions\ConnectionException
-     */
+    
     public function testDbNotFound()
     {
+        $this->expectException(ConnectionException::class);
         if (getenv('ATIAA_SKIP_DB') === 'yes') {
             $this->markTestSkipped();
-
             return;
         }
         putenv('ATIAA_DBNAME=none');
@@ -90,7 +88,11 @@ class DriverTest extends TestCase
 
         $testDbDescription = $driver->describe();
         $views = $testDbDescription['views'];
+
+        // Unset the views since they vary from each other with respect to database drivers.
         unset($testDbDescription['views']);
+        unset($testDbDescription['schemata']['main']['views']);
+
         require "tests/expected/{$type}/database_description.php";
         $this->assertEquals($databaseDescription, $testDbDescription);
         $this->assertArrayHasKey('users_view', $views);
@@ -107,6 +109,7 @@ class DriverTest extends TestCase
         $testDbDescription = $driver->describe();
         $views = $testDbDescription['views'];
         unset($testDbDescription['views']);
+        unset($testDbDescription['schemata']['main']['views']);
         require "tests/expected/{$type}/database_description_clean_defaults.php";
         $this->assertEquals($databaseDescription, $testDbDescription);
         $this->assertArrayHasKey('users_view', $views);
