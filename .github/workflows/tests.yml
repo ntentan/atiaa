@@ -1,0 +1,22 @@
+name: Test
+on: [push]
+jobs:
+  PHPUnit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          tools: composer
+      - name: Running composer
+        run: composer install
+      - name: Running php unit tests
+        run: vendor/bin/phpunit  --coverage-clover coverage.clover -c tests/phpunit.xml
+      - name: Downloading Ocular Tool
+        run: composer global require scrutinizer/ocular dev-master
+      - name: Uploading Code Metrics
+        run: php ~/.composer/vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
