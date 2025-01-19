@@ -26,6 +26,8 @@
 
 namespace ntentan\atiaa\tests\cases;
 
+use ntentan\atiaa\exceptions\DatabaseDriverException;
+use ntentan\atiaa\exceptions\TableNotFoundException;
 use ntentan\atiaa\tests\lib\DriverLoader;
 use PHPUnit\Framework\TestCase;
 
@@ -43,13 +45,13 @@ class DriverTest extends TestCase
         return $descriptor;
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         // Preserve the original dbname just in case it changes in any test
         $this->dbName = getenv('ATIAA_DBNAME');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         putenv("ATIAA_DBNAME={$this->dbName}");
     }
@@ -138,38 +140,30 @@ class DriverTest extends TestCase
         $this->assertEquals($employeesDescription, $employeesDbDescription);
     }
 
-    /**
-     * @expectedException \ntentan\atiaa\exceptions\TableNotFoundException
-     */
     public function testTableNotFoundException()
     {
+        $this->expectException(TableNotFoundException::class);
         $driver = $this->getDriver();
         $driver->describeTable('unknown_table');
     }
 
-    /**
-     * @expectedException \ntentan\atiaa\exceptions\TableNotFoundException
-     */
     public function testTableNotFoundExceptionAgain()
     {
+        $this->expectException(TableNotFoundException::class);
         $driver = $this->getDriver($this);
         $this->getDescriptor($driver)->describeTables($driver->getDefaultSchema(), ['users', 'unknown_table']);
     }
 
-    /**
-     * @expectedException \ntentan\atiaa\exceptions\DatabaseDriverException
-     */
     public function testFaultyQueryException()
     {
+        $this->expectException(DatabaseDriverException::class);
         $driver = $this->getDriver($this);
         $driver->query('SPELECT * FROM dummy');
     }
 
-    /**
-     * @expectedException \ntentan\atiaa\exceptions\DatabaseDriverException
-     */
     public function testDisconnect()
     {
+        $this->expectException(DatabaseDriverException::class);
         $driver = $this->getDriver($this);
         $driver->disconnect();
         $driver->query('SELECT * FROM users');

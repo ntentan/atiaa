@@ -27,7 +27,7 @@
 namespace ntentan\atiaa\tests\cases;
 
 use ntentan\atiaa\tests\lib\DriverLoader;
-use PHPUnit\DbUnit\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class TransactionsTest extends TestCase
 {
