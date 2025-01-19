@@ -29,7 +29,7 @@ jobs:
       - name: Running composer
         run: composer install
       - name: Running php unit tests
-        run: vendor/bin/phpunit  --coverage-clover coverage.clover -c tests/config/githug.xml
+        run: vendor/bin/phpunit  --coverage-clover coverage.clover -c tests/config/github.xml
       - name: Downloading Ocular Tool
         run: composer global require scrutinizer/ocular dev-master
       - name: Set the environmental variable
