@@ -27,7 +27,7 @@ jobs:
               ATIAA_DBNAME: atiaa_test
               ATIAA_PDO_DSN: mysql:host=localhost;dbname=atiaa_test;user=root
             initialize: |
-                mysql -h 127.0.0.1 --user root -e 'create database atiaa_test;'
+                echo "create database atiaa_test;" | mysql -h 127.0.0.1 --user root
                 mysql -h 127.0.0.1 --user root atiaa_test < tests/databases/mysql.sql
     steps:
       - name: Check out repository code
