@@ -27,8 +27,8 @@ jobs:
               ATIAA_DBNAME: atiaa_test
               ATIAA_PDO_DSN: mysql:host=localhost;dbname=atiaa_test;user=root
             initialize: |
-                mysql -h 127.0.0.1 --port 4306 -e 'create database atiaa_test;'
-                mysql -h 127.0.0.1 --port 4306 atiaa_test < tests/databases/mysql.sql
+                mysql -h 127.0.0.1 --user root -e 'create database atiaa_test;'
+                mysql -h 127.0.0.1 --user root atiaa_test < tests/databases/mysql.sql
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
