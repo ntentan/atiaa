@@ -11,7 +11,7 @@ jobs:
               ATIAA_FILE: sqlite.db
               ATIAA_PDO_DSN: sqlite:sqlite.db
               ATIAA_SKIP_DB: yes
-            dsn: sqlite:sqlite.db
+            initialize: sqlite3 sqlite.db < tests/databases/sqlite.sql
 
 #              ATIAA_DRIVER: sqlite
 #              ATIAA_FILE: sqlite.db
@@ -29,6 +29,8 @@ jobs:
           tools: composer
       - name: Running composer
         run: composer install
+      - name: Initializing the database
+        run: ${{ matrix.db.initialize }}
       - name: Running php unit tests
         env: ${{ matrix.db.env }}
         run: vendor/bin/phpunit  --coverage-clover coverage.clover -c tests/config/github.xml
