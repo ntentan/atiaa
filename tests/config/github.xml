@@ -8,14 +8,9 @@
             <directory>../cases</directory>    
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">../../src</directory>
-        </whitelist>
-    </filter>
-    <coverage>
+    <source>
         <include>
             <directory suffix=".php">../../src</directory>
         </include>
-    </coverage>
+    </source>
 </phpunit>

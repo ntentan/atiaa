@@ -9,12 +9,11 @@
         }
     ],
     "require": {
-        "php" : ">=8.1",
         "ntentan/utils": "0.*",
         "ext-pdo": "*"
     },
     "require-dev" : {
-        "phpunit/phpunit" : "@stable",
+        "phpunit/phpunit" : "11.*",
         "ext-json": "*"
     },
     "autoload" : {
