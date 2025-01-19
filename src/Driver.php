@@ -19,7 +19,7 @@ abstract class Driver
     /**
      * The internal PDO connection that is wrapped by this driver.
      */
-    private ?\PDO $pdo;
+    private \PDO|NullConnection|null $pdo;
 
     /**
      * The default schema used in the connection.
@@ -97,7 +97,7 @@ abstract class Driver
     /**
      * Close a connection to the database server.
      */
-    public function disconnect()
+    public function disconnect(): void
     {
         $this->pdo = null;
         $this->pdo = new NullConnection();
@@ -108,7 +108,7 @@ abstract class Driver
      *
      * @return string
      */
-    public function getDefaultSchema()
+    public function getDefaultSchema(): string
     {
         return $this->defaultSchema;
     }
@@ -116,13 +116,10 @@ abstract class Driver
     /**
      * Use the PDO driver to quote a string.
      *
-     * @param type $string
-     *
      * @throws ConnectionException
-     *
      * @return string
      */
-    public function quote($string)
+    public function quote(string $string): string
     {
         return $this->getPDO()->quote($string);
     }
@@ -132,18 +129,17 @@ abstract class Driver
      *
      * @return mixed
      */
-    private function fetchRows($statement)
+    private function fetchRows(\PDOStatement $statement): array
     {
         try {
             $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
-
             return $rows;
         } catch (\PDOException $e) {
-            // Skip any exceptions from fetching rows
+            return [];
         }
     }
 
-    private function prepareQuery($query, $bindData)
+    private function prepareQuery($query, $bindData): \PDOStatement
     {
         $statement = $this->pdo->prepare($query);
         foreach ($bindData as $key => $value) {
@@ -193,9 +189,6 @@ abstract class Driver
 
             throw new DatabaseDriverException("{$e->getMessage()} [$query] [BOUND DATA:$boundData]");
         }
-        if ($this->logger) {
-            $this->logger->debug($query, $bindData);
-        }
         $rows = $this->fetchRows($statement);
         $statement->closeCursor();
 
@@ -206,14 +199,9 @@ abstract class Driver
      * Runs a query but ensures that all identifiers are properly quoted by calling
      * the Driver::quoteQueryIdentifiers method on the query before executing it.
      *
-     * @param string $query
-     * @param bool   $bindData
-     *
      * @throws DatabaseDriverException
-     *
-     * @return array <mixed>
      */
-    public function quotedQuery($query, $bindData = [])
+    public function quotedQuery(string $query, array $bindData = []): array
     {
         return $this->query($this->quoteQueryIdentifiers($query), $bindData);
     }
@@ -360,7 +348,7 @@ abstract class Driver
      */
     private function getDescriptor()
     {
-        if (!is_object($this->descriptor)) {
+        if (!isset($this->descriptor)) {
             $descriptorClass = '\\ntentan\\atiaa\\descriptors\\'.ucfirst($this->config['driver']).'Descriptor';
             $this->descriptor = new $descriptorClass($this);
         }

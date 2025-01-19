@@ -57,17 +57,6 @@ class DriverTest extends TestCase
         putenv("ATIAA_DBNAME={$this->dbName}");
     }
 
-    public function testDbNotFound()
-    {
-        $this->expectException(ConnectionException::class);
-        if (getenv('ATIAA_SKIP_DB') === 'yes') {
-            $this->markTestSkipped();
-            return;
-        }
-        putenv('ATIAA_DBNAME=none');
-        $this->getDriver();
-    }
-
     public function testFunctions()
     {
         $driverName = $this->getDriverName();

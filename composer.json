@@ -10,7 +10,8 @@
     ],
     "require": {
         "php" : ">=8.1",
-        "ntentan/utils": "0.*"
+        "ntentan/utils": "0.*",
+        "ext-pdo": "*"
     },
     "require-dev" : {
         "phpunit/phpunit" : "@stable",

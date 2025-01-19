@@ -1,10 +1,12 @@
 <?php
 namespace ntentan\atiaa\drivers;
 
+use ntentan\atiaa\Driver;
+
 /**
  * SQLite driver implementation.
  */
-class SqliteDriver extends \ntentan\atiaa\Driver
+class SqliteDriver extends Driver
 {
     public function __construct($config = null)
     {
@@ -12,7 +14,8 @@ class SqliteDriver extends \ntentan\atiaa\Driver
         parent::__construct($config);
     }
 
-    public function connect()
+    #[\Override]
+    public function connect(): void
     {
         parent::connect();
         $this->query('PRAGMA foreign_keys=ON');
