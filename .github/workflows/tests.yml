@@ -8,6 +8,8 @@ jobs:
         image: mysql:latest
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        ports:
+          - '3306:3306'
     strategy:
       matrix:
         db:
