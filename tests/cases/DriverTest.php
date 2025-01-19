@@ -56,7 +56,7 @@ class DriverTest extends TestCase
     {
         putenv("ATIAA_DBNAME={$this->dbName}");
     }
-    
+
     public function testDbNotFound()
     {
         $this->expectException(ConnectionException::class);

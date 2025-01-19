@@ -7,10 +7,10 @@ jobs:
       matrix:
         configs:
           - |
-              ATIAA_DRIVER=sqlite
-              ATIAA_FILE=sqlite.db
-              ATIAA_PDO_DSN=sqlite:sqlite.db
-              ATIAA_SKIP_DB=yes
+              export ATIAA_DRIVER=sqlite
+              export ATIAA_FILE=sqlite.db
+              export ATIAA_PDO_DSN=sqlite:sqlite.db
+              export ATIAA_SKIP_DB=yes
 
 #              ATIAA_DRIVER: sqlite
 #              ATIAA_FILE: sqlite.db
