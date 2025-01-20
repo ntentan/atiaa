@@ -26,10 +26,9 @@ jobs:
               ATIAA_SKIP_DB: yes
             initialize: sqlite3 sqlite.db < tests/databases/sqlite.sql
             services:
-
               image: 'hello-world'
               env: []
-              ports: ''
+              ports: '80:80'
 
           - env:
               ATIAA_DRIVER: mysql
