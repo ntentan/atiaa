@@ -9,7 +9,7 @@ use ntentan\atiaa\Driver;
  */
 class PostgresqlDriver extends Driver
 {
-    protected string $defaultSchema = 'public';
+    protected ?string $defaultSchema = 'public';
 
     protected function getDriverName(): string
     {

@@ -230,7 +230,7 @@ abstract class Driver
 
         $equated = [];
         foreach ($params as $key => $value) {
-            if ($value == '') {
+            if ($value == '' || $key == 'options') {
                 continue;
             } else {
                 $equated[] = "$key=$value";
