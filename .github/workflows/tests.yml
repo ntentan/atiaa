@@ -3,13 +3,14 @@ on: [push]
 jobs:
   Integration:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        ports:
-          - '3306:3306'
+#    services:
+#      mysql:
+#        image: mysql:latest
+#        env:
+#          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+#        ports:
+#          - '3306:3306'
+    services: ${{ matrix.db.services }}
     strategy:
       matrix:
         db:
@@ -19,6 +20,7 @@ jobs:
               ATIAA_PDO_DSN: sqlite:sqlite.db
               ATIAA_SKIP_DB: yes
             initialize: sqlite3 sqlite.db < tests/databases/sqlite.sql
+            services: []
 
           - env:
               ATIAA_DRIVER: mysql
@@ -27,9 +29,16 @@ jobs:
               ATIAA_DBNAME: atiaa_test
               ATIAA_PDO_DSN: mysql:host=127.0.0.1;dbname=atiaa_test;user=root
             initialize: |
-                sleep 30
+                sleep 10
                 echo "create database atiaa_test;" | mysql -h 127.0.0.1 --user root
                 mysql -h 127.0.0.1 --user root atiaa_test < tests/databases/mysql.sql
+            services:
+              mysql:
+                image: mysql:latest
+                env:
+                  MYSQL_ALLOW_EMPTY_PASSWORD: yes
+                ports:
+                  - '3306:3306'
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
