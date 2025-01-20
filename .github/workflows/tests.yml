@@ -14,7 +14,8 @@ jobs:
       server:
         image: ${{ matrix.db.services.image }}
         env: ${{ matrix.db.services.env }}
-        ports: ${{ matrix.db.services.ports }}
+        ports:
+          - ${{ matrix.db.services.ports }}
     strategy:
       matrix:
         db:
@@ -25,6 +26,9 @@ jobs:
               ATIAA_SKIP_DB: yes
             initialize: sqlite3 sqlite.db < tests/databases/sqlite.sql
             services: []
+#              image: ''
+#              env: ''
+#              ports: ''
 
           - env:
               ATIAA_DRIVER: mysql
@@ -40,8 +44,7 @@ jobs:
                 image: mysql:latest
                 env:
                   MYSQL_ALLOW_EMPTY_PASSWORD: yes
-                ports:
-                  - '3306:3306'
+                ports: '3306:3306'
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
