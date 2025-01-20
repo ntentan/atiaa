@@ -80,7 +80,7 @@ class DriverTest extends TestCase
 
         // Unset the views since they vary from each other with respect to database drivers.
         unset($testDbDescription['views']);
-        unset($testDbDescription['schemata']['main']['views']);
+        unset($testDbDescription['schemata'][$driver->getDefaultSchema()]['views']);
 
         require "tests/expected/{$type}/database_description.php";
         $this->assertEquals($databaseDescription, $testDbDescription);
@@ -98,7 +98,7 @@ class DriverTest extends TestCase
         $testDbDescription = $driver->describe();
         $views = $testDbDescription['views'];
         unset($testDbDescription['views']);
-        unset($testDbDescription['schemata']['main']['views']);
+        unset($testDbDescription['schemata'][$driver->getDefaultSchema()]['views']);
         require "tests/expected/{$type}/database_description_clean_defaults.php";
         $this->assertEquals($databaseDescription, $testDbDescription);
         $this->assertArrayHasKey('users_view', $views);

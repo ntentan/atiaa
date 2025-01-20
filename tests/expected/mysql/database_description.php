@@ -26,8 +26,8 @@
 
 $databaseDescription = [
     'schemata' => [
-        'atiaa-test' => [
-            'name' => 'atiaa-test',
+        'atiaa_test' => [
+            'name' => 'atiaa_test',
             'tables' => [
                 'departments' => [
                     'schema'  => '',
@@ -219,8 +219,8 @@ $databaseDescription = [
                             'foreign_columns' => [
                                 0 => 'id',
                             ],
-                            'on_update' => 'RESTRICT',
-                            'on_delete' => 'RESTRICT',
+                            'on_update' => 'NO ACTION',
+                            'on_delete' => 'NO ACTION',
                         ],
                     ],
                     'indices' => [
@@ -421,8 +421,8 @@ $databaseDescription = [
                     'foreign_columns' => [
                         0 => 'id',
                     ],
-                    'on_update' => 'RESTRICT',
-                    'on_delete' => 'RESTRICT',
+                    'on_update' => 'NO ACTION',
+                    'on_delete' => 'NO ACTION',
                 ],
             ],
             'indices' => [
