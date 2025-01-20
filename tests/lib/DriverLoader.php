@@ -42,6 +42,7 @@ trait DriverLoader
             'password' => getenv('ATIAA_PASSWORD'),
             'file'     => getenv('ATIAA_FILE'),
             'dbname'   => getenv('ATIAA_DBNAME'),
+            'options'  => [\PDO::ATTR_TIMEOUT => 5]
         ]);
         $driver = $factory->createDriver();
         $driver->connect();

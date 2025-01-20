@@ -3,6 +3,7 @@ namespace ntentan\atiaa;
 
 use ntentan\atiaa\exceptions\ConnectionException;
 use ntentan\atiaa\exceptions\DatabaseDriverException;
+use PDO;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -23,10 +24,8 @@ abstract class Driver
 
     /**
      * The default schema used in the connection.
-     *
-     * @var string
      */
-    protected string $defaultSchema;
+    protected ?string $defaultSchema;
 
     /**
      * The connection parameters with which this connection was established.
@@ -74,16 +73,22 @@ abstract class Driver
 
     public function connect(): void
     {
-        $username = isset($this->config['user']) ? $this->config['user'] : null;
-        $password = isset($this->config['password']) ? $this->config['password'] : null;
-        $this->defaultSchema = $this->config['schema'] ?? $this->defaultSchema; 
+        $username = $this->config['user'] ?? null;
+        $password = $this->config['password'] ?? null;
+        $this->defaultSchema = $this->config['schema'] ?? $this->defaultSchema ?? null;
+
         unset($this->config['schema']);   
 
         try {
-            $this->pdo = new \PDO($this->getDriverName().':'.$this->expand($this->config), $username, $password);
-            $this->pdo->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, false);
-            $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
-            $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $options = $this->config['options'] ?? [];
+
+            $options[PDO::ATTR_ERRMODE] = $options[PDO::ATTR_ERRMODE] ?? PDO::ERRMODE_EXCEPTION;
+            $options[PDO::ATTR_EMULATE_PREPARES] = $options[PDO::ATTR_EMULATE_PREPARES] ?? false;
+            $options[PDO::ATTR_STRINGIFY_FETCHES] = $options[PDO::ATTR_STRINGIFY_FETCHES] ?? false;
+
+            $this->pdo = new \PDO(
+                $this->getDriverName().':'.$this->expand($this->config), $username, $password, $options
+            );
         } catch (\PDOException $e) {
             throw new ConnectionException("PDO failed to connect: {$e->getMessage()}");
         }
