@@ -46,6 +46,22 @@ jobs:
                 env:
                   MYSQL_ALLOW_EMPTY_PASSWORD: yes
                 ports: '3306:3306'
+
+          - env:
+              ATIAA_DRIVER: postgresql
+              ATIAA_HOST: 127.0.0.1
+              ATIAA_USER: postgres
+              ATIAA_DBNAME: atiaa_test
+              ATIAA_PDO_DSN: pgsql:host=127.0.0.1;dbname=atiaa_test;user=postgres
+            initialize: |
+              sleep 10
+              psql -c 'create database atiaa_test;' --host 127.0.0.1 --user postgres
+              psql -f tests/databases/postgresql.sql -U postgres -d atiaa_test
+            services:
+              image: postgres:latest
+              env:
+                POSTGRES_HOST_AUTH_METHOD: trust
+              ports: '5432:5432'
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
