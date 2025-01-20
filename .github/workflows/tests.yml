@@ -56,7 +56,7 @@ jobs:
             initialize: |
               sleep 10
               psql -c 'create database atiaa_test;' --host 127.0.0.1 --user postgres
-              psql -f tests/databases/postgresql.sql -U postgres -d atiaa_test
+              psql -f tests/databases/postgresql.sql -U postgres -d atiaa_test --host 127.0.0.1
             services:
               image: postgres:latest
               env:
