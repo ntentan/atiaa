@@ -10,7 +10,11 @@ jobs:
 #          MYSQL_ALLOW_EMPTY_PASSWORD: yes
 #        ports:
 #          - '3306:3306'
-    services: ${{ matrix.db.services }}
+    services:
+      server:
+        image: ${{ matrix.db.services.image }}
+        env: ${{ matrix.db.services.env }}
+        ports: ${{ matrix.db.services.ports }}
     strategy:
       matrix:
         db:
@@ -33,7 +37,6 @@ jobs:
                 echo "create database atiaa_test;" | mysql -h 127.0.0.1 --user root
                 mysql -h 127.0.0.1 --user root atiaa_test < tests/databases/mysql.sql
             services:
-              mysql:
                 image: mysql:latest
                 env:
                   MYSQL_ALLOW_EMPTY_PASSWORD: yes
