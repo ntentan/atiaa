@@ -25,10 +25,11 @@ jobs:
               ATIAA_PDO_DSN: sqlite:sqlite.db
               ATIAA_SKIP_DB: yes
             initialize: sqlite3 sqlite.db < tests/databases/sqlite.sql
-            services: []
-#              image: ''
-#              env: ''
-#              ports: ''
+            services:
+
+              image: 'hello-world'
+              env: []
+              ports: ''
 
           - env:
               ATIAA_DRIVER: mysql
