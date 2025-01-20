@@ -22,10 +22,10 @@ jobs:
 
           - env:
               ATIAA_DRIVER: mysql
-              ATIAA_HOST: localhost
+              ATIAA_HOST: 127.0.0.1
               ATIAA_USER: root
               ATIAA_DBNAME: atiaa_test
-              ATIAA_PDO_DSN: mysql:host=localhost;dbname=atiaa_test;user=root
+              ATIAA_PDO_DSN: mysql:host=127.0.0.1;dbname=atiaa_test;user=root
             initialize: |
                 sleep 30
                 echo "create database atiaa_test;" | mysql -h 127.0.0.1 --user root
