@@ -27,7 +27,8 @@ jobs:
             initialize: sqlite3 sqlite.db < tests/databases/sqlite.sql
             services:
               image: 'hello-world'
-              env: []
+              env:
+                GREET: Hello
               ports: '80:80'
 
           - env:
