@@ -8,12 +8,10 @@ use Psr\Log\LoggerInterface;
 
 /**
  * A driver class for connecting to a specific database platform.
- * The Driver class is the main wrapper for atiaa. The driver class contains
- * an instance of PDO with which it performs its operations. Aside from wrapping
- * around PDO it also provides methods which makes it possible to quote strings
- * and identifiers in a platform independent fashion. The driver class is
- * responsible for loading the descriptors which are used for describing the
- * database schemas.
+ * The Driver class is the main wrapper for atiaa. The driver class contains an instance of PDO with which it performs
+ * its operations. Aside from wrapping around PDO it also provides methods which makes it possible to quote strings and
+ * identifiers in a platform independent fashion. The driver class is responsible for loading the descriptors which are
+ * used for describing the database schemas.
  */
 abstract class Driver
 {
@@ -41,10 +39,12 @@ abstract class Driver
 
     private static int $transactionCount = 0;
 
+    private bool $connected = false;
+
     /**
-     * Creates a new instance of the Atiaa driver. This class is usually initiated
-     * through the \ntentan\atiaa\Atiaa::getConnection() method. For example
-     * to create a new instance of a connection to a mysql database.
+     * Creates a new instance of the Atiaa driver. This class is usually initiated through the
+     * \ntentan\atiaa\Atiaa::getConnection() method. For example, to create a new instance of a connection to a mysql
+     * database.
      *
      * ````php
      * use ntentan\atiaa\Driver;
@@ -63,8 +63,6 @@ abstract class Driver
      * var_dump($driver->query("SELECT * FROM some_table");
      * var_dump($driver->describe());
      * ````
-     *
-     * @param array <string> $config The configuration with which to connect to the database.
      */
     public function __construct(array $config)
     {
@@ -89,6 +87,7 @@ abstract class Driver
             $this->pdo = new \PDO(
                 $this->getDriverName().':'.$this->expand($this->config), $username, $password, $options
             );
+            $this->connected = true;
         } catch (\PDOException $e) {
             throw new ConnectionException("PDO failed to connect: {$e->getMessage()}");
         }
@@ -105,6 +104,7 @@ abstract class Driver
     public function disconnect(): void
     {
         $this->pdo = new NullConnection();
+        $this->connected = false;
     }
 
     /**
@@ -121,7 +121,6 @@ abstract class Driver
      * Use the PDO driver to quote a string.
      *
      * @throws ConnectionException
-     * @return string
      */
     public function quote(string $string): string
     {
@@ -160,10 +159,9 @@ abstract class Driver
     }
 
     /**
-     * Pepare and execute a query, while binding data at the same time. Prevents
-     * the writing of repetitive prepare and execute statements. This method
-     * returns an array which contains the results of the query that was
-     * executed. For queries which do not return any results a null is returned.
+     * Pepare and execute a query, while binding data at the same time. Prevents the writing of repetitive prepare and
+     * execute statements. This method returns an array which contains the results of the query that was executed. For
+     * queries which do not return any results a null is returned.
      *
      * @throws DatabaseDriverException
      */
@@ -189,8 +187,8 @@ abstract class Driver
     }
 
     /**
-     * Runs a query but ensures that all identifiers are properly quoted by calling
-     * the Driver::quoteQueryIdentifiers method on the query before executing it.
+     * Runs a query but ensures that all identifiers are properly quoted by calling the Driver::quoteQueryIdentifiers
+     * method on the query before executing it.
      *
      * @throws DatabaseDriverException
      */
@@ -200,12 +198,7 @@ abstract class Driver
     }
 
     /**
-     * Expands the configuration array into a format that can easily be passed
-     * to PDO.
-     *
-     * @param array $params The query parameters
-     *
-     * @return string
+     * Expands the configuration array into a format that can easily be passed to PDO.
      */
     private function expand(array $params): string
     {
@@ -229,15 +222,9 @@ abstract class Driver
     }
 
     /**
-     * This method provides a system independent way of quoting identifiers in
-     * queries. By default all identifiers can be quoted with double quotes (").
-     * When a query quoted with double quotes is passed through this method the
-     * output generated has the double quotes replaced with the quoting character
-     * of the target database platform.
-     *
-     * @param string $query
-     *
-     * @return string
+     * This method provides a system independent way of quoting identifiers in queries. By default all identifiers can
+     * be quoted with double quotes ("). When a query quoted with double quotes is passed through this method the output
+     * generated has the double quotes replaced with the quoting character of the target database platform.
      */
     public function quoteQueryIdentifiers(string $query): string
     {
@@ -278,8 +265,8 @@ abstract class Driver
     }
 
     /**
-     * A wrapper arround PDO's beginTransaction method which uses a static reference
-     * counter to implement nested transactions.
+     * A wrapper around PDO's beginTransaction method which uses a static reference counter to implement nested
+     * transactions.
      */
     public function beginTransaction()
     {
@@ -289,8 +276,8 @@ abstract class Driver
     }
 
     /**
-     * A wrapper around PDO's commit transaction method which uses a static reference
-     * counter to implement nested transactions.
+     * A wrapper around PDO's commit transaction method which uses a static reference counter to implement nested
+     * transactions.
      */
     public function commit()
     {
@@ -300,9 +287,8 @@ abstract class Driver
     }
 
     /**
-     * A wrapper around PDO's rollback transaction methd which rolls back all
-     * activities performed since the first call to begin transaction.
-     * Unfortunately, transactions cannot be rolled back in a nested fashion.
+     * A wrapper around PDO's rollback transaction methd which rolls back all activities performed since the first call
+     * to begin transaction. Unfortunately, transactions cannot be rolled back in a nested fashion.
      */
     public function rollback()
     {
@@ -342,8 +328,7 @@ abstract class Driver
     }
 
     /**
-     * Specify the default schema to use in cases where a schema is not provided
-     * as part of the table reference.
+     * Specify the default schema to use in cases where a schema is not provided as part of the table reference.
      */
     public function setDefaultSchema(string $defaultSchema)
     {
@@ -354,8 +339,13 @@ abstract class Driver
 
     abstract public function quoteIdentifier($identifier);
 
-    public function setCleanDefaults($cleanDefaults)
+    public function setCleanDefaults(bool $cleanDefaults): void
     {
         $this->getDescriptor()->setCleanDefaults($cleanDefaults);
+    }
+
+    public function isConnected(): bool
+    {
+        return $this->connected;
     }
 }

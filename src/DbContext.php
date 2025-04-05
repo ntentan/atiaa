@@ -79,11 +79,9 @@ final class DbContext
      */
     public function getDriver(): Driver
     {
-        if (is_null($this->driver)) {
-            $this->driver = $this->driverFactory->createDriver();
+        if (!$this->driver->isConnected()) {
             $this->driver->connect();
         }
-
         return $this->driver;
     }
 
@@ -106,5 +104,20 @@ final class DbContext
     public static function destroy(): void
     {
         self::$instance->getDriver()->disconnect();
+    }
+
+    public static function beginTransaction(): void
+    {
+        self::$instance->getDriver()->beginTransaction();
+    }
+
+    public static function commitTransaction(): void
+    {
+        self::$instance->getDriver()->commit();
+    }
+
+    public static function rollbackTransaction(): void
+    {
+        self::$instance->getDriver()->rollback();
     }
 }
