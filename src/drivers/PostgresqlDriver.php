@@ -21,7 +21,7 @@ class PostgresqlDriver extends Driver
         return "\"$identifier\"";
     }
 
-    public function getLastInsertId()
+    public function getLastInsertId(): mixed
     {
         $lastval = $this->query('SELECT LASTVAL() as last');
         return $lastval[0]['last'];
