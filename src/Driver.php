@@ -20,7 +20,7 @@ abstract class Driver
     /**
      * The internal PDO connection that is wrapped by this driver.
      */
-    private \PDO|NullConnection|null $pdo;
+    private \PDO|NullConnection $pdo;
 
     /**
      * The default schema used in the connection.
@@ -104,7 +104,6 @@ abstract class Driver
      */
     public function disconnect(): void
     {
-        $this->pdo = null;
         $this->pdo = new NullConnection();
     }
 
@@ -129,11 +128,7 @@ abstract class Driver
         return $this->getPDO()->quote($string);
     }
 
-    /**
-     * @param $statement
-     *
-     * @return mixed
-     */
+
     private function fetchRows(\PDOStatement $statement): array
     {
         try {
@@ -170,16 +165,9 @@ abstract class Driver
      * returns an array which contains the results of the query that was
      * executed. For queries which do not return any results a null is returned.
      *
-     * @todo Add a parameter to cache prepared statements so they can be reused easily.
-     *
-     * @param string $query    The query to be executed quoted in PDO style
-     * @param array  $bindData
-     *
      * @throws DatabaseDriverException
-     *
-     * @return array <mixed>
      */
-    public function query($query, $bindData = [])
+    public function query(string $query, array $bindData = []): array
     {
         try {
             if (empty($bindData)) {
@@ -219,7 +207,7 @@ abstract class Driver
      *
      * @return string
      */
-    private function expand($params)
+    private function expand(array $params): string
     {
         unset($params['driver']);
         if (isset($params['file'])) {
@@ -251,7 +239,7 @@ abstract class Driver
      *
      * @return string
      */
-    public function quoteQueryIdentifiers($query)
+    public function quoteQueryIdentifiers(string $query): string
     {
         return preg_replace_callback(
             '/\"([a-zA-Z\_ ]*)\"/',
@@ -266,22 +254,16 @@ abstract class Driver
      * Returns an array description of the schema represented by the connection.
      * The description returns contains information about `tables`, `columns`, `keys`,
      * `constraints`, `views` and `indices`.
-     *
-     * @return array<mixed>
      */
-    public function describe()
+    public function describe(): array
     {
         return $this->getDescriptor()->describe();
     }
 
     /**
      * Returns the description of a database table as an associative array.
-     *
-     * @param string $table
-     *
-     * @return array<mixed>
      */
-    public function describeTable($table)
+    public function describeTable(string $table): array
     {
         $table = explode('.', $table);
         if (count($table) > 1) {
@@ -332,26 +314,16 @@ abstract class Driver
 
     /**
      * Return the underlying PDO object.
-     *
-     * @throws ConnectionException
-     *
-     * @return \PDO
      */
-    public function getPDO()
+    public function getPDO(): PDO
     {
-        if ($this->pdo === null) {
-            throw new ConnectionException('A connection has not been established. Please call the connect() method.');
-        }
-
         return $this->pdo;
     }
 
     /**
      * Returns an instance of a descriptor for a given driver.
-     *
-     * @return \ntentan\atiaa\Descriptor
      */
-    private function getDescriptor()
+    private function getDescriptor(): Descriptor
     {
         if (!isset($this->descriptor)) {
             $descriptorClass = '\\ntentan\\atiaa\\descriptors\\'.ucfirst($this->config['driver']).'Descriptor';
@@ -363,10 +335,8 @@ abstract class Driver
 
     /**
      * A wrapper around PDO's lastInsertId() method.
-     *
-     * @return mixed
      */
-    public function getLastInsertId()
+    public function getLastInsertId(): mixed
     {
         return $this->pdo->lastInsertId();
     }
@@ -374,10 +344,8 @@ abstract class Driver
     /**
      * Specify the default schema to use in cases where a schema is not provided
      * as part of the table reference.
-     *
-     * @param string $defaultSchema
      */
-    public function setDefaultSchema($defaultSchema)
+    public function setDefaultSchema(string $defaultSchema)
     {
         $this->defaultSchema = $defaultSchema;
     }

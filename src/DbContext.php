@@ -27,53 +27,35 @@
 namespace ntentan\atiaa;
 
 /**
- * Holds the a database connection instance.
+ * Holds a database connection instance.
  */
 final class DbContext
 {
     /**
      * The driver held by the context.
-     *
-     * @var Driver
      */
-    private $driver;
-
-    /**
-     * The factory responsible for creating the driver when needed.
-     *
-     * @var DriverFactory
-     */
-    private $driverFactory;
+    private Driver $driver;
 
     /**
      * Singleton instance of the context.
-     *
-     * @var DbContext
      */
-    private static $instance;
+    private static self $instance;
 
     /**
      * DBContext constructor.
-     *
-     * @param DriverFactory $driverFactory
      */
-    private function __construct(DriverFactory $driverFactory)
+    private function __construct(Driver $driver)
     {
-        $this->driverFactory = $driverFactory;
+        $this->driver = $driver;
         self::$instance = $this;
     }
 
     /**
      * Create a new database context.
-     *
-     * @param DriverFactory $driverFactory
-     *
-     * @return DbContext
      */
-    public static function initialize(DriverFactory $driverFactory)
+    public static function initialize(DriverFactory $driverFactory): DbContext
     {
-        self::$instance = new self($driverFactory);
-
+        self::$instance = new self($driverFactory->createDriver());
         return self::$instance;
     }
 
@@ -81,8 +63,6 @@ final class DbContext
      * Get the current singleton instance of the context.
      *
      * @throws \Exception
-     *
-     * @return DbContext
      */
     public static function getInstance(): self
     {
@@ -95,10 +75,7 @@ final class DbContext
 
     /**
      * Get the Driver instance wrapped in the context.
-     *
      * @throws exceptions\ConnectionException
-     *
-     * @return Driver
      */
     public function getDriver(): Driver
     {
@@ -113,15 +90,10 @@ final class DbContext
     /**
      * Run a query on the database driver.
      *
-     * @param string $query
-     * @param array  $bindData
-     *
      * @throws exceptions\ConnectionException
      * @throws exceptions\DatabaseDriverException
-     *
-     * @return array
      */
-    public function query($query, $bindData = [])
+    public function query(string $query, array $bindData = []): array
     {
         return $this->getDriver()->query($query, $bindData);
     }
@@ -130,12 +102,9 @@ final class DbContext
      * Destroy the context.
      *
      * @throws exceptions\ConnectionException
-     *
-     * @return void
      */
-    public static function destroy()
+    public static function destroy(): void
     {
         self::$instance->getDriver()->disconnect();
-        self::$instance = null;
     }
 }

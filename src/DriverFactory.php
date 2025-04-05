@@ -6,12 +6,10 @@ use ntentan\utils\Text;
 
 class DriverFactory
 {
-    private $config;
+    private array $config;
 
     /**
      * Create an instance of the driver factory with the connection configurations.
-     *
-     * @param array $dbConfig
      */
     public function __construct(array $dbConfig)
     {
@@ -20,18 +18,14 @@ class DriverFactory
 
     /**
      * Set or replace the configuration found in the factory.
-     *
-     * @param $config
      */
-    public function setConfig($config): void
+    public function setConfig(array $config): void
     {
         $this->config = $config;
     }
 
     /**
      * Return the configuration currently stored in the factory.
-     *
-     * @return array
      */
     public function getConfig(): array
     {
@@ -40,13 +34,10 @@ class DriverFactory
 
     /**
      * Create a new driver based on the configuration in the factory.
-     *
-     * @return \ntentan\atiaa\Driver
      */
     public function createDriver(): Driver
     {
         $classname = '\ntentan\atiaa\drivers\\'.Text::ucamelize($this->config['driver']).'Driver';
-
         return new $classname($this->config);
     }
 }
