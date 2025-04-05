@@ -1,15 +1,8 @@
-name: Test
+name: Tests
 on: [push]
 jobs:
   Integration:
     runs-on: ubuntu-latest
-#    services:
-#      mysql:
-#        image: mysql:latest
-#        env:
-#          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-#        ports:
-#          - '3306:3306'
     services:
       server:
         image: ${{ matrix.db.services.image }}
