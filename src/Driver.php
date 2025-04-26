@@ -77,7 +77,6 @@ abstract class Driver
         }
         $username = $this->config['user'] ?? null;
         $password = $this->config['password'] ?? null;
-//        $this->defaultSchema = $this->config['schema'] ?? $this->defaultSchema ?? null;
 
         unset($this->config['schema']);   
 
