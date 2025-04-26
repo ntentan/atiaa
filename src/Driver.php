@@ -67,13 +67,17 @@ abstract class Driver
     public function __construct(array $config)
     {
         $this->config = $config;
+        $this->defaultSchema = $this->config['schema'] ?? $this->defaultSchema ?? null;
     }
 
     public function connect(): void
     {
+        if ($this->connected) {
+            return;
+        }
         $username = $this->config['user'] ?? null;
         $password = $this->config['password'] ?? null;
-        $this->defaultSchema = $this->config['schema'] ?? $this->defaultSchema ?? null;
+//        $this->defaultSchema = $this->config['schema'] ?? $this->defaultSchema ?? null;
 
         unset($this->config['schema']);   
 
@@ -167,6 +171,7 @@ abstract class Driver
      */
     public function query(string $query, array $bindData = []): array
     {
+        $this->connect();
         try {
             if (empty($bindData)) {
                 $statement = $this->pdo->query($query);

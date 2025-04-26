@@ -79,9 +79,6 @@ final class DbContext
      */
     public function getDriver(): Driver
     {
-        if (!$this->driver->isConnected()) {
-            $this->driver->connect();
-        }
         return $this->driver;
     }
 
@@ -93,7 +90,7 @@ final class DbContext
      */
     public function query(string $query, array $bindData = []): array
     {
-        return $this->getDriver()->query($query, $bindData);
+        return $this->driver->query($query, $bindData);
     }
 
     /**
@@ -103,21 +100,25 @@ final class DbContext
      */
     public static function destroy(): void
     {
-        self::$instance->getDriver()->disconnect();
+        self::$instance->driver->connect();
+        self::$instance->driver->disconnect();
     }
 
     public static function beginTransaction(): void
     {
-        self::$instance->getDriver()->beginTransaction();
+        self::$instance->driver->connect();
+        self::$instance->driver->beginTransaction();
     }
 
     public static function commitTransaction(): void
     {
-        self::$instance->getDriver()->commit();
+        self::$instance->driver->connect();
+        self::$instance->driver->commit();
     }
 
     public static function rollbackTransaction(): void
     {
-        self::$instance->getDriver()->rollback();
+        self::$instance->driver->connect();
+        self::$instance->driver->rollback();
     }
 }
