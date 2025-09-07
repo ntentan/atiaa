@@ -1,3 +1,7 @@
+v0.9.1 - 2025-09-07
+===================
+- Fixes a bug to ensure connections are only initiated when needed.
+
 v0.9.0 - 2025-04-05
 ===================
 - Added a new way to access the driver for transaction management through the database context.
