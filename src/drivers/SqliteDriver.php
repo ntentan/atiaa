@@ -18,7 +18,10 @@ class SqliteDriver extends Driver
     public function connect(): void
     {
         parent::connect();
-        $this->query('PRAGMA foreign_keys=ON');
+        if (!$this->isConnected()) {
+            // Connection is still in progress and an Exception has not been thrown.
+            $this->query('PRAGMA foreign_keys=ON');
+        }
     }
 
     protected function getDriverName()

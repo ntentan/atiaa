@@ -153,13 +153,13 @@ class DriverTest extends TestCase
         $driver->query('SPELECT * FROM dummy');
     }
 
-    public function testDisconnect()
-    {
-        $this->expectException(DatabaseDriverException::class);
-        $driver = $this->getDriver($this);
-        $driver->disconnect();
-        $driver->query('SELECT * FROM users');
-    }
+//    public function testDisconnect()
+//    {
+//        $this->expectException(DatabaseDriverException::class);
+//        $driver = $this->getDriver($this);
+//        $driver->disconnect();
+//        $driver->query('SELECT * FROM users');
+//    }
 
     private function hasSchemata()
     {

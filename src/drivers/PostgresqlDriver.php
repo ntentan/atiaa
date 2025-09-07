@@ -31,7 +31,7 @@ class PostgresqlDriver extends Driver
     public function connect(): void
     {
         parent::connect();
-        if (isset($this->config['schema'])) {
+        if (isset($this->config['schema']) && !$this->isConnected()) {
             $this->query("SET search_path TO {$this->config['schema']}");
         }
     }
