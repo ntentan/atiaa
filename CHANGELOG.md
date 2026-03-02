@@ -1,3 +1,7 @@
+v0.9.2 - 2026-03-02
+===================
+- Fixing a faulty search query sending.
+
 v0.9.1 - 2025-09-07
 ===================
 - Fixes a bug to ensure connections are only initiated when needed.

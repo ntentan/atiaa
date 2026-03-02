@@ -2,7 +2,6 @@ Atiaa PDO Wrapper
 =================
 
 [![Build Status](https://github.com/ntentan/atiaa/actions/workflows/tests.yml/badge.svg)](https://github.com/ntentan/atiaa/actions/workflows/tests.yml)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ntentan/atiaa/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/ntentan/atiaa/?branch=main)
 [![Code Coverage](https://scrutinizer-ci.com/g/ntentan/atiaa/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/ntentan/atiaa/?branch=main)
 [![Latest Stable Version](https://poser.pugx.org/ntentan/atiaa/version.svg)](https://packagist.org/packages/ntentan/atiaa)
 [![Total Downloads](https://poser.pugx.org/ntentan/atiaa/downloads.svg)](https://packagist.org/packages/ntentan/atiaa)
