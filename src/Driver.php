@@ -275,6 +275,7 @@ abstract class Driver
     public function beginTransaction()
     {
         if (self::$transactionCount++ === 0) {
+            $this->connect();
             $this->pdo->beginTransaction();
         }
     }
