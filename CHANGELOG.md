@@ -1,3 +1,7 @@
+v0.9.3 - 2026-03-03
+===================
+- Ensuring connections are made when transactions begin.
+
 v0.9.2 - 2026-03-02
 ===================
 - Fixing a faulty search query sending.
