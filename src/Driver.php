@@ -56,7 +56,7 @@ abstract class Driver
      *         'user' => 'root',
      *         'password' => 'rootpassy',
      *         'host' => 'localhost',
-     *         'dbname' => 'somedb'
+     *         'dbname' => 'some_db'
      *     )
      * );
      *
@@ -317,7 +317,7 @@ abstract class Driver
     private function getDescriptor(): Descriptor
     {
         if (!isset($this->descriptor)) {
-            $descriptorClass = '\\ntentan\\atiaa\\descriptors\\'.ucfirst($this->config['driver']).'Descriptor';
+            $descriptorClass = __NAMESPACE__.'\\descriptors\\'.ucfirst($this->config['driver']).'Descriptor';
             $this->descriptor = new $descriptorClass($this);
         }
 
