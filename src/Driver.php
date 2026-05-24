@@ -4,7 +4,6 @@ namespace ntentan\atiaa;
 use ntentan\atiaa\exceptions\ConnectionException;
 use ntentan\atiaa\exceptions\DatabaseDriverException;
 use PDO;
-use Psr\Log\LoggerInterface;
 
 /**
  * A driver class for connecting to a specific database platform.
@@ -35,7 +34,9 @@ abstract class Driver
     /**
      * An instance of the descriptor used internally.
      */
-    private Descriptor $descriptor;
+    private DescriptorInterface $descriptor;
+
+    private ?DescriptorFactoryInterface $descriptorFactory = null;
 
     private static int $transactionCount = 0;
 
@@ -64,10 +65,22 @@ abstract class Driver
      * var_dump($driver->describe());
      * ````
      */
-    public function __construct(array $config)
+    public function __construct(array $config, ?DescriptorFactoryInterface $descriptorFactory = null)
     {
         $this->config = $config;
         $this->defaultSchema = $this->config['schema'] ?? $this->defaultSchema ?? null;
+        $this->descriptorFactory = $descriptorFactory;
+    }
+
+    public function getConfig(): array
+    {
+        return $this->config;
+    }
+
+    public function setDescriptorFactory(DescriptorFactoryInterface $descriptorFactory): void
+    {
+        $this->descriptorFactory = $descriptorFactory;
+        unset($this->descriptor);
     }
 
     public function connect(): void
@@ -314,11 +327,15 @@ abstract class Driver
     /**
      * Returns an instance of a descriptor for a given driver.
      */
-    private function getDescriptor(): Descriptor
+    private function getDescriptor(): DescriptorInterface
     {
         if (!isset($this->descriptor)) {
-            $descriptorClass = __NAMESPACE__.'\\descriptors\\'.ucfirst($this->config['driver']).'Descriptor';
-            $this->descriptor = new $descriptorClass($this);
+            if ($this->descriptorFactory !== null) {
+                $this->descriptor = $this->descriptorFactory->createDescriptor($this);
+            } else {
+                $descriptorClass = __NAMESPACE__.'\\descriptors\\'.ucfirst($this->config['driver']).'Descriptor';
+                $this->descriptor = new $descriptorClass($this);
+            }
         }
 
         return $this->descriptor;

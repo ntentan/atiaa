@@ -153,6 +153,25 @@ class DriverTest extends TestCase
         $driver->query('SPELECT * FROM dummy');
     }
 
+    public function testDescriptorFactoryInjection()
+    {
+        $driver = $this->getDriver();
+        $mockDescriptor = $this->createMock(\ntentan\atiaa\DescriptorInterface::class);
+        $mockDescriptor->expects($this->once())
+            ->method('describe')
+            ->willReturn(['tables' => [], 'views' => [], 'schemata' => []]);
+
+        $mockFactory = $this->createMock(\ntentan\atiaa\DescriptorFactoryInterface::class);
+        $mockFactory->expects($this->once())
+            ->method('createDescriptor')
+            ->with($driver)
+            ->willReturn($mockDescriptor);
+
+        $driver->setDescriptorFactory($mockFactory);
+        $description = $driver->describe();
+        $this->assertEquals(['tables' => [], 'views' => [], 'schemata' => []], $description);
+    }
+
     private function hasSchemata()
     {
         return strtolower(getenv('ATIAA_HAS_SCHEMAS')) === 'yes';

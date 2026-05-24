@@ -8,7 +8,7 @@ namespace ntentan\atiaa;
  * classes which provide the details of the actual database items. The main work
  * of this class is to format the description into a common format.
  */
-abstract class Descriptor
+abstract class Descriptor implements DescriptorInterface
 {
     /**
      * An instance of the database driver used for accessing the database
