@@ -1,3 +1,7 @@
+v0.9.4 - 2026-06-17
+===================
+- Make database descriptors injectable so they can easily be mocked.
+
 v0.9.3 - 2026-03-03
 ===================
 - Ensuring connections are made when transactions begin.
