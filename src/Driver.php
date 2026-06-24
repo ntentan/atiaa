@@ -4,6 +4,7 @@ namespace ntentan\atiaa;
 use ntentan\atiaa\exceptions\ConnectionException;
 use ntentan\atiaa\exceptions\DatabaseDriverException;
 use PDO;
+use Psr\Log\LoggerInterface;
 
 /**
  * A driver class for connecting to a specific database platform.
@@ -42,6 +43,8 @@ abstract class Driver
 
     private bool $connected = false;
 
+    private ?LoggerInterface $logger = null;
+
     /**
      * Creates a new instance of the Atiaa driver. This class is usually initiated through the
      * \ntentan\atiaa\Atiaa::getConnection() method. For example, to create a new instance of a connection to a mysql
@@ -75,6 +78,11 @@ abstract class Driver
     public function getConfig(): array
     {
         return $this->config;
+    }
+
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
     }
 
     public function setDescriptorFactory(DescriptorFactoryInterface $descriptorFactory): void
@@ -188,6 +196,7 @@ abstract class Driver
             if (empty($bindData)) {
                 $statement = $this->pdo->query($query);
             } else {
+                $this->logger?->debug("Executing query: $query with bound data: ".json_encode($bindData));
                 $statement = $this->prepareQuery($query, $bindData);
                 $statement->execute();
                 $statement->errorCode();

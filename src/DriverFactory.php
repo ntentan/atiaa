@@ -3,17 +3,21 @@
 namespace ntentan\atiaa;
 
 use ntentan\utils\Text;
+use Psr\Log\LoggerInterface;
 
 class DriverFactory
 {
     private array $config;
 
+    private ?LoggerInterface $logger;
+
     /**
      * Create an instance of the driver factory with the connection configurations.
      */
-    public function __construct(array $dbConfig)
+    public function __construct(array $dbConfig, ?LoggerInterface $logger = null)
     {
         $this->config = $dbConfig;
+        $this->logger = $logger;
     }
 
     /**
@@ -38,6 +42,12 @@ class DriverFactory
     public function createDriver(): Driver
     {
         $classname = '\ntentan\atiaa\drivers\\'.Text::ucamelize($this->config['driver']).'Driver';
-        return new $classname($this->config);
+        $debugMode = $this->config['debug'] ?? false;
+        unset($this->config['debug']);
+        $driver = new $classname($this->config);
+        if ($debugMode && $this->logger !== null) {
+            $driver->setLogger($this->logger);
+        }
+        return $driver;
     }
 }

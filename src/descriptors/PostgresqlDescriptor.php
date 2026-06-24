@@ -128,7 +128,7 @@ class PostgresqlDescriptor extends InformationSchemaDescriptor
         $auto = false;
         $primaryKey = reset($table['primary_key']);
         if (is_array($primaryKey)) {
-            if (count($primaryKey['columns']) == 1 && substr_count($table['columns'][$primaryKey['columns'][0]]['default'], 'nextval')) {
+            if (count($primaryKey['columns']) == 1 && substr_count($table['columns'][$primaryKey['columns'][0]]['default'] ?? '', 'nextval')) {
                 $table['columns'][$primaryKey['columns'][0]]['default'] = null;
                 $auto = true;
             }
