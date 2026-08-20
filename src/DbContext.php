@@ -53,9 +53,9 @@ final class DbContext
     /**
      * Create a new database context.
      */
-    public static function initialize(DriverFactory $driverFactory): DbContext
+    public static function initialize(DriverFactoryInterface $driverFactoryInterface): DbContext
     {
-        self::$instance = new self($driverFactory->createDriver());
+        self::$instance = new self($driverFactoryInterface->createDriver());
         return self::$instance;
     }
 
